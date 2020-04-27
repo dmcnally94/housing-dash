@@ -1,2 +1,2 @@
-# DashApp
-Wine Dash App
+# Housing Dash
+Housing Dashboard powered by [Dash](https://dash.plotly.com/).
