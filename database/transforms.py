@@ -17,3 +17,4 @@ c = conn.cursor()
 df = pd.read_sql("select * from wine_data", conn)
 
 df = df[['country','description','rating','price','province','title','variety','winery','color','varietyID']]
+#This is a test
