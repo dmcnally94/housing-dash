@@ -10,8 +10,8 @@ from dash.dependencies import Input, Output
 import dash_table
 import pandas as pd
 
-path = f"{Path(__file__).resolve().parent.parent}/data/wine_data.sqlite"
-conn = sqlite3.connect(path)
+path = Path(__file__).resolve().parent.parent / "data" / "wine_data.sqlite"
+conn = sqlite3.connect(str(path))
 c = conn.cursor()
 
 df = pd.read_sql("select * from wine_data", conn)
