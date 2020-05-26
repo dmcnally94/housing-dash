@@ -59,6 +59,7 @@ hhs = pd.read_csv("C:/Projects/housing-dash/data/census_data/acs5_s2501.csv")
 
 #App Creation
 app = dash.Dash(__name__)
+
 #App Layout
 app.layout = html.Div([
     html.Div(
@@ -103,7 +104,7 @@ app.layout = html.Div([
     ),
 ])
 
-suppress_callback_exceptions=True
+
 
 #CALLBACKS
     
@@ -828,9 +829,6 @@ def update_special(value):
     ###Create Table
     fig12 = ff.create_table(dp4)
     return fig12
-
-
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)

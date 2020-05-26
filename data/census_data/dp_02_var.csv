@@ -1,0 +1,310 @@
+Variable ID,Variable Name
+NAME,County Name
+state,State ID
+place,Place ID
+county,County ID
+GEO_ID,GEO_ID
+DP02_0001E,HOUSEHOLDS BY TYPE_Total households_Estimate
+DP02_0002E,HOUSEHOLDS BY TYPE_Total households_Family households (families)_Estimate
+DP02_0003E,HOUSEHOLDS BY TYPE_Total households_Family households (families)_With own children of the householder under 18 years_Estimate
+DP02_0004E,HOUSEHOLDS BY TYPE_Total households_Family households (families)_Married-couple family_Estimate
+DP02_0005E,HOUSEHOLDS BY TYPE_Total households_Family households (families)_Married-couple family_With own children of the householder under 18 years_Estimate
+DP02_0006E,"HOUSEHOLDS BY TYPE_Total households_Family households (families)_Male householder, no wife present, family_Estimate"
+DP02_0007E,"HOUSEHOLDS BY TYPE_Total households_Family households (families)_Male householder, no wife present, family_With own children of the householder under 18 years_Estimate"
+DP02_0008E,"HOUSEHOLDS BY TYPE_Total households_Family households (families)_Female householder, no husband present, family_Estimate"
+DP02_0009E,"HOUSEHOLDS BY TYPE_Total households_Family households (families)_Female householder, no husband present, family_With own children of the householder under 18 years_Estimate"
+DP02_0010E,HOUSEHOLDS BY TYPE_Total households_Nonfamily households_Estimate
+DP02_0011E,HOUSEHOLDS BY TYPE_Total households_Nonfamily households_Householder living alone_Estimate
+DP02_0012E,HOUSEHOLDS BY TYPE_Total households_Nonfamily households_Householder living alone_65 years and over_Estimate
+DP02_0013E,HOUSEHOLDS BY TYPE_Total households_Households with one or more people under 18 years_Estimate
+DP02_0014E,HOUSEHOLDS BY TYPE_Total households_Households with one or more people 65 years and over_Estimate
+DP02_0015E,HOUSEHOLDS BY TYPE_Total households_Average household size_Estimate
+DP02_0016E,HOUSEHOLDS BY TYPE_Total households_Average family size_Estimate
+DP02_0017E,RELATIONSHIP_Population in households_Estimate
+DP02_0018E,RELATIONSHIP_Population in households_Householder_Estimate
+DP02_0019E,RELATIONSHIP_Population in households_Spouse_Estimate
+DP02_0020E,RELATIONSHIP_Population in households_Child_Estimate
+DP02_0021E,RELATIONSHIP_Population in households_Other relatives_Estimate
+DP02_0022E,RELATIONSHIP_Population in households_Nonrelatives_Estimate
+DP02_0023E,RELATIONSHIP_Population in households_Nonrelatives_Unmarried partner_Estimate
+DP02_0024E,MARITAL STATUS_Males 15 years and over_Estimate
+DP02_0025E,MARITAL STATUS_Males 15 years and over_Never married_Estimate
+DP02_0026E,"MARITAL STATUS_Males 15 years and over_Now married, except separated_Estimate"
+DP02_0027E,MARITAL STATUS_Males 15 years and over_Separated_Estimate
+DP02_0028E,MARITAL STATUS_Males 15 years and over_Widowed_Estimate
+DP02_0029E,MARITAL STATUS_Males 15 years and over_Divorced_Estimate
+DP02_0030E,MARITAL STATUS_Females 15 years and over_Estimate
+DP02_0031E,MARITAL STATUS_Females 15 years and over_Never married_Estimate
+DP02_0032E,"MARITAL STATUS_Females 15 years and over_Now married, except separated_Estimate"
+DP02_0033E,MARITAL STATUS_Females 15 years and over_Separated_Estimate
+DP02_0034E,MARITAL STATUS_Females 15 years and over_Widowed_Estimate
+DP02_0035E,MARITAL STATUS_Females 15 years and over_Divorced_Estimate
+DP02_0036E,FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Estimate
+DP02_0037E,"FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Unmarried women (widowed, divorced, and never married)_Estimate"
+DP02_0038E,"FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Unmarried women (widowed, divorced, and never married)_Per 1,000 unmarried women_Estimate"
+DP02_0039E,"FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Per 1,000 women 15 to 50 years old_Estimate"
+DP02_0040E,"FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Per 1,000 women 15 to 19 years old_Estimate"
+DP02_0041E,"FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Per 1,000 women 20 to 34 years old_Estimate"
+DP02_0042E,"FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Per 1,000 women 35 to 50 years old_Estimate"
+DP02_0043E,GRANDPARENTS_Number of grandparents living with own grandchildren under 18 years_Estimate
+DP02_0044E,GRANDPARENTS_Number of grandparents living with own grandchildren under 18 years_Grandparents responsible for grandchildren_Estimate
+DP02_0045E,GRANDPARENTS_Number of grandparents living with own grandchildren under 18 years_Years responsible for grandchildren_Less than 1 year_Estimate
+DP02_0046E,GRANDPARENTS_Number of grandparents living with own grandchildren under 18 years_Years responsible for grandchildren_1 or 2 years_Estimate
+DP02_0047E,GRANDPARENTS_Number of grandparents living with own grandchildren under 18 years_Years responsible for grandchildren_3 or 4 years_Estimate
+DP02_0048E,GRANDPARENTS_Number of grandparents living with own grandchildren under 18 years_Years responsible for grandchildren_5 or more years_Estimate
+DP02_0049E,GRANDPARENTS_Number of grandparents responsible for own grandchildren under 18 years_Estimate
+DP02_0050E,GRANDPARENTS_Number of grandparents responsible for own grandchildren under 18 years_Who are female_Estimate
+DP02_0051E,GRANDPARENTS_Number of grandparents responsible for own grandchildren under 18 years_Who are married_Estimate
+DP02_0052E,SCHOOL ENROLLMENT_Population 3 years and over enrolled in school_Estimate
+DP02_0053E,"SCHOOL ENROLLMENT_Population 3 years and over enrolled in school_Nursery school, preschool_Estimate"
+DP02_0054E,SCHOOL ENROLLMENT_Population 3 years and over enrolled in school_Kindergarten_Estimate
+DP02_0055E,SCHOOL ENROLLMENT_Population 3 years and over enrolled in school_Elementary school (grades 1-8)_Estimate
+DP02_0056E,SCHOOL ENROLLMENT_Population 3 years and over enrolled in school_High school (grades 9-12)_Estimate
+DP02_0057E,SCHOOL ENROLLMENT_Population 3 years and over enrolled in school_College or graduate school_Estimate
+DP02_0058E,EDUCATIONAL ATTAINMENT_Population 25 years and over_Estimate
+DP02_0059E,EDUCATIONAL ATTAINMENT_Population 25 years and over_Less than 9th grade_Estimate
+DP02_0060E,"EDUCATIONAL ATTAINMENT_Population 25 years and over_9th to 12th grade, no diploma_Estimate"
+DP02_0061E,EDUCATIONAL ATTAINMENT_Population 25 years and over_High school graduate (includes equivalency)_Estimate
+DP02_0062E,"EDUCATIONAL ATTAINMENT_Population 25 years and over_Some college, no degree_Estimate"
+DP02_0063E,EDUCATIONAL ATTAINMENT_Population 25 years and over_Associate's degree_Estimate
+DP02_0064E,EDUCATIONAL ATTAINMENT_Population 25 years and over_Bachelor's degree_Estimate
+DP02_0065E,EDUCATIONAL ATTAINMENT_Population 25 years and over_Graduate or professional degree_Estimate
+DP02_0066E,EDUCATIONAL ATTAINMENT_Population 25 years and over_High school graduate or higher_Estimate
+DP02_0067E,EDUCATIONAL ATTAINMENT_Population 25 years and over_Bachelor's degree or higher_Estimate
+DP02_0068E,VETERAN STATUS_Civilian population 18 years and over_Estimate
+DP02_0069E,VETERAN STATUS_Civilian population 18 years and over_Civilian veterans_Estimate
+DP02_0070E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_Total Civilian Noninstitutionalized Population_Estimate
+DP02_0071E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_Total Civilian Noninstitutionalized Population_With a disability_Estimate
+DP02_0072E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_Under 18 years_Estimate
+DP02_0073E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_Under 18 years_With a disability_Estimate
+DP02_0074E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_18 to 64 years_Estimate
+DP02_0075E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_18 to 64 years_With a disability_Estimate
+DP02_0076E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_65 years and over_Estimate
+DP02_0077E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_65 years and over_With a disability_Estimate
+DP02_0078E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Estimate
+DP02_0079E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Same house_Estimate
+DP02_0080E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Different house in the U.S._Estimate
+DP02_0081E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Different house in the U.S._Same county_Estimate
+DP02_0082E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Different house in the U.S._Different county_Estimate
+DP02_0083E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Different house in the U.S._Different county_Same state_Estimate
+DP02_0084E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Different house in the U.S._Different county_Different state_Estimate
+DP02_0085E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Abroad_Estimate
+DP02_0086E,PLACE OF BIRTH_Total population_Estimate
+DP02_0087E,PLACE OF BIRTH_Total population_Native_Estimate
+DP02_0088E,PLACE OF BIRTH_Total population_Native_Born in United States_Estimate
+DP02_0089E,PLACE OF BIRTH_Total population_Native_Born in United States_State of residence_Estimate
+DP02_0090E,PLACE OF BIRTH_Total population_Native_Born in United States_Different state_Estimate
+DP02_0091E,"PLACE OF BIRTH_Total population_Native_Born in Puerto Rico, U.S. Island areas, or born abroad to American parent(s)_Estimate"
+DP02_0092E,PLACE OF BIRTH_Total population_Foreign born_Estimate
+DP02_0093E,U.S. CITIZENSHIP STATUS_Foreign-born population_Estimate
+DP02_0094E,U.S. CITIZENSHIP STATUS_Foreign-born population_Naturalized U.S. citizen_Estimate
+DP02_0095E,U.S. CITIZENSHIP STATUS_Foreign-born population_Not a U.S. citizen_Estimate
+DP02_0096E,YEAR OF ENTRY_Population born outside the United States_Estimate
+DP02_0097E,YEAR OF ENTRY_Population born outside the United States_Native_Estimate
+DP02_0098E,YEAR OF ENTRY_Population born outside the United States_Native_Entered 2010 or later_Estimate
+DP02_0099E,YEAR OF ENTRY_Population born outside the United States_Native_Entered before 2010_Estimate
+DP02_0100E,YEAR OF ENTRY_Population born outside the United States_Foreign born_Estimate
+DP02_0101E,YEAR OF ENTRY_Population born outside the United States_Foreign born_Entered 2010 or later_Estimate
+DP02_0102E,YEAR OF ENTRY_Population born outside the United States_Foreign born_Entered before 2010_Estimate
+DP02_0103E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Estimate"
+DP02_0104E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Europe_Estimate"
+DP02_0105E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Asia_Estimate"
+DP02_0106E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Africa_Estimate"
+DP02_0107E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Oceania_Estimate"
+DP02_0108E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Latin America_Estimate"
+DP02_0109E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Northern America_Estimate"
+DP02_0110E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_Estimate
+DP02_0111E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_English only_Estimate
+DP02_0112E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_Language other than English_Estimate
+DP02_0113E,"LANGUAGE SPOKEN AT HOME_Population 5 years and over_Language other than English_Speak English less than ""very well""_Estimate"
+DP02_0114E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_Spanish_Estimate
+DP02_0115E,"LANGUAGE SPOKEN AT HOME_Population 5 years and over_Spanish_Speak English less than ""very well""_Estimate"
+DP02_0116E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_Other Indo-European languages_Estimate
+DP02_0117E,"LANGUAGE SPOKEN AT HOME_Population 5 years and over_Other Indo-European languages_Speak English less than ""very well""_Estimate"
+DP02_0118E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_Asian and Pacific Islander languages_Estimate
+DP02_0119E,"LANGUAGE SPOKEN AT HOME_Population 5 years and over_Asian and Pacific Islander languages_Speak English less than ""very well""_Estimate"
+DP02_0120E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_Other languages_Estimate
+DP02_0121E,"LANGUAGE SPOKEN AT HOME_Population 5 years and over_Other languages_Speak English less than ""very well""_Estimate"
+DP02_0122E,ANCESTRY_Total population_Estimate
+DP02_0123E,ANCESTRY_Total population_American_Estimate
+DP02_0124E,ANCESTRY_Total population_Arab_Estimate
+DP02_0125E,ANCESTRY_Total population_Czech_Estimate
+DP02_0126E,ANCESTRY_Total population_Danish_Estimate
+DP02_0127E,ANCESTRY_Total population_Dutch_Estimate
+DP02_0128E,ANCESTRY_Total population_English_Estimate
+DP02_0129E,ANCESTRY_Total population_French (except Basque)_Estimate
+DP02_0130E,ANCESTRY_Total population_French Canadian_Estimate
+DP02_0131E,ANCESTRY_Total population_German_Estimate
+DP02_0132E,ANCESTRY_Total population_Greek_Estimate
+DP02_0133E,ANCESTRY_Total population_Hungarian_Estimate
+DP02_0134E,ANCESTRY_Total population_Irish_Estimate
+DP02_0135E,ANCESTRY_Total population_Italian_Estimate
+DP02_0136E,ANCESTRY_Total population_Lithuanian_Estimate
+DP02_0137E,ANCESTRY_Total population_Norwegian_Estimate
+DP02_0138E,ANCESTRY_Total population_Polish_Estimate
+DP02_0139E,ANCESTRY_Total population_Portuguese_Estimate
+DP02_0140E,ANCESTRY_Total population_Russian_Estimate
+DP02_0141E,ANCESTRY_Total population_Scotch-Irish_Estimate
+DP02_0142E,ANCESTRY_Total population_Scottish_Estimate
+DP02_0143E,ANCESTRY_Total population_Slovak_Estimate
+DP02_0144E,ANCESTRY_Total population_Subsaharan African_Estimate
+DP02_0145E,ANCESTRY_Total population_Swedish_Estimate
+DP02_0146E,ANCESTRY_Total population_Swiss_Estimate
+DP02_0147E,ANCESTRY_Total population_Ukrainian_Estimate
+DP02_0148E,ANCESTRY_Total population_Welsh_Estimate
+DP02_0149E,ANCESTRY_Total population_West Indian (excluding Hispanic origin groups)_Estimate
+DP02_0150E,COMPUTERS AND INTERNET USE_Total households_Estimate
+DP02_0151E,COMPUTERS AND INTERNET USE_Total households_With a computer_Estimate
+DP02_0152E,COMPUTERS AND INTERNET USE_Total households_With a broadband Internet subscription_Estimate
+DP02PR_0001E,HOUSEHOLDS BY TYPE_Total households_Estimate
+DP02PR_0002E,HOUSEHOLDS BY TYPE_Total households_Family households (families)_Estimate
+DP02PR_0003E,HOUSEHOLDS BY TYPE_Total households_Family households (families)_With own children of the householder under 18 years_Estimate
+DP02PR_0004E,HOUSEHOLDS BY TYPE_Total households_Family households (families)_Married-couple family_Estimate
+DP02PR_0005E,HOUSEHOLDS BY TYPE_Total households_Family households (families)_Married-couple family_With own children of the householder under 18 years_Estimate
+DP02PR_0006E,"HOUSEHOLDS BY TYPE_Total households_Family households (families)_Male householder, no wife present, family_Estimate"
+DP02PR_0007E,"HOUSEHOLDS BY TYPE_Total households_Family households (families)_Male householder, no wife present, family_With own children of the householder under 18 years_Estimate"
+DP02PR_0008E,"HOUSEHOLDS BY TYPE_Total households_Family households (families)_Female householder, no husband present, family_Estimate"
+DP02PR_0009E,"HOUSEHOLDS BY TYPE_Total households_Family households (families)_Female householder, no husband present, family_With own children of the householder under 18 years_Estimate"
+DP02PR_0010E,HOUSEHOLDS BY TYPE_Total households_Nonfamily households_Estimate
+DP02PR_0011E,HOUSEHOLDS BY TYPE_Total households_Nonfamily households_Householder living alone_Estimate
+DP02PR_0012E,HOUSEHOLDS BY TYPE_Total households_Nonfamily households_Householder living alone_65 years and over_Estimate
+DP02PR_0013E,HOUSEHOLDS BY TYPE_Total households_Households with one or more people under 18 years_Estimate
+DP02PR_0014E,HOUSEHOLDS BY TYPE_Total households_Households with one or more people 65 years and over_Estimate
+DP02PR_0015E,HOUSEHOLDS BY TYPE_Total households_Average household size_Estimate
+DP02PR_0016E,HOUSEHOLDS BY TYPE_Total households_Average family size_Estimate
+DP02PR_0017E,RELATIONSHIP_Population in households_Estimate
+DP02PR_0018E,RELATIONSHIP_Population in households_Householder_Estimate
+DP02PR_0019E,RELATIONSHIP_Population in households_Spouse_Estimate
+DP02PR_0020E,RELATIONSHIP_Population in households_Child_Estimate
+DP02PR_0021E,RELATIONSHIP_Population in households_Other relatives_Estimate
+DP02PR_0022E,RELATIONSHIP_Population in households_Nonrelatives_Estimate
+DP02PR_0023E,RELATIONSHIP_Population in households_Nonrelatives_Unmarried partner_Estimate
+DP02PR_0024E,MARITAL STATUS_Males 15 years and over_Estimate
+DP02PR_0025E,MARITAL STATUS_Males 15 years and over_Never married_Estimate
+DP02PR_0026E,"MARITAL STATUS_Males 15 years and over_Now married, except separated_Estimate"
+DP02PR_0027E,MARITAL STATUS_Males 15 years and over_Separated_Estimate
+DP02PR_0028E,MARITAL STATUS_Males 15 years and over_Widowed_Estimate
+DP02PR_0029E,MARITAL STATUS_Males 15 years and over_Divorced_Estimate
+DP02PR_0030E,MARITAL STATUS_Females 15 years and over_Estimate
+DP02PR_0031E,MARITAL STATUS_Females 15 years and over_Never married_Estimate
+DP02PR_0032E,"MARITAL STATUS_Females 15 years and over_Now married, except separated_Estimate"
+DP02PR_0033E,MARITAL STATUS_Females 15 years and over_Separated_Estimate
+DP02PR_0034E,MARITAL STATUS_Females 15 years and over_Widowed_Estimate
+DP02PR_0035E,MARITAL STATUS_Females 15 years and over_Divorced_Estimate
+DP02PR_0036E,FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Estimate
+DP02PR_0037E,"FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Unmarried women (widowed, divorced, and never married)_Estimate"
+DP02PR_0038E,"FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Unmarried women (widowed, divorced, and never married)_Per 1,000 unmarried women_Estimate"
+DP02PR_0039E,"FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Per 1,000 women 15 to 50 years old_Estimate"
+DP02PR_0040E,"FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Per 1,000 women 15 to 19 years old_Estimate"
+DP02PR_0041E,"FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Per 1,000 women 20 to 34 years old_Estimate"
+DP02PR_0042E,"FERTILITY_Number of women 15 to 50 years old who had a birth in the past 12 months_Per 1,000 women 35 to 50 years old_Estimate"
+DP02PR_0043E,GRANDPARENTS_Number of grandparents living with own grandchildren under 18 years_Estimate
+DP02PR_0044E,GRANDPARENTS_Number of grandparents living with own grandchildren under 18 years_Grandparents responsible for grandchildren_Estimate
+DP02PR_0045E,GRANDPARENTS_Number of grandparents living with own grandchildren under 18 years_Years responsible for grandchildren_Less than 1 year_Estimate
+DP02PR_0046E,GRANDPARENTS_Number of grandparents living with own grandchildren under 18 years_Years responsible for grandchildren_1 or 2 years_Estimate
+DP02PR_0047E,GRANDPARENTS_Number of grandparents living with own grandchildren under 18 years_Years responsible for grandchildren_3 or 4 years_Estimate
+DP02PR_0048E,GRANDPARENTS_Number of grandparents living with own grandchildren under 18 years_Years responsible for grandchildren_5 or more years_Estimate
+DP02PR_0049E,GRANDPARENTS_Number of grandparents responsible for own grandchildren under 18 years_Estimate
+DP02PR_0050E,GRANDPARENTS_Number of grandparents responsible for own grandchildren under 18 years_Who are female_Estimate
+DP02PR_0051E,GRANDPARENTS_Number of grandparents responsible for own grandchildren under 18 years_Who are married_Estimate
+DP02PR_0052E,SCHOOL ENROLLMENT_Population 3 years and over enrolled in school_Estimate
+DP02PR_0053E,"SCHOOL ENROLLMENT_Population 3 years and over enrolled in school_Nursery school, preschool_Estimate"
+DP02PR_0054E,SCHOOL ENROLLMENT_Population 3 years and over enrolled in school_Kindergarten_Estimate
+DP02PR_0055E,SCHOOL ENROLLMENT_Population 3 years and over enrolled in school_Elementary school (grades 1-8)_Estimate
+DP02PR_0056E,SCHOOL ENROLLMENT_Population 3 years and over enrolled in school_High school (grades 9-12)_Estimate
+DP02PR_0057E,SCHOOL ENROLLMENT_Population 3 years and over enrolled in school_College or graduate school_Estimate
+DP02PR_0058E,EDUCATIONAL ATTAINMENT_Population 25 years and over_Estimate
+DP02PR_0059E,EDUCATIONAL ATTAINMENT_Population 25 years and over_Less than 9th grade_Estimate
+DP02PR_0060E,"EDUCATIONAL ATTAINMENT_Population 25 years and over_9th to 12th grade, no diploma_Estimate"
+DP02PR_0061E,EDUCATIONAL ATTAINMENT_Population 25 years and over_High school graduate (includes equivalency)_Estimate
+DP02PR_0062E,"EDUCATIONAL ATTAINMENT_Population 25 years and over_Some college, no degree_Estimate"
+DP02PR_0063E,EDUCATIONAL ATTAINMENT_Population 25 years and over_Associate's degree_Estimate
+DP02PR_0064E,EDUCATIONAL ATTAINMENT_Population 25 years and over_Bachelor's degree_Estimate
+DP02PR_0065E,EDUCATIONAL ATTAINMENT_Population 25 years and over_Graduate or professional degree_Estimate
+DP02PR_0066E,EDUCATIONAL ATTAINMENT_Population 25 years and over_High school graduate or higher_Estimate
+DP02PR_0067E,EDUCATIONAL ATTAINMENT_Population 25 years and over_Bachelor's degree or higher_Estimate
+DP02PR_0068E,VETERAN STATUS_Civilian population 18 years and over_Estimate
+DP02PR_0069E,VETERAN STATUS_Civilian population 18 years and over_Civilian veterans_Estimate
+DP02PR_0070E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_Total Civilian Noninstitutionalized Population_Estimate
+DP02PR_0071E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_Total Civilian Noninstitutionalized Population_With a disability_Estimate
+DP02PR_0072E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_Under 18 years_Estimate
+DP02PR_0073E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_Under 18 years_With a disability_Estimate
+DP02PR_0074E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_18 to 64 years_Estimate
+DP02PR_0075E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_18 to 64 years_With a disability_Estimate
+DP02PR_0076E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_65 years and over_Estimate
+DP02PR_0077E,DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_65 years and over_With a disability_Estimate
+DP02PR_0078E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Estimate
+DP02PR_0079E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Same house_Estimate
+DP02PR_0080E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Different house in Puerto Rico or the U.S._Estimate
+DP02PR_0081E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Different house in Puerto Rico or the U.S._In Puerto Rico_Estimate
+DP02PR_0082E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Different house in Puerto Rico or the U.S._In Puerto Rico_Same municipio_Estimate
+DP02PR_0083E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Different house in Puerto Rico or the U.S._In Puerto Rico_Different municipio_Estimate
+DP02PR_0084E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Different house in Puerto Rico or the U.S._In the United States_Estimate
+DP02PR_0085E,RESIDENCE 1 YEAR AGO_Population 1 year and over_Elsewhere_Estimate
+DP02PR_0086E,PLACE OF BIRTH_Total population_Estimate
+DP02PR_0087E,PLACE OF BIRTH_Total population_Native_Estimate
+DP02PR_0088E,PLACE OF BIRTH_Total population_Native_Born in Puerto Rico or the United States_Estimate
+DP02PR_0089E,PLACE OF BIRTH_Total population_Native_Born in Puerto Rico or the United States_In Puerto Rico_Estimate
+DP02PR_0090E,PLACE OF BIRTH_Total population_Native_Born in Puerto Rico or the United States_In the United States_Estimate
+DP02PR_0091E,"PLACE OF BIRTH_Total population_Native_Born in U.S. Island Areas, or born abroad of American parents_Estimate"
+DP02PR_0092E,PLACE OF BIRTH_Total population_Foreign born_Estimate
+DP02PR_0093E,U.S. CITIZENSHIP STATUS_Foreign-born population_Estimate
+DP02PR_0094E,U.S. CITIZENSHIP STATUS_Foreign-born population_Naturalized U.S. citizen_Estimate
+DP02PR_0095E,U.S. CITIZENSHIP STATUS_Foreign-born population_Not a U.S. citizen_Estimate
+DP02PR_0096E,YEAR OF ENTRY_Population born outside Puerto Rico_Estimate
+DP02PR_0097E,YEAR OF ENTRY_Population born outside Puerto Rico_Native_Estimate
+DP02PR_0098E,YEAR OF ENTRY_Population born outside Puerto Rico_Native_Entered 2010 or later_Estimate
+DP02PR_0099E,YEAR OF ENTRY_Population born outside Puerto Rico_Native_Entered before 2010_Estimate
+DP02PR_0100E,YEAR OF ENTRY_Population born outside Puerto Rico_Foreign born_Estimate
+DP02PR_0101E,YEAR OF ENTRY_Population born outside Puerto Rico_Foreign born_Entered 2010 or later_Estimate
+DP02PR_0102E,YEAR OF ENTRY_Population born outside Puerto Rico_Foreign born_Entered before 2010_Estimate
+DP02PR_0103E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Estimate"
+DP02PR_0104E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Europe_Estimate"
+DP02PR_0105E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Asia_Estimate"
+DP02PR_0106E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Africa_Estimate"
+DP02PR_0107E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Oceania_Estimate"
+DP02PR_0108E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Latin America_Estimate"
+DP02PR_0109E,"WORLD REGION OF BIRTH OF FOREIGN BORN_Foreign-born population, excluding population born at sea_Northern America_Estimate"
+DP02PR_0110E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_Estimate
+DP02PR_0111E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_English only_Estimate
+DP02PR_0112E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_Language other than English_Estimate
+DP02PR_0113E,"LANGUAGE SPOKEN AT HOME_Population 5 years and over_Language other than English_Speak English less than ""very well""_Estimate"
+DP02PR_0114E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_Spanish_Estimate
+DP02PR_0115E,"LANGUAGE SPOKEN AT HOME_Population 5 years and over_Spanish_Speak English less than ""very well""_Estimate"
+DP02PR_0116E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_Other Indo-European languages_Estimate
+DP02PR_0117E,"LANGUAGE SPOKEN AT HOME_Population 5 years and over_Other Indo-European languages_Speak English less than ""very well""_Estimate"
+DP02PR_0118E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_Asian and Pacific Islander languages_Estimate
+DP02PR_0119E,"LANGUAGE SPOKEN AT HOME_Population 5 years and over_Asian and Pacific Islander languages_Speak English less than ""very well""_Estimate"
+DP02PR_0120E,LANGUAGE SPOKEN AT HOME_Population 5 years and over_Other languages_Estimate
+DP02PR_0121E,"LANGUAGE SPOKEN AT HOME_Population 5 years and over_Other languages_Speak English less than ""very well""_Estimate"
+DP02PR_0122E,ANCESTRY_Total population_Estimate
+DP02PR_0123E,ANCESTRY_Total population_American_Estimate
+DP02PR_0124E,ANCESTRY_Total population_Arab_Estimate
+DP02PR_0125E,ANCESTRY_Total population_Czech_Estimate
+DP02PR_0126E,ANCESTRY_Total population_Danish_Estimate
+DP02PR_0127E,ANCESTRY_Total population_Dutch_Estimate
+DP02PR_0128E,ANCESTRY_Total population_English_Estimate
+DP02PR_0129E,ANCESTRY_Total population_French (except Basque)_Estimate
+DP02PR_0130E,ANCESTRY_Total population_French Canadian_Estimate
+DP02PR_0131E,ANCESTRY_Total population_German_Estimate
+DP02PR_0132E,ANCESTRY_Total population_Greek_Estimate
+DP02PR_0133E,ANCESTRY_Total population_Hungarian_Estimate
+DP02PR_0134E,ANCESTRY_Total population_Irish_Estimate
+DP02PR_0135E,ANCESTRY_Total population_Italian_Estimate
+DP02PR_0136E,ANCESTRY_Total population_Lithuanian_Estimate
+DP02PR_0137E,ANCESTRY_Total population_Norwegian_Estimate
+DP02PR_0138E,ANCESTRY_Total population_Polish_Estimate
+DP02PR_0139E,ANCESTRY_Total population_Portuguese_Estimate
+DP02PR_0140E,ANCESTRY_Total population_Russian_Estimate
+DP02PR_0141E,ANCESTRY_Total population_Scotch-Irish_Estimate
+DP02PR_0142E,ANCESTRY_Total population_Scottish_Estimate
+DP02PR_0143E,ANCESTRY_Total population_Slovak_Estimate
+DP02PR_0144E,ANCESTRY_Total population_Subsaharan African_Estimate
+DP02PR_0145E,ANCESTRY_Total population_Swedish_Estimate
+DP02PR_0146E,ANCESTRY_Total population_Swiss_Estimate
+DP02PR_0147E,ANCESTRY_Total population_Ukrainian_Estimate
+DP02PR_0148E,ANCESTRY_Total population_Welsh_Estimate
+DP02PR_0149E,ANCESTRY_Total population_West Indian (excluding Hispanic origin groups)_Estimate
+DP02PR_0150E,COMPUTERS AND INTERNET USE_Total households_Estimate
+DP02PR_0151E,COMPUTERS AND INTERNET USE_Total households_With a computer_Estimate
+DP02PR_0152E,COMPUTERS AND INTERNET USE_Total households_With a broadband Internet subscription_Estimate
