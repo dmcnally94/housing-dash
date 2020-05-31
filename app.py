@@ -65,7 +65,32 @@ df3['Units Built Before 2010'] = (df3['Units Built 2000 to 2009_Estimate'] +
 df3['Units Built 2010 and Later'] = df3['Total housing units_Estimate'] - df3['Units Built Before 2010']
 
 #App Creation
-app = dash.Dash(__name__)
+external_stylesheets = [
+    "https://fonts.googleapis.com/css2?family=Raleway&display=swap",
+    "https://fonts.googleapis.com/css2?family=Raleway&family=Roboto&display=swap"
+]
+app = dash.Dash(__name__,
+                external_stylesheets=external_stylesheets)
+app.config['suppress_callback_exceptions'] = True
+server = app.server
+
+# No data layout
+no_data_fig = { 
+    "layout":
+        {
+            "xaxis": { "visible": False },
+            "yaxis": { "visible": False },
+            "annotations": [
+                    {
+                        "text": "No data available",
+                        "xref": "paper",
+                        "yref": "paper",
+                        "showarrow": False,
+                        "font": { "size": 28 }
+                    }
+                ]
+        }
+}
 
 #App Layout
 app.layout = html.Div([
@@ -447,26 +472,28 @@ def update_unit_age(value):
     dash.dependencies.Output('hud-units', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def update_hudunits(value):
-    h1 = hud1[hud1['location'] == value]
-    h2= h1[['program_label', 'number_reported']]
-    h2.columns = ['HUD Program', '# of Household Recipients']
-    h3 = h2[h2['# of Household Recipients'] > 0]
-    l1 = litc[litc['location'] == value]
-    l2 = l1[l1['li_units'].notnull()]
-    li_u = l2['li_units'].sum()
-    li_u = li_u.astype(int)
-    prog = h3['HUD Program'].tolist()
-    prog.append('LIHTC')
-    prognum = list(h3['# of Household Recipients'].values)
-    prognum.append(li_u)
-    progc = list(zip(prog,prognum))
-    pt = pd.DataFrame(progc, columns=['HUD Program', '# of Household Recipients'])
-    pt1 = pt[pt['# of Household Recipients'] > 0]
-    pt1['# of Household Recipients'] = pt1.apply(lambda x: "{:,}".format(int(x['# of Household Recipients'])), axis=1)
+    if "Puerto Rico" not in value:
+        h1 = hud1[hud1['location'] == value]
+        h2= h1[['program_label', 'number_reported']]
+        h2.columns = ['HUD Program', '# of Household Recipients']
+        h3 = h2[h2['# of Household Recipients'] > 0]
+        l1 = litc[litc['location'] == value]
+        l2 = l1[l1['li_units'].notnull()]
+        li_u = l2['li_units'].sum()
+        li_u = li_u.astype(int)
+        prog = h3['HUD Program'].tolist()
+        prog.append('LIHTC')
+        prognum = list(h3['# of Household Recipients'].values)
+        prognum.append(li_u)
+        progc = list(zip(prog,prognum))
+        pt = pd.DataFrame(progc, columns=['HUD Program', '# of Household Recipients'])
+        pt1 = pt[pt['# of Household Recipients'] > 0]
+        pt1['# of Household Recipients'] = pt1.apply(lambda x: "{:,}".format(int(x['# of Household Recipients'])), axis=1)
 
-    fig4 =  ff.create_table(pt1)
-
-    return fig4
+        fig4 =  ff.create_table(pt1)
+        return fig4
+    else:
+        return no_data_fig
 
 #TAB 2 CALLBACKS
 
@@ -512,62 +539,65 @@ def update_hhinc(value):
     dash.dependencies.Output('rent-gap', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def update_rentgap(value):
-    ###Filter Tables
-    seva = sevena[sevena['name'] == value]
-    sevb = sevenb[sevenb['name'] == value]
-    eia = eighta[eighta['name'] == value]
-    eib = eightb[eightb['name'] == value]
-    eic = eightc[eightc['name'] == value]
+    if "Puerto Rico" not in value:
+        ### Filter Tables
+        # seva = sevena[sevena['name'] == value]
+        sevb = sevenb[sevenb['name'] == value]
+        # eia = eighta[eighta['name'] == value]
+        # eib = eightb[eightb['name'] == value]
+        eic = eightc[eightc['name'] == value]
 
-    ###Pull Out Data and Create Variables
-    renters_less30 = list(eic['T18C_est4']+eic['T18C_est10']+eic['T18C_est16']+eic['T18C_est22']+eic['T18C_est29']+eic['T18C_est35']+eic['T18C_est41']+eic['T18C_est47']+eic['T18C_est54']+eic['T18C_est60']+eic['T18C_est66']+eic['T18C_est72']+ eic['T18C_est79']+ eic['T18C_est85']+ eic['T18C_est91']+ eic['T18C_est97'])
-    runits_less30 = list(eic['T18C_est3']+eic['T18C_est28']+eic['T18C_est53']+eic['T18C_est78'])
-    vacant_less30 = list(sevb['T17B_est3']+sevb['T17B_est8']+sevb['T17B_est13']+sevb['T17B_est18'])
-    occabv_less30 = list(eic['T18C_est5']+eic['T18C_est6']+eic['T18C_est7']+eic['T18C_est8']+eic['T18C_est30']+eic['T18C_est31']+eic['T18C_est32']+eic['T18C_est33']+eic['T18C_est55']+eic['T18C_est56']+eic['T18C_est57']+eic['T18C_est58']+eic['T18C_est80']+eic['T18C_est81']+eic['T18C_est82']+eic['T18C_est83'])
-    r_less30 = renters_less30[0]
-    ru_less30 = runits_less30[0]
-    v_less30 = vacant_less30[0]
-    ocabv_less30 = occabv_less30[0]
-    rtu_less30 = ru_less30 + v_less30
-    prct_ocabv_less30 = float(ocabv_less30/rtu_less30)
-    gap_less30 = rtu_less30 - r_less30
-    adj_gap_less30 = gap_less30 - ocabv_less30
-    renters_30t50 = list(eic['T18C_est5']+eic['T18C_est11']+eic['T18C_est17']+eic['T18C_est23']+eic['T18C_est30']+eic['T18C_est36']+eic['T18C_est42']+eic['T18C_est48']+eic['T18C_est55']+eic['T18C_est61']+eic['T18C_est67']+eic['T18C_est73']+ eic['T18C_est80']+ eic['T18C_est86']+ eic['T18C_est92']+ eic['T18C_est98'])
-    runits_30t50 = list(eic['T18C_est9']+eic['T18C_est34']+eic['T18C_est59']+eic['T18C_est84'])
-    vacant_30t50 = list(sevb['T17B_est4']+sevb['T17B_est9']+sevb['T17B_est14']+sevb['T17B_est19'])
-    occabv_30t50 = list(eic['T18C_est12']+eic['T18C_est13']+eic['T18C_est14']+eic['T18C_est37']+eic['T18C_est38']+eic['T18C_est39']+eic['T18C_est62']+eic['T18C_est63']+eic['T18C_est64']+eic['T18C_est87']+eic['T18C_est88']+eic['T18C_est89'])
-    r_30t50 = renters_30t50[0]
-    ru_30t50 = runits_30t50[0]
-    v_30t50 = vacant_30t50[0]
-    ocabv_30t50 = occabv_30t50[0]
-    rtu_30t50 = ru_30t50 + v_30t50
-    prct_ocabv_30t50 = float(ocabv_30t50/rtu_30t50)
-    gap_30t50 = rtu_30t50 - r_30t50
-    adj_gap_30t50 = gap_30t50 - ocabv_30t50
-    renters_50t80 = list(eic['T18C_est6']+eic['T18C_est12']+eic['T18C_est18']+eic['T18C_est24']+eic['T18C_est31']+eic['T18C_est37']+eic['T18C_est43']+eic['T18C_est49']+eic['T18C_est56']+eic['T18C_est62']+eic['T18C_est68']+eic['T18C_est74']+ eic['T18C_est81']+ eic['T18C_est87']+ eic['T18C_est93']+ eic['T18C_est99'])
-    runits_50t80 = list(eic['T18C_est15']+eic['T18C_est40']+eic['T18C_est65']+eic['T18C_est90'])
-    vacant_50t80 = list(sevb['T17B_est5']+sevb['T17B_est10']+sevb['T17B_est15']+sevb['T17B_est20'])
-    occabv_50t80 = list(eic['T18C_est19']+eic['T18C_est20']+eic['T18C_est44']+eic['T18C_est45']+eic['T18C_est69']+eic['T18C_est70']+eic['T18C_est94']+eic['T18C_est95'])
-    r_50t80 = renters_50t80[0]
-    ru_50t80 = runits_50t80[0]
-    v_50t80 = vacant_50t80[0]
-    ocabv_50t80 = occabv_50t80[0]
-    rtu_50t80 = ru_50t80 + v_50t80
-    prct_ocabv_50t80 = float(ocabv_50t80/rtu_50t80)
-    gap_50t80 = rtu_50t80 - r_50t80
-    adj_gap_50t80 = gap_50t80 - ocabv_50t80
+        ### Pull Out Data and Create Variables
+        renters_less30 = list(eic['T18C_est4']+eic['T18C_est10']+eic['T18C_est16']+eic['T18C_est22']+eic['T18C_est29']+eic['T18C_est35']+eic['T18C_est41']+eic['T18C_est47']+eic['T18C_est54']+eic['T18C_est60']+eic['T18C_est66']+eic['T18C_est72']+ eic['T18C_est79']+ eic['T18C_est85']+ eic['T18C_est91']+ eic['T18C_est97'])
+        runits_less30 = list(eic['T18C_est3']+eic['T18C_est28']+eic['T18C_est53']+eic['T18C_est78'])
+        vacant_less30 = list(sevb['T17B_est3']+sevb['T17B_est8']+sevb['T17B_est13']+sevb['T17B_est18'])
+        # occabv_less30 = list(eic['T18C_est5']+eic['T18C_est6']+eic['T18C_est7']+eic['T18C_est8']+eic['T18C_est30']+eic['T18C_est31']+eic['T18C_est32']+eic['T18C_est33']+eic['T18C_est55']+eic['T18C_est56']+eic['T18C_est57']+eic['T18C_est58']+eic['T18C_est80']+eic['T18C_est81']+eic['T18C_est82']+eic['T18C_est83'])
+        r_less30 = renters_less30[0]
+        ru_less30 = runits_less30[0]
+        v_less30 = vacant_less30[0]
+        # ocabv_less30 = occabv_less30[0]
+        rtu_less30 = ru_less30 + v_less30
+        # prct_ocabv_less30 = float(ocabv_less30/rtu_less30)
+        gap_less30 = rtu_less30 - r_less30
+        # adj_gap_less30 = gap_less30 - ocabv_less30
+        renters_30t50 = list(eic['T18C_est5']+eic['T18C_est11']+eic['T18C_est17']+eic['T18C_est23']+eic['T18C_est30']+eic['T18C_est36']+eic['T18C_est42']+eic['T18C_est48']+eic['T18C_est55']+eic['T18C_est61']+eic['T18C_est67']+eic['T18C_est73']+ eic['T18C_est80']+ eic['T18C_est86']+ eic['T18C_est92']+ eic['T18C_est98'])
+        runits_30t50 = list(eic['T18C_est9']+eic['T18C_est34']+eic['T18C_est59']+eic['T18C_est84'])
+        vacant_30t50 = list(sevb['T17B_est4']+sevb['T17B_est9']+sevb['T17B_est14']+sevb['T17B_est19'])
+        # occabv_30t50 = list(eic['T18C_est12']+eic['T18C_est13']+eic['T18C_est14']+eic['T18C_est37']+eic['T18C_est38']+eic['T18C_est39']+eic['T18C_est62']+eic['T18C_est63']+eic['T18C_est64']+eic['T18C_est87']+eic['T18C_est88']+eic['T18C_est89'])
+        r_30t50 = renters_30t50[0]
+        ru_30t50 = runits_30t50[0]
+        v_30t50 = vacant_30t50[0]
+        # ocabv_30t50 = occabv_30t50[0]
+        rtu_30t50 = ru_30t50 + v_30t50
+        # prct_ocabv_30t50 = float(ocabv_30t50/rtu_30t50)
+        gap_30t50 = rtu_30t50 - r_30t50
+        # adj_gap_30t50 = gap_30t50 - ocabv_30t50
+        renters_50t80 = list(eic['T18C_est6']+eic['T18C_est12']+eic['T18C_est18']+eic['T18C_est24']+eic['T18C_est31']+eic['T18C_est37']+eic['T18C_est43']+eic['T18C_est49']+eic['T18C_est56']+eic['T18C_est62']+eic['T18C_est68']+eic['T18C_est74']+ eic['T18C_est81']+ eic['T18C_est87']+ eic['T18C_est93']+ eic['T18C_est99'])
+        runits_50t80 = list(eic['T18C_est15']+eic['T18C_est40']+eic['T18C_est65']+eic['T18C_est90'])
+        vacant_50t80 = list(sevb['T17B_est5']+sevb['T17B_est10']+sevb['T17B_est15']+sevb['T17B_est20'])
+        # occabv_50t80 = list(eic['T18C_est19']+eic['T18C_est20']+eic['T18C_est44']+eic['T18C_est45']+eic['T18C_est69']+eic['T18C_est70']+eic['T18C_est94']+eic['T18C_est95'])
+        r_50t80 = renters_50t80[0]
+        ru_50t80 = runits_50t80[0]
+        v_50t80 = vacant_50t80[0]
+        # ocabv_50t80 = occabv_50t80[0]
+        rtu_50t80 = ru_50t80 + v_50t80
+        # prct_ocabv_50t80 = float(ocabv_50t80/rtu_50t80)
+        gap_50t80 = rtu_50t80 - r_50t80
+        # adj_gap_50t80 = gap_50t80 - ocabv_50t80
 
 
-    ###Create Dataframe
-    rentgap_var = ['Households Making Less than 30% AMI', 'Households Making Between 30% and 50% AMI', 'Households Making Between 50% and 80% AMI']
-    rentgap = [gap_less30, gap_30t50, gap_50t80]
-    rgap1 = list(zip(rentgap_var,rentgap))
-    rgap = pd.DataFrame(rgap1, columns=['Household Income', 'Unit Surplus/Deficit'])
+        ###Create Dataframe
+        rentgap_var = ['Households Making Less than 30% AMI', 'Households Making Between 30% and 50% AMI', 'Households Making Between 50% and 80% AMI']
+        rentgap = [gap_less30, gap_30t50, gap_50t80]
+        rgap1 = list(zip(rentgap_var,rentgap))
+        rgap = pd.DataFrame(rgap1, columns=['Household Income', 'Unit Surplus/Deficit'])
 
-    ###Create Figure
-    fig5 = px.bar(rgap, x='Household Income', y='Unit Surplus/Deficit')
-    fig5.update_layout(title_text='Rental Gap Analysis')
-    return fig5
+        ###Create Figure
+        fig5 = px.bar(rgap, x='Household Income', y='Unit Surplus/Deficit')
+        fig5.update_layout(title_text='Rental Gap Analysis')
+        return fig5
+    else:
+        return no_data_fig
 
 
 ##Home Gap Graph
@@ -575,68 +605,71 @@ def update_rentgap(value):
     dash.dependencies.Output('home-gap', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def update_homegap(value):
-    ###Filter Tables
-    seva = sevena[sevena['name'] == value]
-    sevb = sevenb[sevenb['name'] == value]
-    eia = eighta[eighta['name'] == value]
-    eib = eightb[eightb['name'] == value]
-    eic = eightc[eightc['name'] == value]
+    if "Puerto Rico" not in value:
+        ###Filter Tables
+        seva = sevena[sevena['name'] == value]
+        # sevb = sevenb[sevenb['name'] == value]
+        eia = eighta[eighta['name'] == value]
+        eib = eightb[eightb['name'] == value]
+        # eic = eightc[eightc['name'] == value]
 
-    ###Pull Out Data and Create Variables
-    homem_less50 = list(eia['T18A_est4']+eia['T18A_est5']+eia['T18A_est10']+eia['T18A_est11']+eia['T18A_est16']+eia['T18A_est17']+eia['T18A_est22']+eia['T18A_est23']+eia['T18A_est29']+eia['T18A_est30']+eia['T18A_est35']+eia['T18A_est36']+eia['T18A_est41']+eia['T18A_est42']+eia['T18A_est47']+eia['T18A_est48']+eia['T18A_est54']+eia['T18A_est55']+eia['T18A_est60']+eia['T18A_est61']+eia['T18A_est66']+eia['T18A_est67']+eia['T18A_est72']+eia['T18A_est73']+eia['T18A_est79']+eia['T18A_est80']+eia['T18A_est85']+eia['T18A_est86']+eia['T18A_est91']+eia['T18A_est92']+eia['T18A_est97']+eia['T18A_est98'])
-    homenom_less50 = list(eib['T18B_est4']+eib['T18B_est5']+eib['T18B_est10']+eib['T18B_est11']+eib['T18B_est16']+eib['T18B_est17']+eib['T18B_est22']+eib['T18B_est23']+eib['T18B_est29']+eib['T18B_est30']+eib['T18B_est35']+eib['T18B_est36']+eib['T18B_est41']+eib['T18B_est42']+eib['T18B_est47']+eib['T18B_est48']+eib['T18B_est54']+eib['T18B_est55']+eib['T18B_est60']+eib['T18B_est61']+eib['T18B_est66']+eib['T18B_est67']+eib['T18B_est72']+eib['T18B_est73']+eib['T18B_est79']+eib['T18B_est80']+eib['T18B_est85']+eib['T18B_est86']+eib['T18B_est91']+eib['T18B_est92']+eib['T18B_est97']+eib['T18B_est98'])
-    hunits_less50 = list(eib['T18B_est3']+eib['T18B_est28']+eib['T18B_est53']+eib['T18B_est78']+eia['T18A_est3']+eia['T18A_est28']+eia['T18A_est53']+eia['T18A_est78'])
-    hvac_less50 = list(seva['T17A_est3']+seva['T17A_est8']+seva['T17A_est13']+seva['T17A_est18'])
-    hoabvm_less50 = list(eia['T18A_est6']+eia['T18A_est7']+eia['T18A_est8']+eia['T18A_est31']+eia['T18A_est32']+eia['T18A_est33']+eia['T18A_est56']+eia['T18A_est57']+eia['T18A_est58']+eia['T18A_est81']+eia['T18A_est82']+eia['T18A_est83'])
-    hoabvnom_less50 = list(eib['T18B_est6']+eib['T18B_est7']+eib['T18B_est8']+eib['T18B_est31']+eib['T18B_est32']+eib['T18B_est33']+eib['T18B_est56']+eib['T18B_est57']+eib['T18B_est58']+eib['T18B_est81']+eib['T18B_est82']+eib['T18B_est83'])
-    h_less50 = homem_less50[0] + homenom_less50[0]
-    hu_less50 = hunits_less50[0]
-    hv_less50 = hvac_less50[0]
-    habv_less50 = hoabvm_less50[0] + hoabvnom_less50[0]
-    htu_less50 = hu_less50 + hv_less50
-    prct_habv_less50 = float(habv_less50/htu_less50)
-    hgap_less50 = htu_less50 - h_less50
-    adj_hgap_less50 = hgap_less50 + habv_less50
-    homem_50t80 = list(eia['T18A_est6']+eia['T18A_est12']+eia['T18A_est18']+eia['T18A_est24']+eia['T18A_est31']+eia['T18A_est37']+eia['T18A_est43']+eia['T18A_est49']+eia['T18A_est56']+eia['T18A_est62']+eia['T18A_est68']+eia['T18A_est74']+eia['T18A_est81']+eia['T18A_est87']+eia['T18A_est93']+eia['T18A_est99'])
-    homenom_50t80 = list(eib['T18B_est6']+eib['T18B_est12']+eib['T18B_est18']+eib['T18B_est24']+eib['T18B_est31']+eib['T18B_est37']+eib['T18B_est43']+eib['T18B_est49']+eib['T18B_est56']+eib['T18B_est62']+eib['T18B_est68']+eib['T18B_est74']+eib['T18B_est81']+eib['T18B_est87']+eib['T18B_est93']+eib['T18B_est99'])
-    hunits_50t80 = list(eib['T18B_est9']+eib['T18B_est34']+eib['T18B_est59']+eib['T18B_est84']+eia['T18A_est9']+eia['T18A_est34']+eia['T18A_est59']+eia['T18A_est84'])
-    hvac_50t80 = list(seva['T17A_est4']+seva['T17A_est9']+seva['T17A_est14']+seva['T17A_est19'])
-    hoabvm_50t80 = list(eia['T18A_est13']+eia['T18A_est14']+eia['T18A_est38']+eia['T18A_est39']+eia['T18A_est63']+eia['T18A_est64']+eia['T18A_est88']+eia['T18A_est89'])
-    hoabvnom_50t80 = list(eib['T18B_est13']+eib['T18B_est14']+eib['T18B_est38']+eib['T18B_est39']+eib['T18B_est63']+eib['T18B_est64']+eib['T18B_est88']+eib['T18B_est89'])
-    h_50t80 = homem_50t80[0] + homenom_50t80[0]
-    hu_50t80 = hunits_50t80[0]
-    hv_50t80 = hvac_50t80[0]
-    habv_50t80 = hoabvm_50t80[0] + hoabvnom_50t80[0]
-    htu_50t80 = hu_50t80 + hv_50t80
-    prct_habv_50t80 = float(habv_50t80/htu_50t80)
-    hgap_50t80 = htu_50t80 - h_50t80
-    adj_hgap_50t80 = hgap_50t80 + habv_50t80
-    homem_80t100 = list(eia['T18A_est7']+eia['T18A_est13']+eia['T18A_est19']+eia['T18A_est25']+eia['T18A_est32']+eia['T18A_est38']+eia['T18A_est44']+eia['T18A_est50']+eia['T18A_est57']+eia['T18A_est63']+eia['T18A_est69']+eia['T18A_est75']+eia['T18A_est82']+eia['T18A_est88']+eia['T18A_est94']+eia['T18A_est100'])
-    homenom_80t100 = list(eib['T18B_est7']+eib['T18B_est13']+eib['T18B_est19']+eib['T18B_est25']+eib['T18B_est32']+eib['T18B_est38']+eib['T18B_est44']+eib['T18B_est50']+eib['T18B_est57']+eib['T18B_est63']+eib['T18B_est69']+eib['T18B_est75']+eib['T18B_est82']+eib['T18B_est88']+eib['T18B_est94']+eib['T18B_est100'])
-    hunits_80t100 = list(eib['T18B_est15']+eib['T18B_est40']+eib['T18B_est65']+eib['T18B_est90']+eia['T18A_est15']+eia['T18A_est40']+eia['T18A_est65']+eia['T18A_est90'])
-    hvac_80t100 = list(seva['T17A_est5']+seva['T17A_est10']+seva['T17A_est15']+seva['T17A_est20'])
-    hoabvm_80t100 = list(eia['T18A_est20']+eia['T18A_est45']+eia['T18A_est70']+eia['T18A_est95'])
-    hoabvnom_80t100 = list(eib['T18B_est20']+eib['T18B_est45']+eib['T18B_est70']+eib['T18B_est95'])
-    h_80t100 = homem_80t100[0] + homenom_80t100[0]
-    hu_80t100 = hunits_80t100[0]
-    hv_80t100 = hvac_80t100[0]
-    habv_80t100 = hoabvm_80t100[0] + hoabvnom_80t100[0]
-    htu_80t100 = hu_80t100 + hv_80t100
-    prct_habv_80t100 = float(habv_80t100/htu_80t100)
-    hgap_80t100 = htu_80t100 - h_80t100
-    adj_hgap_80t100 = hgap_80t100 + habv_80t100
+        ###Pull Out Data and Create Variables
+        homem_less50 = list(eia['T18A_est4']+eia['T18A_est5']+eia['T18A_est10']+eia['T18A_est11']+eia['T18A_est16']+eia['T18A_est17']+eia['T18A_est22']+eia['T18A_est23']+eia['T18A_est29']+eia['T18A_est30']+eia['T18A_est35']+eia['T18A_est36']+eia['T18A_est41']+eia['T18A_est42']+eia['T18A_est47']+eia['T18A_est48']+eia['T18A_est54']+eia['T18A_est55']+eia['T18A_est60']+eia['T18A_est61']+eia['T18A_est66']+eia['T18A_est67']+eia['T18A_est72']+eia['T18A_est73']+eia['T18A_est79']+eia['T18A_est80']+eia['T18A_est85']+eia['T18A_est86']+eia['T18A_est91']+eia['T18A_est92']+eia['T18A_est97']+eia['T18A_est98'])
+        homenom_less50 = list(eib['T18B_est4']+eib['T18B_est5']+eib['T18B_est10']+eib['T18B_est11']+eib['T18B_est16']+eib['T18B_est17']+eib['T18B_est22']+eib['T18B_est23']+eib['T18B_est29']+eib['T18B_est30']+eib['T18B_est35']+eib['T18B_est36']+eib['T18B_est41']+eib['T18B_est42']+eib['T18B_est47']+eib['T18B_est48']+eib['T18B_est54']+eib['T18B_est55']+eib['T18B_est60']+eib['T18B_est61']+eib['T18B_est66']+eib['T18B_est67']+eib['T18B_est72']+eib['T18B_est73']+eib['T18B_est79']+eib['T18B_est80']+eib['T18B_est85']+eib['T18B_est86']+eib['T18B_est91']+eib['T18B_est92']+eib['T18B_est97']+eib['T18B_est98'])
+        hunits_less50 = list(eib['T18B_est3']+eib['T18B_est28']+eib['T18B_est53']+eib['T18B_est78']+eia['T18A_est3']+eia['T18A_est28']+eia['T18A_est53']+eia['T18A_est78'])
+        hvac_less50 = list(seva['T17A_est3']+seva['T17A_est8']+seva['T17A_est13']+seva['T17A_est18'])
+        # hoabvm_less50 = list(eia['T18A_est6']+eia['T18A_est7']+eia['T18A_est8']+eia['T18A_est31']+eia['T18A_est32']+eia['T18A_est33']+eia['T18A_est56']+eia['T18A_est57']+eia['T18A_est58']+eia['T18A_est81']+eia['T18A_est82']+eia['T18A_est83'])
+        # hoabvnom_less50 = list(eib['T18B_est6']+eib['T18B_est7']+eib['T18B_est8']+eib['T18B_est31']+eib['T18B_est32']+eib['T18B_est33']+eib['T18B_est56']+eib['T18B_est57']+eib['T18B_est58']+eib['T18B_est81']+eib['T18B_est82']+eib['T18B_est83'])
+        h_less50 = homem_less50[0] + homenom_less50[0]
+        hu_less50 = hunits_less50[0]
+        hv_less50 = hvac_less50[0]
+        # habv_less50 = hoabvm_less50[0] + hoabvnom_less50[0]
+        htu_less50 = hu_less50 + hv_less50
+        # prct_habv_less50 = float(habv_less50/htu_less50)
+        hgap_less50 = htu_less50 - h_less50
+        # adj_hgap_less50 = hgap_less50 + habv_less50
+        homem_50t80 = list(eia['T18A_est6']+eia['T18A_est12']+eia['T18A_est18']+eia['T18A_est24']+eia['T18A_est31']+eia['T18A_est37']+eia['T18A_est43']+eia['T18A_est49']+eia['T18A_est56']+eia['T18A_est62']+eia['T18A_est68']+eia['T18A_est74']+eia['T18A_est81']+eia['T18A_est87']+eia['T18A_est93']+eia['T18A_est99'])
+        homenom_50t80 = list(eib['T18B_est6']+eib['T18B_est12']+eib['T18B_est18']+eib['T18B_est24']+eib['T18B_est31']+eib['T18B_est37']+eib['T18B_est43']+eib['T18B_est49']+eib['T18B_est56']+eib['T18B_est62']+eib['T18B_est68']+eib['T18B_est74']+eib['T18B_est81']+eib['T18B_est87']+eib['T18B_est93']+eib['T18B_est99'])
+        hunits_50t80 = list(eib['T18B_est9']+eib['T18B_est34']+eib['T18B_est59']+eib['T18B_est84']+eia['T18A_est9']+eia['T18A_est34']+eia['T18A_est59']+eia['T18A_est84'])
+        hvac_50t80 = list(seva['T17A_est4']+seva['T17A_est9']+seva['T17A_est14']+seva['T17A_est19'])
+        # hoabvm_50t80 = list(eia['T18A_est13']+eia['T18A_est14']+eia['T18A_est38']+eia['T18A_est39']+eia['T18A_est63']+eia['T18A_est64']+eia['T18A_est88']+eia['T18A_est89'])
+        # hoabvnom_50t80 = list(eib['T18B_est13']+eib['T18B_est14']+eib['T18B_est38']+eib['T18B_est39']+eib['T18B_est63']+eib['T18B_est64']+eib['T18B_est88']+eib['T18B_est89'])
+        h_50t80 = homem_50t80[0] + homenom_50t80[0]
+        hu_50t80 = hunits_50t80[0]
+        hv_50t80 = hvac_50t80[0]
+        # habv_50t80 = hoabvm_50t80[0] + hoabvnom_50t80[0]
+        htu_50t80 = hu_50t80 + hv_50t80
+        # prct_habv_50t80 = float(habv_50t80/htu_50t80)
+        hgap_50t80 = htu_50t80 - h_50t80
+        # adj_hgap_50t80 = hgap_50t80 + habv_50t80
+        homem_80t100 = list(eia['T18A_est7']+eia['T18A_est13']+eia['T18A_est19']+eia['T18A_est25']+eia['T18A_est32']+eia['T18A_est38']+eia['T18A_est44']+eia['T18A_est50']+eia['T18A_est57']+eia['T18A_est63']+eia['T18A_est69']+eia['T18A_est75']+eia['T18A_est82']+eia['T18A_est88']+eia['T18A_est94']+eia['T18A_est100'])
+        homenom_80t100 = list(eib['T18B_est7']+eib['T18B_est13']+eib['T18B_est19']+eib['T18B_est25']+eib['T18B_est32']+eib['T18B_est38']+eib['T18B_est44']+eib['T18B_est50']+eib['T18B_est57']+eib['T18B_est63']+eib['T18B_est69']+eib['T18B_est75']+eib['T18B_est82']+eib['T18B_est88']+eib['T18B_est94']+eib['T18B_est100'])
+        hunits_80t100 = list(eib['T18B_est15']+eib['T18B_est40']+eib['T18B_est65']+eib['T18B_est90']+eia['T18A_est15']+eia['T18A_est40']+eia['T18A_est65']+eia['T18A_est90'])
+        hvac_80t100 = list(seva['T17A_est5']+seva['T17A_est10']+seva['T17A_est15']+seva['T17A_est20'])
+        # hoabvm_80t100 = list(eia['T18A_est20']+eia['T18A_est45']+eia['T18A_est70']+eia['T18A_est95'])
+        # hoabvnom_80t100 = list(eib['T18B_est20']+eib['T18B_est45']+eib['T18B_est70']+eib['T18B_est95'])
+        h_80t100 = homem_80t100[0] + homenom_80t100[0]
+        hu_80t100 = hunits_80t100[0]
+        hv_80t100 = hvac_80t100[0]
+        # habv_80t100 = hoabvm_80t100[0] + hoabvnom_80t100[0]
+        htu_80t100 = hu_80t100 + hv_80t100
+        # prct_habv_80t100 = float(habv_80t100/htu_80t100)
+        hgap_80t100 = htu_80t100 - h_80t100
+        # adj_hgap_80t100 = hgap_80t100 + habv_80t100
 
-    ###Create Dataframe
-    homegap_var = ['Households Making Less than 50% AMI', 'Households Making Between 50% and 80% AMI', 'Households Making Between 80% and 100% AMI']
-    homegap = [hgap_less50, hgap_50t80, hgap_80t100]
-    hgap1 = list(zip(homegap_var,homegap))
-    hgap = pd.DataFrame(hgap1, columns=['Household Income', 'Unit Surplus/Deficit'])
-    
-    
-    ###Create Figure
-    fig6 = px.bar(hgap, x='Household Income', y='Unit Surplus/Deficit')
-    fig6.update_layout(title_text='Homeownership Gap Analysis')
-    return fig6
+        ###Create Dataframe
+        homegap_var = ['Households Making Less than 50% AMI', 'Households Making Between 50% and 80% AMI', 'Households Making Between 80% and 100% AMI']
+        homegap = [hgap_less50, hgap_50t80, hgap_80t100]
+        hgap1 = list(zip(homegap_var,homegap))
+        hgap = pd.DataFrame(hgap1, columns=['Household Income', 'Unit Surplus/Deficit'])
+        
+        
+        ###Create Figure
+        fig6 = px.bar(hgap, x='Household Income', y='Unit Surplus/Deficit')
+        fig6.update_layout(title_text='Homeownership Gap Analysis')
+        return fig6
+    else:
+        return no_data_fig
 
 ##Household Assistance Table
 @app.callback(
@@ -685,20 +718,23 @@ def update_hhassist(value):
     dash.dependencies.Output('hist', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def update_hist(value):
-    ###Pull and Collate Data
-    hist1 = hist[hist['map'] == value]
-    yrs = ['1950', '1960', '1970', '1980', '1990', '2000', '2010', '2015']
-    hist2 = hist1.transpose()
-    hist2 = hist2.iloc[3:]
-    hist2.columns = ['Population']
-    hist2.insert(0,'Year', yrs, True)
+    if "Puerto Rico" not in value:
+        ###Pull and Collate Data
+        hist1 = hist[hist['map'] == value]
+        yrs = ['1950', '1960', '1970', '1980', '1990', '2000', '2010', '2015']
+        hist2 = hist1.transpose()
+        hist2 = hist2.iloc[3:]
+        hist2.columns = ['Population']
+        hist2.insert(0,'Year', yrs, True)
 
-    ###Create Graph
-    fig9 = go.Figure(data=go.Scatter(x=hist2['Year'], y=hist2['Population']))
-    fig9.update_layout(title='Total Population over Time',
-                   xaxis_title='Year',
-                   yaxis_title='Population Count')
-    return fig9
+        ###Create Graph
+        fig9 = go.Figure(data=go.Scatter(x=hist2['Year'], y=hist2['Population']))
+        fig9.update_layout(title='Total Population over Time',
+                    xaxis_title='Year',
+                    yaxis_title='Population Count')
+        return fig9
+    else:
+        return no_data_fig
 
 ##Household Size
 @app.callback(
