@@ -1,0 +1,97 @@
+﻿d_age,d_sex,d_race,d_deaths,d_count,d_mortal
+1-4 years,Female,American Indian or Alaska Native,731,"2,392,790",30.6
+1-4 years,Female,Asian or Pacific Islander,"1,305","7,687,841",17
+1-4 years,Female,Black or African American,"8,720","23,112,199",37.7
+1-4 years,Female,White,"24,746","106,287,418",23.3
+1-4 years,Male,American Indian or Alaska Native,956,"2,463,944",38.8
+1-4 years,Male,Asian or Pacific Islander,"1,540","7,930,209",19.4
+1-4 years,Male,Black or African American,"11,399","23,903,734",47.7
+1-4 years,Male,White,"32,504","111,470,699",29.2
+5-9 years,Female,American Indian or Alaska Native,378,"3,000,420",12.6
+5-9 years,Female,Asian or Pacific Islander,846,"9,430,966",9
+5-9 years,Female,Black or African American,"4,861","29,441,421",16.5
+5-9 years,Female,White,"15,171","135,183,573",11.2
+5-9 years,Male,American Indian or Alaska Native,460,"3,090,124",14.9
+5-9 years,Male,Asian or Pacific Islander,990,"9,617,466",10.3
+5-9 years,Male,Black or African American,"6,445","30,419,499",21.2
+5-9 years,Male,White,"19,572","142,019,341",13.8
+10-14 years,Female,American Indian or Alaska Native,474,"3,107,721",15.3
+10-14 years,Female,Asian or Pacific Islander,853,"9,244,238",9.2
+10-14 years,Female,Black or African American,"5,376","30,522,815",17.6
+10-14 years,Female,White,"17,899","140,194,670",12.8
+10-14 years,Male,American Indian or Alaska Native,629,"3,177,663",19.8
+10-14 years,Male,Asian or Pacific Islander,"1,184","9,541,281",12.4
+10-14 years,Male,Black or African American,"8,428","31,547,575",26.7
+10-14 years,Male,White,"27,059","147,540,370",18.3
+15-19 years,Female,American Indian or Alaska Native,"1,392","3,093,151",45
+15-19 years,Female,Asian or Pacific Islander,"1,732","9,488,460",18.3
+15-19 years,Female,Black or African American,"11,005","30,839,209",35.7
+15-19 years,Female,White,"48,005","142,658,100",33.7
+15-19 years,Male,American Indian or Alaska Native,"3,007","3,260,091",92.2
+15-19 years,Male,Asian or Pacific Islander,"3,813","9,893,495",38.5
+15-19 years,Male,Black or African American,"35,898","31,839,366",112.7
+15-19 years,Male,White,"113,444","151,475,022",74.9
+20-24 years,Female,American Indian or Alaska Native,"1,737","2,855,869",60.8
+20-24 years,Female,Asian or Pacific Islander,"2,522","11,050,364",22.8
+20-24 years,Female,Black or African American,"18,760","29,985,966",62.6
+20-24 years,Female,White,"63,695","142,588,238",44.7
+20-24 years,Male,American Indian or Alaska Native,"4,671","3,111,779",150.1
+20-24 years,Male,Asian or Pacific Islander,"6,380","11,251,082",56.7
+20-24 years,Male,Black or African American,"61,409","29,740,834",206.5
+20-24 years,Male,White,"191,243","151,199,407",126.5
+25-34 years,Female,American Indian or Alaska Native,"4,598","5,089,788",90.3
+25-34 years,Female,Asian or Pacific Islander,"6,952","25,878,745",26.9
+25-34 years,Female,Black or African American,"56,378","54,685,816",103.1
+25-34 years,Female,White,"174,418","280,232,053",62.2
+25-34 years,Male,American Indian or Alaska Native,"9,621","5,391,628",178.4
+25-34 years,Male,Asian or Pacific Islander,"13,001","24,053,875",54
+25-34 years,Male,Black or African American,"120,726","50,016,994",241.4
+25-34 years,Male,White,"405,626","291,690,157",139.1
+35-44 years,Female,American Indian or Alaska Native,"8,250","4,833,021",170.7
+35-44 years,Female,Asian or Pacific Islander,"13,005","24,213,661",53.7
+35-44 years,Female,Black or African American,"124,860","54,309,463",229.9
+35-44 years,Female,White,"388,265","301,197,644",128.9
+35-44 years,Male,American Indian or Alaska Native,"13,652","4,855,390",281.2
+35-44 years,Male,Asian or Pacific Islander,"20,357","21,863,221",93.1
+35-44 years,Male,Black or African American,"179,192","48,252,239",371.4
+35-44 years,Male,White,"688,116","305,814,055",225
+45-54 years,Female,American Indian or Alaska Native,"14,205","4,308,481",329.7
+45-54 years,Female,Asian or Pacific Islander,"27,378","20,192,168",135.6
+45-54 years,Female,Black or African American,"258,814","50,417,736",513.3
+45-54 years,Female,White,"920,393","312,447,191",294.6
+45-54 years,Male,American Indian or Alaska Native,"21,608","4,156,456",519.9
+45-54 years,Male,Asian or Pacific Islander,"40,021","17,684,595",226.3
+45-54 years,Male,Black or African American,"361,733","44,246,506",817.5
+45-54 years,Male,White,"1,539,016","308,875,401",498.3
+55-64 years,Female,American Indian or Alaska Native,"18,622","2,849,084",653.6
+55-64 years,Female,Asian or Pacific Islander,"45,593","14,408,104",316.4
+55-64 years,Female,Black or African American,"370,228","35,692,041","1,037.30"
+55-64 years,Female,White,"1,674,263","256,533,068",652.6
+55-64 years,Male,American Indian or Alaska Native,"26,269","2,651,114",990.9
+55-64 years,Male,Asian or Pacific Islander,"64,956","12,130,137",535.5
+55-64 years,Male,Black or African American,"519,802","29,580,574","1,757.20"
+55-64 years,Male,White,"2,602,978","243,460,217","1,069.20"
+65-74 years,Female,American Indian or Alaska Native,"22,577","1,474,365","1,531.30"
+65-74 years,Female,Asian or Pacific Islander,"69,064","8,465,240",815.9
+65-74 years,Female,Black or African American,"457,984","21,217,350","2,158.50"
+65-74 years,Female,White,"2,822,907","176,569,564","1,598.80"
+65-74 years,Male,American Indian or Alaska Native,"26,470","1,282,187","2,064.40"
+65-74 years,Male,Asian or Pacific Islander,"86,674","6,854,417","1,264.50"
+65-74 years,Male,Black or African American,"536,401","15,631,576","3,431.50"
+65-74 years,Male,White,"3,706,757","154,755,049","2,395.20"
+75-84 years,Female,American Indian or Alaska Native,"24,545","694,572","3,533.80"
+75-84 years,Female,Asian or Pacific Islander,"110,105","4,424,250","2,488.70"
+75-84 years,Female,Black or African American,"589,027","12,013,537","4,903.00"
+75-84 years,Female,White,"5,283,114","121,137,114","4,361.30"
+75-84 years,Male,American Indian or Alaska Native,"22,658","494,611","4,581.00"
+75-84 years,Male,Asian or Pacific Islander,"112,549","3,185,667","3,533.00"
+75-84 years,Male,Black or African American,"500,181","7,032,401","7,112.50"
+75-84 years,Male,White,"5,237,968","86,999,937","6,020.70"
+85+ years,Female,American Indian or Alaska Native,"21,005","242,033","8,678.60"
+85+ years,Female,Asian or Pacific Islander,"131,729","1,554,005","8,476.70"
+85+ years,Female,Black or African American,"631,476","4,876,720","12,948.80"
+85+ years,Female,White,"7,859,949","56,723,176","13,856.70"
+85+ years,Male,American Indian or Alaska Native,"12,105","124,296","9,738.80"
+85+ years,Male,Asian or Pacific Islander,"95,530","917,469","10,412.30"
+85+ years,Male,Black or African American,"286,163","1,894,711","15,103.30"
+85+ years,Male,White,"4,296,177","26,904,918","15,968.00"
