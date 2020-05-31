@@ -1,4 +1,5 @@
 #Packages
+from pathlib import Path
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -12,50 +13,56 @@ import plotly.graph_objects as go
 #Set Currency Locale
 locale.setlocale( locale.LC_ALL, '' )
 
-#ACS DP04 Data
-df = pd.read_csv("C:/Projects/housing-dash/data/census_data/acs5_dp04.csv")
+# Base path to data files
+base_path = Path(__file__).resolve().parent / "data"
+census_path = base_path / "census_data"
+hud_path = base_path / "hud_prog_data"
+chas_path = base_path / "CHAS_data"
+pop_path =  base_path / "pop_proj" / "hist_d"
 
-df1 = df[['County Name','Total housing units_Estimate','Vacant housing units_Estimate','Homeowner vacancy rate_Estimate','Rental vacancy rate_Estimate']]
-df2 = df[['County Name','Single Family, Detached Units_Estimate','Single Family, Attached Units_Estimate','Duplex Units_Estimate','Triplex or Fourplex Units_Estimate','Low Rise Multifamily (5-9 units) Units_Estimate',
-'Medium Rise Multifamily (10-19 units) Units_Estimate','Large Multifamily (20+ units) Units_Estimate','Mobile home Units_Estimate','Other (Boat, RV, van, etc.) Units_Estimate'
-]]
-df3 = df[['County Name','Total housing units_Estimate','Units Built 2000 to 2009_Estimate', 'Units Built 1990 to 1999_Estimate', 'Units Built 1980 to 1989_Estimate', 'Units Built 1970 to 1979_Estimate',
-'Units Built 1960 to 1969_Estimate', 'Units Built 1950 to 1959_Estimate', 'Units Built 1940 to 1949_Estimate', 'Units Built 1939 or earlier_Estimate'
-]]
-df3['Units Built Before 2010'] = df3['Units Built 2000 to 2009_Estimate']+df3['Units Built 1990 to 1999_Estimate']+df3['Units Built 1980 to 1989_Estimate']+df3['Units Built 1970 to 1979_Estimate']+df3['Units Built 1960 to 1969_Estimate']+df3['Units Built 1950 to 1959_Estimate']+df3['Units Built 1940 to 1949_Estimate']+df3['Units Built 1939 or earlier_Estimate']
-df3['Units Built 2010 and Later'] = df3['Total housing units_Estimate'] - df3['Units Built Before 2010']
+#ACS DP02-05 Data
+df = pd.read_csv(str(census_path /"acs5_dp04.csv"))
+dp = pd.read_csv(str(census_path / "acs5_dp02.csv"))
+ep = pd.read_csv(str(census_path / "acs5_dp03.csv"))
+tp = pd.read_csv(str(census_path / "acs5_dp05.csv"))
 
-#ACS DP02 Data
-dp = pd.read_csv("C:/Projects/housing-dash/data/census_data/acs5_dp02.csv")
+#HUD Program and LIHTC Data
+hud1 = pd.read_csv(str(hud_path / "hudunits.csv"))
+litc = pd.read_csv(str(hud_path / "lihtc.csv"))
 
-#ACS DP03 Data
-ep = pd.read_csv("C:/Projects/housing-dash/data/census_data/acs5_dp03.csv")
-
-#ACS DP05 Data
-tp = pd.read_csv("C:/Projects/housing-dash/data/census_data/acs5_dp05.csv")
-
-#HUD Program Data
-hud1 = pd.read_csv("C:/Projects/housing-dash/data/hud_prog_data/hudunits.csv")
-
-#LIHTC Data
-litc = pd.read_csv("C:/Projects/housing-dash/data/hud_prog_data/lihtc.csv")
-
-#HUD CHAS Data
-sevena = pd.read_csv("C:/Projects/housing-dash/data/CHAS_data/Table17A.csv", encoding='cp1252')
-sevenb = pd.read_csv("C:/Projects/housing-dash/data/CHAS_data/Table17B.csv", encoding='cp1252')
-eighta = pd.read_csv("C:/Projects/housing-dash/data/CHAS_data/Table18A.csv", encoding='cp1252')
-eightb = pd.read_csv("C:/Projects/housing-dash/data/CHAS_data/Table18B.csv", encoding='cp1252')
-eightc = pd.read_csv("C:/Projects/housing-dash/data/CHAS_data/Table18C.csv", encoding='cp1252')
+#HUD CHAS and Household Size Data
+sevena = pd.read_csv(str(chas_path / "Table17A.csv"), encoding='cp1252')
+sevenb = pd.read_csv(str(chas_path / "Table17B.csv"), encoding='cp1252')
+eighta = pd.read_csv(str(chas_path / "Table18A.csv"), encoding='cp1252')
+eightb = pd.read_csv(str(chas_path / "Table18B.csv"), encoding='cp1252')
+eightc = pd.read_csv(str(chas_path / "Table18C.csv"), encoding='cp1252')
+hhs = pd.read_csv(str(census_path / "acs5_s2501.csv"))
 
 #Historical Pop Data
-hist = pd.read_csv('C:/Projects/housing-dash/data/pop_proj/hist_d/h_pop.csv')
+hist = pd.read_csv(str(pop_path / "h_pop.csv"))
 
-#Household Size Data
-hhs = pd.read_csv("C:/Projects/housing-dash/data/census_data/acs5_s2501.csv")
-
-
-#Styles
-
+# Data Transformations
+df1 = df[['County Name','Total housing units_Estimate',
+          'Vacant housing units_Estimate','Homeowner vacancy rate_Estimate','Rental vacancy rate_Estimate']]
+df2 = df[['County Name','Single Family, Detached Units_Estimate','Single Family, Attached Units_Estimate',
+          'Duplex Units_Estimate','Triplex or Fourplex Units_Estimate',
+          'Low Rise Multifamily (5-9 units) Units_Estimate', 
+          'Medium Rise Multifamily (10-19 units) Units_Estimate','Large Multifamily (20+ units) Units_Estimate',
+          'Mobile home Units_Estimate','Other (Boat, RV, van, etc.) Units_Estimate']]
+df3 = df[['County Name','Total housing units_Estimate','Units Built 2000 to 2009_Estimate', 
+          'Units Built 1990 to 1999_Estimate', 'Units Built 1980 to 1989_Estimate',
+          'Units Built 1970 to 1979_Estimate', 'Units Built 1960 to 1969_Estimate', 
+          'Units Built 1950 to 1959_Estimate', 'Units Built 1940 to 1949_Estimate',
+          'Units Built 1939 or earlier_Estimate']]
+df3['Units Built Before 2010'] = (df3['Units Built 2000 to 2009_Estimate'] + 
+                                 df3['Units Built 1990 to 1999_Estimate'] + 
+                                 df3['Units Built 1980 to 1989_Estimate'] + 
+                                 df3['Units Built 1970 to 1979_Estimate'] + 
+                                 df3['Units Built 1960 to 1969_Estimate'] + 
+                                 df3['Units Built 1950 to 1959_Estimate'] + 
+                                 df3['Units Built 1940 to 1949_Estimate'] + 
+                                 df3['Units Built 1939 or earlier_Estimate'])
+df3['Units Built 2010 and Later'] = df3['Total housing units_Estimate'] - df3['Units Built Before 2010']
 
 #App Creation
 app = dash.Dash(__name__)
