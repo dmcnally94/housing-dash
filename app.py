@@ -73,6 +73,7 @@ app = dash.Dash(__name__,
                 external_stylesheets=external_stylesheets)
 app.config['suppress_callback_exceptions'] = True
 server = app.server
+app.title = 'Housing Profile Dashboard'
 
 # No data layout
 no_data_fig = { 
@@ -97,7 +98,7 @@ app.layout = html.Div([
     html.Div(
     className="app-header",
     children=[
-        html.Div('Housing Dashboard v0.1', className="app-header--title")
+        html.Div('Housing Profile Dashboard', className="app-header--title")
         ]
     ),
     html.Div(
@@ -129,9 +130,9 @@ app.layout = html.Div([
     html.Div(
     className="app-footer",
     children=[
-        html.Div('Housing Dashboard v0.1: Produced By Devin McNally', className="app-footer--text"),
+        html.Div('Housing Profile Dashboard v1.0: Produced By Devin McNally and Ryan McNally', className="app-footer--text"),
         html.Div('All data is collected and presented at no cost. If you use this, please attribute this project!', className="app-footer--text"),
-        html.Div('Last Updated: May 25, 2020', className="app-footer--text")
+        html.Div('Last Updated: May 31, 2020', className="app-footer--text")
         ]
     ),
 ])
