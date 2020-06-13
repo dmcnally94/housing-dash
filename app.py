@@ -9,6 +9,7 @@ import plotly.express as px
 import plotly.figure_factory as ff
 import locale
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 #Set Currency Locale
 locale.setlocale( locale.LC_ALL, '' )
@@ -19,6 +20,9 @@ census_path = base_path / "census_data"
 hud_path = base_path / "hud_prog_data"
 chas_path = base_path / "CHAS_data"
 pop_path =  base_path / "pop_proj" / "hist_d"
+
+#Current Pop Data
+today = pd.read_csv(str(base_path /"today.csv"))
 
 #ACS DP02-05 Data
 df = pd.read_csv(str(census_path /"acs5_dp04.csv"))
@@ -347,14 +351,6 @@ def render_content(tab):
                     className = 'box',
                     children = [  
                         html.Div([
-                            dcc.Graph(id = 'sex-g'),
-                        ]),
-                    ]    
-                ),
-                html.Div(
-                    className = 'box',
-                    children = [  
-                        html.Div([
                             dcc.Graph(id = 'spec-g'),
                         ]),
                     ]    
@@ -373,7 +369,6 @@ def render_content(tab):
                             html.H6('3) U.S. Census Bureau, American Community Survey Table: DP05, latest 5-Year Estimates'),
                             html.H6('4) U.S. Census Bureau, American Community Survey Table: DP05, latest 5-Year Estimates'),
                             html.H6('5) U.S. Census Bureau, American Community Survey Table: DP05, latest 5-Year Estimates'),
-                            html.H6('6) U.S. Census Bureau, American Community Survey Table: DP05, latest 5-Year Estimates'),
                         ]),
                     ]
                 )           
@@ -489,10 +484,13 @@ def update_hudunits(value):
         progc = list(zip(prog,prognum))
         pt = pd.DataFrame(progc, columns=['HUD Program', '# of Household Recipients'])
         pt1 = pt[pt['# of Household Recipients'] > 0]
-        pt1['# of Household Recipients'] = pt1.apply(lambda x: "{:,}".format(int(x['# of Household Recipients'])), axis=1)
+        if int(len(pt1['# of Household Recipients'])) > 1:
+            pt1['# of Household Recipients'] = pt1.apply(lambda x: "{:,}".format(int(x['# of Household Recipients'])), axis=1)
+            fig4 =  ff.create_table(pt1)
+            return fig4
+        else:
+            return no_data_fig
 
-        fig4 =  ff.create_table(pt1)
-        return fig4
     else:
         return no_data_fig
 
@@ -764,30 +762,52 @@ def update_hhsize(value):
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def update_ages(value):
     ###Pull and Collate Data
-    tp1 = tp[tp['County Name'] == value]
-    tp2 = tp1[['SEX AND AGE_Total population_Under 5 years_Estimate',
-           'SEX AND AGE_Total population_5 to 9 years_Estimate',
-           'SEX AND AGE_Total population_10 to 14 years_Estimate',
-           'SEX AND AGE_Total population_15 to 19 years_Estimate',
-           'SEX AND AGE_Total population_20 to 24 years_Estimate',
-           'SEX AND AGE_Total population_25 to 34 years_Estimate',
-           'SEX AND AGE_Total population_35 to 44 years_Estimate',
-           'SEX AND AGE_Total population_45 to 54 years_Estimate',
-           'SEX AND AGE_Total population_55 to 59 years_Estimate',
-           'SEX AND AGE_Total population_60 to 64 years_Estimate',
-           'SEX AND AGE_Total population_65 to 74 years_Estimate',
-           'SEX AND AGE_Total population_75 to 84 years_Estimate',
-           'SEX AND AGE_Total population_85 years and over_Estimate'
-          ]]
-    ages = ['Under 5 Years', '5 to 9 Years', '10 to 14 Years', '15 to 19 Years', '20 to 24 Years', '25 to 34 Years', '35 to 44 Years',
-    '45 to 54 Years', '55 to 59 Years', '60 to 64 Years', '65 to 74 Years', '75 to 84 Years', '85 and Over']
-    tp3 = tp2.transpose()
-    tp3.columns = ['Population Count']
-    tp3.insert(0,'Population by Age', ages, True) 
-    tp3['Population Count'] = tp3.apply(lambda x: "{:,}".format(x['Population Count']), axis=1)
-
+    females = today[today.sex == 'Female']
+    males = today[today.sex == 'Male']
+    age = list(females['age'])
+    female_pop = list(females[value])
+    male_pop = list(males[value])
+    age1 = age
+    
     ###Create Graph
-    fig10 = px.bar(tp3, x='Population by Age', y='Population Count')
+    fig10 = fig = make_subplots(shared_xaxes=False,
+                    shared_yaxes=True, vertical_spacing=0.001)
+    fig10.append_trace(go.Bar(
+        x=female_pop,
+        y=age,
+        marker=dict(
+            color='rgba(28,41,91, 1.0)',
+            line=dict(
+                color='rgba(3,18,73, 1.0)',
+                width=1),
+        ),
+        name='Female Population',
+        orientation='h',
+    ), 1, 1)
+    fig10.append_trace(go.Bar(
+        x=male_pop,
+        y=age1,
+        marker=dict(
+            color='rgba(78,89,127, 1.0)',
+            line=dict(
+                color='rgba(53,65,109, 1.0)',
+                width=1),
+        ),
+        name='Male Population',
+        orientation='h',
+    ), 1, 1)
+    fig10.update_yaxes(autorange="reversed")
+    fig10.update_layout(
+    title='Population Tree',
+    autosize=False,
+    legend=dict(x=.25, y=1.3, font_size=10),
+    width=800, 
+    height=450,
+    xaxis2=dict(
+        autorange="reversed",
+    )
+    )
+    fig10.update_xaxes(nticks=10)   
     return fig10
 
 
