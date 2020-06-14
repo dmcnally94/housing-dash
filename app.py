@@ -134,9 +134,9 @@ app.layout = html.Div([
     html.Div(
     className="app-footer",
     children=[
-        html.Div('Housing Profile Dashboard v1.0: Produced By Devin McNally and Ryan McNally', className="app-footer--text"),
+        html.Div('Housing Profile Dashboard v1.1: Produced By Devin McNally and Ryan McNally', className="app-footer--text"),
         html.Div('All data is collected and presented at no cost. If you use this, please attribute this project!', className="app-footer--text"),
-        html.Div('Last Updated: May 31, 2020', className="app-footer--text")
+        html.Div('Last Updated: June 13, 2020', className="app-footer--text")
         ]
     ),
 ])
