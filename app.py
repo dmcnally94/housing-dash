@@ -138,7 +138,7 @@ app.layout = html.Div([
     html.Div(
     className="app-footer",
     children=[
-        html.Div('Housing Profile Dashboard v1.1: Produced By Devin McNally and Ryan McNally', className="app-footer--text"),
+        html.Div('Housing Profile Dashboard v1.2: Produced By Devin McNally and Ryan McNally', className="app-footer--text"),
         html.Div('All data is collected and presented at no cost. If you use this, please attribute this project!', className="app-footer--text"),
         html.Div('Last Updated: June 13, 2020', className="app-footer--text")
         ]
@@ -298,6 +298,7 @@ def render_content(tab):
                             html.H6('2) U.S. Census Bureau, American Community Survey Table: DP03, latest 5-Year Estimates'),
                             html.H6('3) HUD CHAS Dataset, 2012-2016'),
                             html.H6('4) HUD CHAS Dataset, 2012-2016'),
+                            html.H6('5) U.S. Census Bureau, American Community Survey Table: DP03 & DP04, latest 5-Year Estimates')
                         ]),
                     ]
                 )           
