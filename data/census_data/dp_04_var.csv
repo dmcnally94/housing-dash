@@ -1,0 +1,146 @@
+﻿NAME,County Name
+state,State ID
+county,County ID
+DP04_0001E,Total housing units_Estimate
+DP04_0002E,Occupied housing units_Estimate
+DP04_0003E,Vacant housing units_Estimate
+DP04_0004E,Homeowner vacancy rate_Estimate
+DP04_0005E,Rental vacancy rate_Estimate
+DP04_0006E,Total housing units_Estimate
+DP04_0007E,"Single Family, Detached Units_Estimate"
+DP04_0008E,"Single Family, Attached Units_Estimate"
+DP04_0009E,Duplex Units_Estimate
+DP04_0010E,Triplex or Fourplex Units_Estimate
+DP04_0011E,Low Rise Multifamily (5-9 units) Units_Estimate
+DP04_0012E,Medium Rise Multifamily (10-19 units) Units_Estimate
+DP04_0013E,Large Multifamily (20+ units) Units_Estimate
+DP04_0014E,Mobile home Units_Estimate
+DP04_0015E,"Other (Boat, RV, van, etc.) Units_Estimate"
+DP04_0016E,Total housing units_Estimate
+DP04_0017E,Units Built 2014 or later_Estimate
+DP04_0018E,Units Built 2010 to 2013_Estimate
+DP04_0019E,Units Built 2000 to 2009_Estimate
+DP04_0020E,Units Built 1990 to 1999_Estimate
+DP04_0021E,Units Built 1980 to 1989_Estimate
+DP04_0022E,Units Built 1970 to 1979_Estimate
+DP04_0023E,Units Built 1960 to 1969_Estimate
+DP04_0024E,Units Built 1950 to 1959_Estimate
+DP04_0025E,Units Built 1940 to 1949_Estimate
+DP04_0026E,Units Built 1939 or earlier_Estimate
+DP04_0027E,Total housing units_Estimate
+DP04_0028E,1 room Units_Estimate
+DP04_0029E,2 room Units_Estimate
+DP04_0030E,3 room Units_Estimate
+DP04_0031E,4 room Units_Estimate
+DP04_0032E,5 room Units_Estimate
+DP04_0033E,6 room Units_Estimate
+DP04_0034E,7 room Units_Estimate
+DP04_0035E,8 room Units_Estimate
+DP04_0036E,9 + room Units_Estimate
+DP04_0037E,Median rooms_Estimate
+DP04_0038E,Total housing units_Estimate
+DP04_0039E,No bedroom Units_Estimate
+DP04_0040E,1 bedroom Units_Estimate
+DP04_0041E,2 bedroom Units_Estimate
+DP04_0042E,3 bedroom Units_Estimate
+DP04_0043E,4 bedroom Units_Estimate
+DP04_0044E,5 + bedroom Units_Estimate
+DP04_0045E,Occupied housing units_Estimate
+DP04_0046E,Owner-occupied_Estimate
+DP04_0047E,Renter-occupied_Estimate
+DP04_0048E,Average household size of owner-occupied unit_Estimate
+DP04_0049E,Average household size of renter-occupied unit_Estimate
+DP04_0050E,Occupied housing units_Estimate
+DP04_0051E,Moved in 2017 or later_Estimate
+DP04_0052E,Moved in 2015 to 2016_Estimate
+DP04_0053E,Moved in 2010 to 2014_Estimate
+DP04_0054E,Moved in 2000 to 2009_Estimate
+DP04_0055E,Moved in 1990 to 1999_Estimate
+DP04_0056E,Moved in 1989 and earlier_Estimate
+DP04_0057E,Occupied housing units_Estimate
+DP04_0058E,No vehicles available_Estimate
+DP04_0059E,1 vehicle available_Estimate
+DP04_0060E,2 vehicles available_Estimate
+DP04_0061E,3 or more vehicles available_Estimate
+DP04_0062E,Occupied housing units_Estimate
+DP04_0063E,Utility gas_Estimate
+DP04_0064E,"Bottled, tank, or LP gas_Estimate"
+DP04_0065E,Electricity_Estimate
+DP04_0066E,"Fuel oil, kerosene, etc._Estimate"
+DP04_0067E,Coal or coke_Estimate
+DP04_0068E,Wood_Estimate
+DP04_0069E,Solar energy_Estimate
+DP04_0070E,Other fuel_Estimate
+DP04_0071E,No fuel used_Estimate
+DP04_0072E,Occupied housing units_Estimate
+DP04_0073E,Lacking complete plumbing facilities_Estimate
+DP04_0074E,Lacking complete kitchen facilities_Estimate
+DP04_0075E,No telephone service available_Estimate
+DP04_0076E,Occupied housing units_Estimate
+DP04_0077E,1.00 or less Occupants per Room_Estimate
+DP04_0078E,1.01 to 1.50 Occupants per Room_Estimate
+DP04_0079E,1.51 or more Occupants per Room_Estimate
+DP04_0080E,Owner-occupied units_Estimate
+DP04_0081E,"Home Value (Owner-Occupied Units): Less than $50,000_Estimate"
+DP04_0082E,"Home Value (Owner-Occupied Units): $50,000 to $99,999_Estimate"
+DP04_0083E,"Home Value (Owner-Occupied Units): $100,000 to $149,999_Estimate"
+DP04_0084E,"Home Value (Owner-Occupied Units): $150,000 to $199,999_Estimate"
+DP04_0085E,"Home Value (Owner-Occupied Units): $200,000 to $299,999_Estimate"
+DP04_0086E,"Home Value (Owner-Occupied Units): $300,000 to $499,999_Estimate"
+DP04_0087E,"Home Value (Owner-Occupied Units): $500,000 to $999,999_Estimate"
+DP04_0088E,"Home Value (Owner-Occupied Units): $1,000,000 or more_Estimate"
+DP04_0089E,Median Owner-Occupied Home Value_Estimate
+DP04_0090E,Owner-occupied units_Estimate
+DP04_0091E,Housing units with a mortgage_Estimate
+DP04_0092E,Housing units without a mortgage_Estimate
+DP04_0093E,Housing units with a mortgage_Estimate
+DP04_0094E,Monthly Owner Costs (Units with a Mortgage): Less than $500_Estimate
+DP04_0095E,Monthly Owner Costs (Units with a Mortgage): $500 to $999_Estimate
+DP04_0096E,"Monthly Owner Costs (Units with a Mortgage): $1,000 to $1,499_Estimate"
+DP04_0097E,"Monthly Owner Costs (Units with a Mortgage): $1,500 to $1,999_Estimate"
+DP04_0098E,"Monthly Owner Costs (Units with a Mortgage): $2,000 to $2,499_Estimate"
+DP04_0099E,"Monthly Owner Costs (Units with a Mortgage): $2,500 to $2,999_Estimate"
+DP04_0100E,"Monthly Owner Costs (Units with a Mortgage): $3,000 or more_Estimate"
+DP04_0101E,Median Monthly Owner Costs (Units with a Mortgage)_Estimate
+DP04_0102E,Housing units without a mortgage_Estimate
+DP04_0103E,Monthly Owner Costs (Units without a Mortgage): Less than $250_Estimate
+DP04_0104E,Monthly Owner Costs (Units without a Mortgage): $250 to $399_Estimate
+DP04_0105E,Monthly Owner Costs (Units without a Mortgage): $400 to $599_Estimate
+DP04_0106E,Monthly Owner Costs (Units without a Mortgage): $600 to $799_Estimate
+DP04_0107E,Monthly Owner Costs (Units without a Mortgage): $800 to $999_Estimate
+DP04_0108E,"Monthly Owner Costs (Units without a Mortgage): $1,000 or more_Estimate"
+DP04_0109E,Median (dollars)_Estimate
+DP04_0110E,Housing units with a mortgage (excluding units where SMOCAPI cannot be computed)_Estimate
+DP04_0111E,Units with a mortgage where monthly costs are Less than 20.0 percent_Estimate
+DP04_0112E,Units with a mortgage where monthly costs are 20.0 to 24.9 percent_Estimate
+DP04_0113E,Units with a mortgage where monthly costs are 25.0 to 29.9 percent_Estimate
+DP04_0114E,Units with a mortgage where monthly costs are 30.0 to 34.9 percent_Estimate
+DP04_0115E,Units with a mortgage where monthly costs are 35.0 percent or more_Estimate
+DP04_0116E,Not computed (Units with a Mortgage)_Estimate
+DP04_0117E,Housing unit without a mortgage (excluding units where SMOCAPI cannot be computed)_Estimate
+DP04_0118E,Units without a mortgage where monthly costs are Less than 10.0 percent_Estimate
+DP04_0119E,Units without a mortgage where monthly costs are 10.0 to 14.9 percent_Estimate
+DP04_0120E,Units without a mortgage where monthly costs are 15.0 to 19.9 percent_Estimate
+DP04_0121E,Units without a mortgage where monthly costs are 20.0 to 24.9 percent_Estimate
+DP04_0122E,Units without a mortgage where monthly costs are 25.0 to 29.9 percent_Estimate
+DP04_0123E,Units without a mortgage where monthly costs are 30.0 to 34.9 percent_Estimate
+DP04_0124E,Units without a mortgage where monthly costs are 35.0 percent or more_Estimate
+DP04_0125E,Not computed (Units without a Mortgage)_Estimate
+DP04_0126E,Occupied units paying rent_Estimate
+DP04_0127E,Gross Rent: Less than $500_Estimate
+DP04_0128E,Gross Rent: $500 to $999_Estimate
+DP04_0129E,"Gross Rent: $1,000 to $1,499_Estimate"
+DP04_0130E,"Gross Rent: $1,500 to $1,999_Estimate"
+DP04_0131E,"Gross Rent: $2,000 to $2,499_Estimate"
+DP04_0132E,"Gross Rent: $2,500 to $2,999_Estimate"
+DP04_0133E,"Gross Rent: $3,000 or more_Estimate"
+DP04_0134E,Gross Rent: Median (dollars)_Estimate
+DP04_0135E,No rent paid_Estimate
+DP04_0136E,Occupied units paying rent (excluding units where GRAPI cannot be computed)_Estimate
+DP04_0137E,Gross Rent as a Percentage of Household Income: Less than 15.0 percent_Estimate
+DP04_0138E,Gross Rent as a Percentage of Household Income: 15.0 to 19.9 percent_Estimate
+DP04_0139E,Gross Rent as a Percentage of Household Income: 20.0 to 24.9 percent_Estimate
+DP04_0140E,Gross Rent as a Percentage of Household Income: 25.0 to 29.9 percent_Estimate
+DP04_0141E,Gross Rent as a Percentage of Household Income: 30.0 to 34.9 percent_Estimate
+DP04_0142E,Gross Rent as a Percentage of Household Income: 35.0 percent or more_Estimate
+DP04_0143E,Gross Rent Percentage Not computed_Estimate

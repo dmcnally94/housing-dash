@@ -47,7 +47,8 @@ hist = pd.read_csv(str(pop_path / "h_pop.csv"))
 
 # Data Transformations
 df1 = df[['County Name','Total housing units_Estimate',
-          'Vacant housing units_Estimate','Homeowner vacancy rate_Estimate','Rental vacancy rate_Estimate']]
+          'Vacant housing units_Estimate','Homeowner vacancy rate_Estimate','Rental vacancy rate_Estimate', 
+          'Owner-occupied_Estimate', 'Renter-occupied_Estimate']]
 df2 = df[['County Name','Single Family, Detached Units_Estimate','Single Family, Attached Units_Estimate',
           'Duplex Units_Estimate','Triplex or Fourplex Units_Estimate',
           'Low Rise Multifamily (5-9 units) Units_Estimate', 
@@ -67,6 +68,9 @@ df3['Units Built Before 2010'] = (df3['Units Built 2000 to 2009_Estimate'] +
                                  df3['Units Built 1940 to 1949_Estimate'] + 
                                  df3['Units Built 1939 or earlier_Estimate'])
 df3['Units Built 2010 and Later'] = df3['Total housing units_Estimate'] - df3['Units Built Before 2010']
+
+#Option Lists
+monthly_options = ['Household Income', 'Monthly Rent', 'Monthly Homeowner Costs (Mortgage)', 'Monthly Homeowner Costs (No Mortgage)']
 
 #App Creation
 external_stylesheets = [
@@ -157,7 +161,7 @@ def render_content(tab):
                 className = 'body-break'
             ),
             html.Div(
-                className = 'row two columns',
+                className = 'main-cards',
                 children = [
                 html.Div(
                     className = 'box',
@@ -174,12 +178,7 @@ def render_content(tab):
                             dcc.Graph(id = 'units-type'),
                         ]),    
                     ]
-                )
-                ]
-            ),
-            html.Div(
-                className = 'row two columns',
-                children = [    
+                ), 
                 html.Div(
                     className = 'box',
                     children = [
@@ -196,11 +195,6 @@ def render_content(tab):
                         ]),
                     ]
                 ),
-                ]
-            ),
-            html.Div(
-                className = 'row two columns',
-                children = [ 
                 html.Div(
                     className = 'box',
                     children = [
@@ -208,12 +202,7 @@ def render_content(tab):
                             dcc.Graph(id = 'hud-units'),
                         ]),
                     ]
-                )           
-                ]
-            ),
-            html.Div(
-                className = 'row two columns',
-                children = [ 
+                ),           
                 html.Div(
                     className = 'box',
                     children = [
@@ -231,7 +220,6 @@ def render_content(tab):
             ),
         ]
         )        
-
 
     elif tab == 'tab-2':
         return html.Div([
@@ -275,6 +263,25 @@ def render_content(tab):
                     children = [  
                         html.Div([
                             dcc.Graph(id = 'home-gap'),
+                        ]),
+                    ]    
+                ),
+            ]),
+            html.Div(
+                className = 'row two columns',
+                children = [
+                html.Div(
+                    className = 'box',
+                    children = [
+                        html.Div(
+                            dcc.Dropdown(
+                            id='mdropdown',
+                            options=[{"label":c, "value":c} for c in sorted(monthly_options)],
+                            placeholder = 'Household Income',
+                            value = 'Household Income'),
+                            className = 'regulardd'),
+                        html.Div([
+                            dcc.Graph(id = 'm-dist'),
                         ]),
                     ]    
                 ),
@@ -392,13 +399,18 @@ def countyn_update(value):
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def update_units_vacancy(value):
     dff = df1[df1['County Name'] == value]
-    dff_cols = ['Total Housing Units', 'Vacant Housing Units', 'Homeowner Vacancy Rate', 'Rental Vacancy Rate']
+    dff_cols = ['Total Housing Units', 'Vacant Housing Units', 'Homeowner Vacancy Rate', 'Rental Vacancy Rate', 'Homeowner Share of Households', 
+    'Renter Share of Households']
     dff['Homeowner vacancy rate_Estimate'] = dff['Homeowner vacancy rate_Estimate']/100
     dff['Rental vacancy rate_Estimate'] = dff['Rental vacancy rate_Estimate']/100
+    dff['Owner-occupied_Estimate'] = dff['Owner-occupied_Estimate']/(dff['Owner-occupied_Estimate'] + dff['Renter-occupied_Estimate']) 
+    dff['Renter-occupied_Estimate'] = 1 - dff['Owner-occupied_Estimate']
     dff['Total housing units_Estimate'] = dff.apply(lambda x: "{:,}".format(x['Total housing units_Estimate']), axis=1)
     dff['Vacant housing units_Estimate'] = dff.apply(lambda x: "{:,}".format(x['Vacant housing units_Estimate']), axis=1)
     dff['Homeowner vacancy rate_Estimate'] = dff.apply(lambda x: "{:.1%}".format(float(x['Homeowner vacancy rate_Estimate'])), axis=1)
     dff['Rental vacancy rate_Estimate'] = dff.apply(lambda x: "{:.1%}".format(float(x['Rental vacancy rate_Estimate'])), axis=1)
+    dff['Owner-occupied_Estimate'] = dff.apply(lambda x: "{:.1%}".format(float(x['Owner-occupied_Estimate'])), axis=1)
+    dff['Renter-occupied_Estimate'] = dff.apply(lambda x: "{:.1%}".format(float(x['Renter-occupied_Estimate'])), axis=1)
     dff = dff.transpose()
     dff.columns = [' ']
     dff = dff.iloc[1:]
@@ -670,6 +682,69 @@ def update_homegap(value):
     else:
         return no_data_fig
 
+###Income & Costs Graph
+@app.callback(
+    dash.dependencies.Output('m-dist', 'figure'),
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('mdropdown', 'value')])
+def updatehcosts(value,tablechoice):
+    rent_variables = ['Gross Rent: Less than $500_Estimate', 'Gross Rent: $500 to $999_Estimate', 'Gross Rent: $1,000 to $1,499_Estimate',
+                  'Gross Rent: $1,500 to $1,999_Estimate', 'Gross Rent: $2,000 to $2,499_Estimate', 'Gross Rent: $2,500 to $2,999_Estimate',
+                  'Gross Rent: $3,000 or more_Estimate']
+    homeownermort_variables = ['Monthly Owner Costs (Units with a Mortgage): Less than $500_Estimate',
+                           'Monthly Owner Costs (Units with a Mortgage): $500 to $999_Estimate',
+                           'Monthly Owner Costs (Units with a Mortgage): $1,000 to $1,499_Estimate',
+                           'Monthly Owner Costs (Units with a Mortgage): $1,500 to $1,999_Estimate',
+                           'Monthly Owner Costs (Units with a Mortgage): $2,000 to $2,499_Estimate',
+                           'Monthly Owner Costs (Units with a Mortgage): $2,500 to $2,999_Estimate',
+                           'Monthly Owner Costs (Units with a Mortgage): $3,000 or more_Estimate']
+    homeownernomort_variables = ['Monthly Owner Costs (Units without a Mortgage): Less than $250_Estimate',
+                           'Monthly Owner Costs (Units without a Mortgage): $250 to $399_Estimate',
+                           'Monthly Owner Costs (Units without a Mortgage): $400 to $599_Estimate',
+                           'Monthly Owner Costs (Units without a Mortgage): $600 to $799_Estimate',
+                           'Monthly Owner Costs (Units without a Mortgage): $800 to $999_Estimate',
+                           'Monthly Owner Costs (Units without a Mortgage): $1,000 or more_Estimate']
+    householdincome_variables = ['INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_Less than $10,000_Estimate',
+                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$10,000 to $14,999_Estimate',
+                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$15,000 to $24,999_Estimate',
+                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$25,000 to $34,999_Estimate',
+                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$35,000 to $49,999_Estimate',
+                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$50,000 to $74,999_Estimate',
+                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$75,000 to $99,999_Estimate',
+                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$100,000 to $149,999_Estimate',
+                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$150,000 to $199,999_Estimate',
+                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$200,000 or more_Estimate']
+    
+    if tablechoice == 'Household Income':
+        worksheet = ep[ep['County Name'] == value]
+        worksheet = worksheet[householdincome_variables]
+        x_axis = ['Less than $10,000', '$10,000 - $14,999', '$15,000 - $24,999', '$25,000 - $34,999', '$35,000 - $49,999', '$50,000 - $74,999', '$75,000 - $99,999', '$100,000 - $149,999', 
+                '$150,000 - $199,999', '$200,000 or More']
+        y_axis = list(worksheet.iloc[0])
+    else:
+        worksheet = df[df['County Name'] == value]
+        if tablechoice == 'Monthly Rent':
+            worksheet = worksheet[rent_variables]
+            x_axis = ['Less than $500', '$500 - $999', '$1,000 - $1,499', '$1,500 - $1,999', '$2,000 - $2,499', '$2,500 - $2,999',
+                    '$3,000 or More']
+            y_axis = list(worksheet.iloc[0])
+        elif tablechoice == 'Monthly Homeowner Costs (Mortgage)':
+            worksheet = worksheet[homeownermort_variables]
+            x_axis = ['Less than $500', '$500 - $999', '$1,000 - $1,499', '$1,500 - $1,999', '$2,000 - $2,499', '$2,500 - $2,999',
+                    '$3,000 or More']
+            y_axis = list(worksheet.iloc[0])
+        else:
+            worksheet = worksheet[homeownernomort_variables]
+            x_axis = ['Less than $250', '$250 - $399', '$400 - $599', '$600 - $799', '$800 - $999', '$1,000 or More']
+            y_axis = list(worksheet.iloc[0])
+    fig15 = go.Figure(data=[go.Bar(x=x_axis, y=y_axis)])
+    fig15.update_layout(
+        yaxis=dict(
+        title='Count of Households',
+        titlefont_size=16,),
+    )
+    return fig15
+
 ##Household Assistance Table
 @app.callback(
     dash.dependencies.Output('hh-assist', 'figure'),
@@ -770,7 +845,7 @@ def update_ages(value):
     age1 = age
     
     ###Create Graph
-    fig10 = fig = make_subplots(shared_xaxes=False,
+    fig10 = make_subplots(shared_xaxes=False,
                     shared_yaxes=True, vertical_spacing=0.001)
     fig10.append_trace(go.Bar(
         x=female_pop,
