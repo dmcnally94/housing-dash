@@ -160,64 +160,67 @@ def render_content(tab):
                 ' ',
                 className = 'body-break'
             ),
-            html.Div(
-                className = 'main-cards',
+            html.Div(className = 'main',
                 children = [
                 html.Div(
-                    className = 'box',
-                    children = [  
-                        html.Div([
-                            dcc.Graph(id = 'units-vacancy'),
-                        ]),
-                    ]    
+                    className = 'main-cards',
+                    children = [
+                    html.Div(
+                        className = 'box',
+                        children = [  
+                            html.Div([
+                                dcc.Graph(id = 'units-vacancy'),
+                            ]),
+                        ]    
+                    ),
+                    html.Div(
+                        className = 'box',
+                        children = [
+                            html.Div([
+                                dcc.Graph(id = 'units-type'),
+                            ]),    
+                        ]
+                    ), 
+                    html.Div(
+                        className = 'box',
+                        children = [
+                            html.Div([
+                                dcc.Graph(id = 'bed-t'),
+                            ]),
+                        ]
+                    ),
+                    html.Div(
+                        className = 'box',
+                        children = [
+                            html.Div([
+                                dcc.Graph(id = 'unit-age'),
+                            ]),
+                        ]
+                    ),
+                    html.Div(
+                        className = 'box',
+                        children = [
+                            html.Div([
+                                dcc.Graph(id = 'hud-units'),
+                            ]),
+                        ]
+                    ),           
+                    html.Div(
+                        className = 'box',
+                        children = [
+                            html.Div([
+                                html.H4('Sources:'),
+                                html.H6('1) U.S. Census Bureau, American Community Survey Table: DP04, latest 5-Year Estimates'),
+                                html.H6('2) U.S. Census Bureau, American Community Survey Table: DP04, latest 5-Year Estimates'),
+                                html.H6('3) U.S. Census Bureau, American Community Survey Table: DP04, latest 5-Year Estimates'),
+                                html.H6('4) U.S. Census Bureau, American Community Survey Table: DP04, latest 5-Year Estimates'),
+                                html.H6('5) HUD Picture of Subsidized Households & Low-Income Housing Tax Credit Data Dataset, 2019')
+                            ]),
+                        ]
+                    )           
+                    ]
                 ),
-                html.Div(
-                    className = 'box',
-                    children = [
-                        html.Div([
-                            dcc.Graph(id = 'units-type'),
-                        ]),    
-                    ]
-                ), 
-                html.Div(
-                    className = 'box',
-                    children = [
-                        html.Div([
-                            dcc.Graph(id = 'bed-t'),
-                        ]),
-                    ]
-                ),
-                html.Div(
-                    className = 'box',
-                    children = [
-                        html.Div([
-                            dcc.Graph(id = 'unit-age'),
-                        ]),
-                    ]
-                ),
-                html.Div(
-                    className = 'box',
-                    children = [
-                        html.Div([
-                            dcc.Graph(id = 'hud-units'),
-                        ]),
-                    ]
-                ),           
-                html.Div(
-                    className = 'box',
-                    children = [
-                        html.Div([
-                            html.H4('Sources:'),
-                            html.H6('1) U.S. Census Bureau, American Community Survey Table: DP04, latest 5-Year Estimates'),
-                            html.H6('2) U.S. Census Bureau, American Community Survey Table: DP04, latest 5-Year Estimates'),
-                            html.H6('3) U.S. Census Bureau, American Community Survey Table: DP04, latest 5-Year Estimates'),
-                            html.H6('4) U.S. Census Bureau, American Community Survey Table: DP04, latest 5-Year Estimates'),
-                            html.H6('5) HUD Picture of Subsidized Households & Low-Income Housing Tax Credit Data Dataset, 2019')
-                        ]),
-                    ]
-                )           
-                ]
-            ),
+            ]),
         ]
         )        
 
