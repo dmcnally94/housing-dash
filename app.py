@@ -871,7 +871,6 @@ def update_race(value):
     tr2.columns = ['Population Count']
     tr2.insert(0,'Population by Race', race, True)
     
-
     ###Create Graph
     fig25 = px.bar(tr2, x='Population by Race', y='Population Count')
     return fig25
