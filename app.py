@@ -25,10 +25,26 @@ pop_path =  base_path / "pop_proj" / "hist_d"
 today = pd.read_csv(str(base_path /"today.csv"))
 
 #ACS DP02-05 Data
-df = pd.read_csv(str(census_path /"acs5_dp04.csv"))
-dp = pd.read_csv(str(census_path / "acs5_dp02.csv"))
-ep = pd.read_csv(str(census_path / "acs5_dp03.csv"))
-tp = pd.read_csv(str(census_path / "acs5_dp05.csv"))
+df = pd.read_csv(str(census_path /"DP04acs5_county.csv"))
+dp = pd.read_csv(str(census_path / "DP02acs5_county.csv"))
+ep = pd.read_csv(str(census_path / "DP03acs5_county.csv"))
+tp = pd.read_csv(str(census_path / "DP05acs5_county.csv"))
+
+df_cols = df.columns.values
+df_cols[0] = 'County Name'
+df.columns = df_cols
+
+dp_cols = dp.columns.values
+dp_cols[0] = 'County Name'
+dp.columns = dp_cols
+
+ep_cols = ep.columns.values
+ep_cols[0] = 'County Name'
+ep.columns = ep_cols
+
+tp_cols = tp.columns.values
+tp_cols[0] = 'County Name'
+tp.columns = tp_cols
 
 #HUD Program and LIHTC Data
 hud1 = pd.read_csv(str(hud_path / "hudunits.csv"))
@@ -44,30 +60,6 @@ hhs = pd.read_csv(str(census_path / "acs5_s2501.csv"))
 
 #Historical Pop Data
 hist = pd.read_csv(str(pop_path / "h_pop.csv"))
-
-# Data Transformations
-df1 = df[['County Name','Total housing units_Estimate',
-          'Vacant housing units_Estimate','Homeowner vacancy rate_Estimate','Rental vacancy rate_Estimate', 
-          'Owner-occupied_Estimate', 'Renter-occupied_Estimate']]
-df2 = df[['County Name','Single Family, Detached Units_Estimate','Single Family, Attached Units_Estimate',
-          'Duplex Units_Estimate','Triplex or Fourplex Units_Estimate',
-          'Low Rise Multifamily (5-9 units) Units_Estimate', 
-          'Medium Rise Multifamily (10-19 units) Units_Estimate','Large Multifamily (20+ units) Units_Estimate',
-          'Mobile home Units_Estimate','Other (Boat, RV, van, etc.) Units_Estimate']]
-df3 = df[['County Name','Total housing units_Estimate','Units Built 2000 to 2009_Estimate', 
-          'Units Built 1990 to 1999_Estimate', 'Units Built 1980 to 1989_Estimate',
-          'Units Built 1970 to 1979_Estimate', 'Units Built 1960 to 1969_Estimate', 
-          'Units Built 1950 to 1959_Estimate', 'Units Built 1940 to 1949_Estimate',
-          'Units Built 1939 or earlier_Estimate']]
-df3['Units Built Before 2010'] = (df3['Units Built 2000 to 2009_Estimate'] + 
-                                 df3['Units Built 1990 to 1999_Estimate'] + 
-                                 df3['Units Built 1980 to 1989_Estimate'] + 
-                                 df3['Units Built 1970 to 1979_Estimate'] + 
-                                 df3['Units Built 1960 to 1969_Estimate'] + 
-                                 df3['Units Built 1950 to 1959_Estimate'] + 
-                                 df3['Units Built 1940 to 1949_Estimate'] + 
-                                 df3['Units Built 1939 or earlier_Estimate'])
-df3['Units Built 2010 and Later'] = df3['Total housing units_Estimate'] - df3['Units Built Before 2010']
 
 #Option Lists
 monthly_options = ['Household Income', 'Monthly Rent', 'Monthly Homeowner Costs (Mortgage)', 'Monthly Homeowner Costs (No Mortgage)']
@@ -402,22 +394,22 @@ def countyn_update(value):
     dash.dependencies.Output('units-vacancy', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def update_units_vacancy(value):
-    dff = df1[df1['County Name'] == value]
-    dff_cols = ['Total Housing Units', 'Vacant Housing Units', 'Homeowner Vacancy Rate', 'Rental Vacancy Rate', 'Homeowner Share of Households', 
-    'Renter Share of Households']
-    dff['Homeowner vacancy rate_Estimate'] = dff['Homeowner vacancy rate_Estimate']/100
-    dff['Rental vacancy rate_Estimate'] = dff['Rental vacancy rate_Estimate']/100
-    dff['Owner-occupied_Estimate'] = dff['Owner-occupied_Estimate']/(dff['Owner-occupied_Estimate'] + dff['Renter-occupied_Estimate']) 
-    dff['Renter-occupied_Estimate'] = 1 - dff['Owner-occupied_Estimate']
-    dff['Total housing units_Estimate'] = dff.apply(lambda x: "{:,}".format(x['Total housing units_Estimate']), axis=1)
-    dff['Vacant housing units_Estimate'] = dff.apply(lambda x: "{:,}".format(x['Vacant housing units_Estimate']), axis=1)
-    dff['Homeowner vacancy rate_Estimate'] = dff.apply(lambda x: "{:.1%}".format(float(x['Homeowner vacancy rate_Estimate'])), axis=1)
-    dff['Rental vacancy rate_Estimate'] = dff.apply(lambda x: "{:.1%}".format(float(x['Rental vacancy rate_Estimate'])), axis=1)
-    dff['Owner-occupied_Estimate'] = dff.apply(lambda x: "{:.1%}".format(float(x['Owner-occupied_Estimate'])), axis=1)
-    dff['Renter-occupied_Estimate'] = dff.apply(lambda x: "{:.1%}".format(float(x['Renter-occupied_Estimate'])), axis=1)
+    dff = df[df['County Name'] == value]
+    dff = dff[['DP04_0001E','DP04_0003E','DP04_0004E','DP04_0005E','DP04_0046E','DP04_0047E']]
+    dff['DP04_0004E'] = dff['DP04_0004E']/100
+    dff['DP04_0005E'] = dff['DP04_0005E']/100
+    dff['DP04_0046E'] = dff['DP04_0046E']/(dff['DP04_0046E'] + dff['DP04_0047E']) 
+    dff['DP04_0047E'] = 1 - dff['DP04_0046E']
+    dff['DP04_0001E'] = dff.apply(lambda x: "{:,}".format(x['DP04_0001E']), axis=1)
+    dff['DP04_0003E'] = dff.apply(lambda x: "{:,}".format(x['DP04_0003E']), axis=1)
+    dff['DP04_0004E'] = dff.apply(lambda x: "{:.1%}".format(float(x['DP04_0004E'])), axis=1)
+    dff['DP04_0005E'] = dff.apply(lambda x: "{:.1%}".format(float(x['DP04_0005E'])), axis=1)
+    dff['DP04_0046E'] = dff.apply(lambda x: "{:.1%}".format(float(x['DP04_0046E'])), axis=1)
+    dff['DP04_0047E'] = dff.apply(lambda x: "{:.1%}".format(float(x['DP04_0047E'])), axis=1)
     dff = dff.transpose()
     dff.columns = [' ']
-    dff = dff.iloc[1:]
+    dff_cols = ['Total Housing Units', 'Vacant Housing Units', 'Homeowner Vacancy Rate', 'Rental Vacancy Rate', 'Homeowner Share of Households', 
+    'Renter Share of Households']
     dff.insert(0,'Total Units and Vacancies', dff_cols, True) 
     fig3 =  ff.create_table(dff)
     
@@ -429,9 +421,8 @@ def update_units_vacancy(value):
     dash.dependencies.Output('units-type', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def update_units_type(value):
-    dfg = df2[df2['County Name'] == value]
-    dfg = dfg[['Single Family, Detached Units_Estimate','Single Family, Attached Units_Estimate','Duplex Units_Estimate','Triplex or Fourplex Units_Estimate','Low Rise Multifamily (5-9 units) Units_Estimate',
-'Medium Rise Multifamily (10-19 units) Units_Estimate','Large Multifamily (20+ units) Units_Estimate','Mobile home Units_Estimate','Other (Boat, RV, van, etc.) Units_Estimate']]
+    dfg = df[df['County Name'] == value]
+    dfg = dfg[['DP04_0007E','DP04_0008E','DP04_0009E','DP04_0010E','DP04_0011E','DP04_0012E','DP04_0013E','DP04_0014E','DP04_0015E']]
     dfg = dfg.transpose()
     dfg.columns = ['# of Units']
     htype_list = ['Single Family, Detached', 'Single Family, Attached', 'Duplex Units', 'Triplex or Fourplex','Low Rise Multifamily (5-9 units)','Medium Rise Multifamily (10-19 units)',
@@ -439,7 +430,6 @@ def update_units_type(value):
             ]
     dfg.insert(0,'Unit Type', htype_list, True) 
     fig = px.bar(dfg, x='Unit Type', y='# of Units')
-
 
     return fig
 
@@ -450,8 +440,7 @@ def update_units_type(value):
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def update_beds(value):
     bed = df[df['County Name'] == value]
-    bed1 = bed[['No bedroom Units_Estimate', '1 bedroom Units_Estimate', '2 bedroom Units_Estimate', '3 bedroom Units_Estimate', '4 bedroom Units_Estimate',
-        '5 + bedroom Units_Estimate']]
+    bed1 = bed[['DP04_0039E', 'DP04_0040E', 'DP04_0041E', 'DP04_0042E', 'DP04_0043E', 'DP04_0044E']]
     bed2 = bed1.transpose()
     bed2.columns = ['# of Units']
     b_list = ['Studio Units', '1 Bedroom Units', '2 Bedroom Units', '3 Bedroom Units','4 Bedroom Units','5+ Bedroom Units']
@@ -460,23 +449,33 @@ def update_beds(value):
     
     return fig13
 
-
-
 ###Age of Units Graph
 @app.callback(
     dash.dependencies.Output('unit-age', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def update_unit_age(value):
-    dfage = df3[df3['County Name'] == value]
-    dfage = dfage[['Units Built 1939 or earlier_Estimate', 'Units Built 1940 to 1949_Estimate', 'Units Built 1950 to 1959_Estimate', 'Units Built 1960 to 1969_Estimate', 'Units Built 1970 to 1979_Estimate',
-'Units Built 1980 to 1989_Estimate', 'Units Built 1990 to 1999_Estimate', 'Units Built 2000 to 2009_Estimate', 'Units Built 2010 and Later']]
+    df3 = df[df['County Name'] == value]
+    df3 = df3[['DP04_0016E','DP04_0019E','DP04_0020E', 'DP04_0021E','DP04_0022E', 'DP04_0023E', 
+          'DP04_0024E', 'DP04_0025E','DP04_0026E']]
+    df3['Units Built Before 2010'] = (df3['DP04_0019E'] + 
+                                    df3['DP04_0020E'] + 
+                                    df3['DP04_0021E'] + 
+                                    df3['DP04_0022E'] + 
+                                    df3['DP04_0023E'] + 
+                                    df3['DP04_0024E'] + 
+                                    df3['DP04_0025E'] + 
+                                    df3['DP04_0026E'])
+    df3['Units Built 2010 and Later'] = df3['DP04_0016E'] - df3['Units Built Before 2010']
+    
+    df3 = df3[['DP04_0026E','DP04_0025E', 'DP04_0024E','DP04_0023E', 'DP04_0022E', 
+          'DP04_0021E', 'DP04_0020E','DP04_0019E','Units Built 2010 and Later']]
     builtyear = ['Units Built 1939 or Earlier', 'Units Built Between 1940 and 1949', 'Units Built Between 1950 and 1959', 'Units Built Between 1960 and 1969', 'Units Built Between 1970 and 1979',
 'Units Built Between 1980 and 1989', 'Units Built Between 1990 and 1999', 'Units Built Between 2000 and 2009', 'Units Built 2010 and Later']
-    dfage = dfage.transpose()
-    dfage.columns = ['# of Units']
+    df3 = df3.transpose()
+    df3.columns = ['# of Units']
     
-    dfage.insert(0,'Year Built', builtyear, True)
-    fig1 = px.bar(dfage, x='Year Built', y='# of Units')
+    df3.insert(0,'Year Built', builtyear, True)
+    fig1 = px.bar(df3, x='Year Built', y='# of Units')
     return fig1
 
 ###Assisted Households Table
@@ -519,15 +518,11 @@ def update_hudunits(value):
 def update_hhinc(value):
     ###Pull Data
     ep1 = ep[ep['County Name'] == value]
-    ep2 = ep1[['INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_Median household income (dollars)_Estimate',]]
-    ep3 = ep2['INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_Median household income (dollars)_Estimate']
+    ep2 = ep1[['DP03_0062E']]
+    ep3 = ep2['DP03_0062E']
     ep3 = float(ep3)
     hrv = df[df['County Name'] == value]
-    hrv1 = hrv[['Median Owner-Occupied Home Value_Estimate',
-    'Gross Rent: Median (dollars)_Estimate',
-    'Median Monthly Owner Costs (Units with a Mortgage)_Estimate',
-    'Median (dollars)_Estimate'
-    ]]
+    hrv1 = hrv[['DP04_0089E','DP04_0134E','DP04_0101E','DP04_0109E']]
 
     ###Put Together Data
     hrv1.insert(0,'Median Household Income', ep3, True) 
@@ -692,33 +687,12 @@ def update_homegap(value):
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('mdropdown', 'value')])
 def updatehcosts(value,tablechoice):
-    rent_variables = ['Gross Rent: Less than $500_Estimate', 'Gross Rent: $500 to $999_Estimate', 'Gross Rent: $1,000 to $1,499_Estimate',
-                  'Gross Rent: $1,500 to $1,999_Estimate', 'Gross Rent: $2,000 to $2,499_Estimate', 'Gross Rent: $2,500 to $2,999_Estimate',
-                  'Gross Rent: $3,000 or more_Estimate']
-    homeownermort_variables = ['Monthly Owner Costs (Units with a Mortgage): Less than $500_Estimate',
-                           'Monthly Owner Costs (Units with a Mortgage): $500 to $999_Estimate',
-                           'Monthly Owner Costs (Units with a Mortgage): $1,000 to $1,499_Estimate',
-                           'Monthly Owner Costs (Units with a Mortgage): $1,500 to $1,999_Estimate',
-                           'Monthly Owner Costs (Units with a Mortgage): $2,000 to $2,499_Estimate',
-                           'Monthly Owner Costs (Units with a Mortgage): $2,500 to $2,999_Estimate',
-                           'Monthly Owner Costs (Units with a Mortgage): $3,000 or more_Estimate']
-    homeownernomort_variables = ['Monthly Owner Costs (Units without a Mortgage): Less than $250_Estimate',
-                           'Monthly Owner Costs (Units without a Mortgage): $250 to $399_Estimate',
-                           'Monthly Owner Costs (Units without a Mortgage): $400 to $599_Estimate',
-                           'Monthly Owner Costs (Units without a Mortgage): $600 to $799_Estimate',
-                           'Monthly Owner Costs (Units without a Mortgage): $800 to $999_Estimate',
-                           'Monthly Owner Costs (Units without a Mortgage): $1,000 or more_Estimate']
-    householdincome_variables = ['INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_Less than $10,000_Estimate',
-                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$10,000 to $14,999_Estimate',
-                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$15,000 to $24,999_Estimate',
-                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$25,000 to $34,999_Estimate',
-                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$35,000 to $49,999_Estimate',
-                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$50,000 to $74,999_Estimate',
-                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$75,000 to $99,999_Estimate',
-                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$100,000 to $149,999_Estimate',
-                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$150,000 to $199,999_Estimate',
-                             'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_$200,000 or more_Estimate']
-    
+    rent_variables = ['DP04_0127E', 'DP04_0128E', 'DP04_0129E','DP04_0130E', 'DP04_0131E', 'DP04_0132E','DP04_0133E']
+    homeownermort_variables = ['DP04_0094E','DP04_0095E','DP04_0096E','DP04_0097E','DP04_0098E','DP04_0099E','DP04_0100E']
+    homeownernomort_variables = ['DP04_0103E','DP04_0104E','DP04_0105E','DP04_0106E','DP04_0107E','DP04_0108E']
+    householdincome_variables = ['DP03_0052E','DP03_0053E','DP03_0054E','DP03_0055E','DP03_0056E','DP03_0057E','DP03_0058E','DP03_0059E',
+                                'DP03_0060E','DP03_0061E']
+
     if tablechoice == 'Household Income':
         worksheet = ep[ep['County Name'] == value]
         worksheet = worksheet[householdincome_variables]
@@ -756,14 +730,7 @@ def updatehcosts(value,tablechoice):
 def update_hhassist(value):
     ###Pull Data
     ep1 = ep[ep['County Name'] == value]
-    ep2 = ep1[['INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_Estimate',
-    'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_Median household income (dollars)_Estimate',
-    'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_With Social Security_Estimate',
-    'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_With retirement income_Estimate',
-    'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_With Supplemental Security Income_Estimate',
-    'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_With cash public assistance income_Estimate',
-    'INCOME AND BENEFITS (IN 2018 INFLATION-ADJUSTED DOLLARS)_Total households_With Food Stamp/SNAP benefits in the past 12 months_Estimate'
-    ]]
+    ep2 = ep1[['DP03_0051E','DP03_0062E','DP03_0066E','DP03_0068E','DP03_0070E','DP03_0072E','DP03_0074E']]
     ep2.columns = ['totalhh', 'medHHinc', 'totalhhssec', 'totalhhretire', 'totalhhssi', 'totalhhcash', 'totalhhsnap']
    
     ###Calculations
@@ -897,25 +864,16 @@ def update_ages(value):
 def update_race(value):
     ###Pull and Collate Data
     tr = tp[tp['County Name'] == value]
-    tr1 = tr[['HISPANIC OR LATINO AND RACE_Total population_Not Hispanic or Latino_White alone_Estimate',
-          'HISPANIC OR LATINO AND RACE_Total population_Not Hispanic or Latino_Black or African American alone_Estimate',
-          'HISPANIC OR LATINO AND RACE_Total population_Hispanic or Latino (of any race)_Estimate',
-          'HISPANIC OR LATINO AND RACE_Total population_Not Hispanic or Latino_American Indian and Alaska Native alone_Estimate',
-          'HISPANIC OR LATINO AND RACE_Total population_Not Hispanic or Latino_Asian alone_Estimate',
-          'HISPANIC OR LATINO AND RACE_Total population_Not Hispanic or Latino_Native Hawaiian and Other Pacific Islander alone_Estimate',
-          'HISPANIC OR LATINO AND RACE_Total population_Not Hispanic or Latino_Some other race alone_Estimate',
-          'HISPANIC OR LATINO AND RACE_Total population_Not Hispanic or Latino_Two or more races_Estimate'
-          ]]
+    tr1 = tr[['DP05_0077E','DP05_0078E','DP05_0071E','DP05_0079E','DP05_0080E','DP05_0081E','DP05_0082E','DP05_0083E']]
     race = ['White', 'Black', 'Latinx', 'Native American/Alaskan Native', 'Asian', 'Hawaiian/Pacific Islander', 'Other Race',
     'Two or More Races']
     tr2 = tr1.transpose()
     tr2.columns = ['Population Count']
     tr2.insert(0,'Population by Race', race, True)
-    tr2['Population Count'] = tr2.apply(lambda x: "{:,}".format(x['Population Count']), axis=1)
-
+    
     ###Create Graph
-    fig11 = px.bar(tr2, x='Population by Race', y='Population Count')
-    return fig11
+    fig25 = px.bar(tr2, x='Population by Race', y='Population Count')
+    return fig25
 
 
 ##Population by Sex
@@ -943,21 +901,12 @@ def update_sex(value):
 def update_special(value):
     ###Pull and Collate Data
     dp1 = dp[dp['County Name'] == value]
-    dp2 = dp1[['HOUSEHOLDS BY TYPE_Total households_Estimate',
-        'HOUSEHOLDS BY TYPE_Total households_Family households (families)_Male householder, no wife present, family_With own children of the householder under 18 years_Estimate',
-        'HOUSEHOLDS BY TYPE_Total households_Family households (families)_Female householder, no husband present, family_With own children of the householder under 18 years_Estimate',
-        'DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_Total Civilian Noninstitutionalized Population_Estimate',
-        'DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_Total Civilian Noninstitutionalized Population_With a disability_Estimate',
-        'DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_65 years and over_Estimate',
-        'DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_65 years and over_With a disability_Estimate',
-        'LANGUAGE SPOKEN AT HOME_Population 5 years and over_Estimate',
-        'LANGUAGE SPOKEN AT HOME_Population 5 years and over_Language other than English_Speak English less than "very well"_Estimate'
-       ]]
-    sparenthh = (dp2['HOUSEHOLDS BY TYPE_Total households_Family households (families)_Male householder, no wife present, family_With own children of the householder under 18 years_Estimate']+dp2['HOUSEHOLDS BY TYPE_Total households_Family households (families)_Female householder, no husband present, family_With own children of the householder under 18 years_Estimate'])
-    dp2['% Single Parent Households'] = sparenthh/dp2['HOUSEHOLDS BY TYPE_Total households_Estimate']      
-    dp2['% of People with Disabilities'] = dp2['DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_Total Civilian Noninstitutionalized Population_With a disability_Estimate']/dp2['DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_Total Civilian Noninstitutionalized Population_Estimate']
-    dp2['% of Individuals 65 and Over with Disabilities'] = dp2['DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_65 years and over_With a disability_Estimate']/dp2['DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION_65 years and over_Estimate']
-    dp2['% of Non-Fluent English Speakers'] = dp2['LANGUAGE SPOKEN AT HOME_Population 5 years and over_Language other than English_Speak English less than "very well"_Estimate']/dp2['LANGUAGE SPOKEN AT HOME_Population 5 years and over_Estimate']
+    dp2 = dp1[['DP02_0001E','DP02_0007E','DP02_0011E','DP02_0071E','DP02_0072E','DP02_0077E','DP02_0078E','DP02_0111E','DP02_0114E']]
+    sparenthh = (dp2['DP02_0007E']+dp2['DP02_0011E'])
+    dp2['% Single Parent Households'] = sparenthh/dp2['DP02_0001E']      
+    dp2['% of People with Disabilities'] = dp2['DP02_0072E']/dp2['DP02_0071E']
+    dp2['% of Individuals 65 and Over with Disabilities'] = dp2['DP02_0078E']/dp2['DP02_0077E']
+    dp2['% of Non-Fluent English Speakers'] = dp2['DP02_0114E']/dp2['DP02_0111E']
     dp3 = dp2[['% Single Parent Households', '% of People with Disabilities', '% of Individuals 65 and Over with Disabilities', '% of Non-Fluent English Speakers']]
     dp3['% Single Parent Households'] = dp3.apply(lambda x: "{:.1%}".format(x['% Single Parent Households']), axis=1)
     dp3['% of People with Disabilities'] = dp3.apply(lambda x: "{:.1%}".format(x['% of People with Disabilities']), axis=1)
