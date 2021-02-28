@@ -7,16 +7,17 @@ import csv
 from pathlib import Path
 
 #Presets (Check to Update)
-savename = 'dashdata'
-base_path = Path(__file__).resolve().parent / "data"
+savename = "dashdata.csv"
+base_path = Path(__file__).resolve().parent
 chas_path = chas_path = base_path / "CHAS_data"
 datadic = "/CHAS data dictionary 13-17.xlsx"
-save_path = Path(__file__).resolve().parent / "data"
+save_path = Path(__file__).resolve().parent
 year = 2019
 profiles = ['DP03', 'DP04', 'DP05']
 geography = 'county'
 geotype = '*'
 censuskey = '54690f8093283c11c9612c58bc15b56ba3a26373'
+
 
 #Variables (Check Periodically)
 unit_vacancy_variables = ['DP04_0001E','DP04_0003E','DP04_0004E','DP04_0005E','DP04_0046E','DP04_0047E']
@@ -77,7 +78,7 @@ today_pop_variable = ['DP05_0001E']
 today_pop_var_name = ['Total Population']
 
 hhsize_variables = ['S2501_C01_001E','S2501_C01_002E','S2501_C01_003E','S2501_C01_004E','S2501_C01_005E']
-hhsize_var_names = ['Occupied Households', '1 Person Households', '2 Person Households', '3 person Households', '4+ Person Households']
+hhsize_var_names = ['Occupied Households', '1 Person Households', '2 Person Households', '3 Person Households', '4+ Person Households']
 
 variables = [unit_vacancy_variables,unit_type_variables,unit_bedrooms_variables,unit_age_variables,housing_cost_variables,unit_rent_variables,
             unit_mort_variables,unit_nomort_variables,hhincome_variables,hhassistance_variables,race_variables,sex_variables,
@@ -354,17 +355,17 @@ dash_data['% of Non-Fluent English Speakers'] = dash_data['Population 5 years an
 
 #CHAS DATA Pull (NEED TO PUT CHAS DATA IN CHAS PATH)
 #Pull in Files
-datadic17a = pd.read_excel(chas_path + datadic, sheet_name = 'Table 17A')
-datadic17b = pd.read_excel(chas_path + datadic, sheet_name = 'Table 17B')
-datadic18a = pd.read_excel(chas_path + datadic, sheet_name = 'Table 18A')
-datadic18b = pd.read_excel(chas_path + datadic, sheet_name = 'Table 18B')
-datadic18c = pd.read_excel(chas_path + datadic, sheet_name = 'Table 18C')
+datadic17a = pd.read_excel(str(chas_path) + datadic, sheet_name = 'Table 17A')
+datadic17b = pd.read_excel(str(chas_path) + datadic, sheet_name = 'Table 17B')
+datadic18a = pd.read_excel(str(chas_path) + datadic, sheet_name = 'Table 18A')
+datadic18b = pd.read_excel(str(chas_path) + datadic, sheet_name = 'Table 18B')
+datadic18c = pd.read_excel(str(chas_path) + datadic, sheet_name = 'Table 18C')
 
-seventeena = pd.read_csv(str(chas_path + "/Table17A.csv"), encoding='cp1252')
-seventeenb = pd.read_csv(str(chas_path + "/Table17B.csv"), encoding='cp1252')
-eighteena = pd.read_csv(str(chas_path + "/Table18A.csv"), encoding='cp1252')
-eighteenb = pd.read_csv(str(chas_path + "/Table18B.csv"), encoding='cp1252')
-eighteenc = pd.read_csv(str(chas_path + "/Table18C.csv"), encoding='cp1252')
+seventeena = pd.read_csv(str(chas_path) + "/Table17A.csv", encoding='cp1252')
+seventeenb = pd.read_csv(str(chas_path) + "/Table17B.csv", encoding='cp1252')
+eighteena = pd.read_csv(str(chas_path) + "/Table18A.csv", encoding='cp1252')
+eighteenb = pd.read_csv(str(chas_path) + "/Table18B.csv", encoding='cp1252')
+eighteenc = pd.read_csv(str(chas_path) + "/Table18C.csv", encoding='cp1252')
 
 #Renter/Owner Compilation
 
@@ -539,7 +540,7 @@ gap_data = gap_data[['GEO_ID','rentersless30','renters3050','renters5080','rente
 #Calculations
 gap_data['less30rentgap'] = gap_data['rentersless30']-gap_data['runitsless30']
 gap_data['3050rentgap'] = gap_data['renters3050']-gap_data['runits3050']
-gap_data['3050rentgap'] = gap_data['renters5080']-gap_data['runits5080']
+gap_data['5080rentgap'] = gap_data['renters5080']-gap_data['runits5080']
 gap_data['80uprentgap'] = (gap_data['renters80100']+gap_data['renters100up'])-gap_data['runits80up']
 
 gap_data['less50owngap'] = (gap_data['ownersless30']+gap_data['owners3050'])-gap_data['ounitsless50']
@@ -700,8 +701,8 @@ merge_variables.extend(racepoptotals)
 pop_variables = poptable[merge_variables]
 dash_data = dash_data.merge(pop_variables,on='GEO_ID',how='left')
 
-dash_data.to_csv(save_path+savename+'.csv')
-print('UPDATE COMPLETE!')
+dash_data.to_csv(str(save_path / savename))
+print('UPDATE COMPLETE! SAVED TO '+str(save_path))
 
 
 
