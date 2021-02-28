@@ -24,7 +24,6 @@ pop_path =  base_path / "pop_proj" / "hist_d"
 
 #Current Pop Data
 data = pd.read_csv(str(base_path /"dashdata.csv"))
-today = pd.read_csv(str(base_path /"today.csv"))
 
 #HUD Program and LIHTC Data
 hud1 = pd.read_csv(str(hud_path / "hudunits.csv"))
