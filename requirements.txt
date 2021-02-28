@@ -19,10 +19,6 @@ dash_table == 4.11.1
 # C:\projects\housing-dash\housing-dash\datapull.py: 14
 matplotlib == 3.3.4
 
-# C:\projects\housing-dash\housing-dash\app.py: 7
-# C:\projects\housing-dash\housing-dash\data\update.py: 1
-# C:\projects\housing-dash\housing-dash\datapull.py: 7,15
-pandas == 1.2.0
 
 # C:\projects\housing-dash\housing-dash\app.py: 8,9,11,12
 # C:\projects\housing-dash\housing-dash\datapull.py: 8,9,11
