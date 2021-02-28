@@ -701,7 +701,7 @@ merge_variables.extend(racepoptotals)
 pop_variables = poptable[merge_variables]
 dash_data = dash_data.merge(pop_variables,on='GEO_ID',how='left')
 
-dash_data.to_csv(str(save_path / savename))
+dash_data.to_csv('C:/projects/housing-dash/data/dashdata.csv')
 print('UPDATE COMPLETE! SAVED TO '+str(save_path))
 
 
