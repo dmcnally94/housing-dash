@@ -31,4 +31,4 @@ requests == 2.25.1
 # C:\projects\housing-dash\housing-dash\datapull.py: 16
 statsmodels == 0.12.2
 
-gunicorn == 19.0.0
+gunicorn == 19.5.0
