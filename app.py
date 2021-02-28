@@ -46,6 +46,8 @@ tp_cols = tp.columns.values
 tp_cols[0] = 'County Name'
 tp.columns = tp_cols
 
+low_memory = False
+
 #HUD Program and LIHTC Data
 hud1 = pd.read_csv(str(hud_path / "hudunits.csv"))
 litc = pd.read_csv(str(hud_path / "lihtc.csv"))
@@ -130,9 +132,9 @@ app.layout = html.Div([
     html.Div(
     className="app-footer",
     children=[
-        html.Div('Housing Profile Dashboard v1.2: Produced By Devin McNally and Ryan McNally', className="app-footer--text"),
+        html.Div('Housing Profile Dashboard v1.3: Produced By Devin McNally and Ryan McNally', className="app-footer--text"),
         html.Div('All data is collected and presented at no cost. If you use this, please attribute this project!', className="app-footer--text"),
-        html.Div('Last Updated: June 13, 2020', className="app-footer--text")
+        html.Div('Last Updated: February 6, 2021', className="app-footer--text")
         ]
     ),
 ])
@@ -400,6 +402,7 @@ def update_units_vacancy(value):
     dff['DP04_0005E'] = dff['DP04_0005E']/100
     dff['DP04_0046E'] = dff['DP04_0046E']/(dff['DP04_0046E'] + dff['DP04_0047E']) 
     dff['DP04_0047E'] = 1 - dff['DP04_0046E']
+    dff['DP04_0001E'] = round( dff['DP04_0001E'])
     dff['DP04_0001E'] = dff.apply(lambda x: "{:,}".format(x['DP04_0001E']), axis=1)
     dff['DP04_0003E'] = dff.apply(lambda x: "{:,}".format(x['DP04_0003E']), axis=1)
     dff['DP04_0004E'] = dff.apply(lambda x: "{:.1%}".format(float(x['DP04_0004E'])), axis=1)
@@ -475,8 +478,8 @@ def update_unit_age(value):
     df3.columns = ['# of Units']
     
     df3.insert(0,'Year Built', builtyear, True)
-    fig1 = px.bar(df3, x='Year Built', y='# of Units')
-    return fig1
+    fig100 = px.bar(df3, x='Year Built', y='# of Units')
+    return fig100
 
 ###Assisted Households Table
 @app.callback(

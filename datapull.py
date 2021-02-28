@@ -55,7 +55,7 @@ sar5 = json.loads(acs5.text)
 sar6 = json.loads(acs6.text)
 sar7 = json.loads(acs7.text)
 sar8 = json.loads(acs8.text)
-df1 = pd.DataFrame(sar1[1:],columns=sar1[0])
+df1 = pd.DataFrame(sar1,columns=sar1[0])
 df2 = pd.DataFrame(sar2[1:],columns=sar2[0])
 df3 = pd.DataFrame(sar3[1:],columns=sar3[0])
 df4 = pd.DataFrame(sar4[1:],columns=sar4[0])
@@ -183,4 +183,7 @@ est5 = est5.drop('map',axis=1)
 
 est5.to_csv(str(base_path /"today.csv"), encoding='utf-8', index=False)
 print('Data Pulled: ACS Population 5-year Estimates for {}'.format(year1))
+
+
+
 
