@@ -178,13 +178,13 @@ def render_content(tab):
                 html.Div(
                     children = [
                     dcc.Graph(id = 'hud-units'),
-                    html.Div('U.S. Census Bureau, American Community Survey Table: DP04, {} 5-Year Estimates'.format(str(year)),className='sourcelabel'),
+                    html.Div('HUD Picture of Subsidized Households & Low-Income Housing Tax Credit Data Dataset, {}'.format(str(hudpictureyear)),className='sourcelabel'),
                     ],
                     className = 'tab1box'),
                 html.Div(
                     children = [
                     dcc.Graph(id = 'units-vacancy'),
-                    html.Div('HUD Picture of Subsidized Households & Low-Income Housing Tax Credit Data Dataset, {}'.format(str(hudpictureyear)),className='sourcelabel'),
+                    html.Div('U.S. Census Bureau, American Community Survey Table: DP04, {} 5-Year Estimates'.format(str(year)),className='sourcelabel'),
                     ],
                     className = 'tab1box'),
             ]),
