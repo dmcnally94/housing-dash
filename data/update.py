@@ -9,9 +9,9 @@ from pathlib import Path
 #Presets (Check to Update)
 savename = "dashdata.csv"
 base_path = Path(__file__).resolve().parent
-chas_path = chas_path = base_path / "CHAS_data"
+chas_path = base_path / "CHAS_data"
 datadic = "/CHAS data dictionary 13-17.xlsx"
-save_path = Path(__file__).resolve().parent
+save_path = 'C:/projects/housing-dash/data/'
 year = 2019
 profiles = ['DP03', 'DP04', 'DP05']
 geography = 'county'
@@ -701,7 +701,27 @@ merge_variables.extend(racepoptotals)
 pop_variables = poptable[merge_variables]
 dash_data = dash_data.merge(pop_variables,on='GEO_ID',how='left')
 
-dash_data.to_csv('C:/projects/housing-dash/data/dashdata.csv')
+dash_data.to_csv(str(base_path /"dashdata.csv"))
+
+#Dataframe for Download Transformations
+data = dash_data
+data = data.transpose()
+
+data = data.reset_index()
+pos = [2,3]
+data.drop(data.index[pos], inplace=True)
+
+new_header = data.iloc[1] 
+data.drop(data.index[1], inplace=True)
+data.columns = new_header 
+
+cols = list(data.columns)
+cols = cols[1:]
+cols.insert(0, 'Variable')
+data.columns = cols
+
+data.to_csv(str(base_path /"csvdownload.csv"))
+
 print('UPDATE COMPLETE! SAVED TO '+str(save_path))
 
 

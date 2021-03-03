@@ -1,63 +1,261 @@
 body {
     font-family: 'Roboto';
-    background-color: rgba(93,138,168, 0.3);
+    background-color: white;
 }
 h1, h2, h3, h4, h5, h6 {
     color: black
 }
-.app-header {
-    height: 60px;
-    line-height: 60px;
+
+.headgridcontainer{
+    display: grid;
+    grid-gap: 10px ;
+    padding: 10px;
+    border-width: 4px;
+    border-bottom: grey;
+    border-bottom-style:groove
+}
+
+.hbox{
+       
+}
+
+.item1{
+    grid-column: 1 / span 2;
+    grid-row: 1;
+    text-align: left;
+    
+}
+
+.item2{
+    text-align: center;
+    padding: 20px;
+    grid-column: 3;
+    grid-row: 1 / span 2
+}
+
+.item3{
+    grid-column: 1 / span 2;
+    grid-row: 2;
+    text-align: left;
+}
+
+.apptitle{
+    font-family: 'Raleway';
+    color: black;
+    font-size: 64px;
+    padding-left: 5px;
+}
+
+.titleunderline {
+    content: "";
+    background: black;
     width: 100%;
+    height: 3px;
+    border-radius: 3px;
 }
 
-.app-header .app-header--title {
+.Select-control{
+    border-radius: 0px;
+    background-color: white
+}
+
+.Select-control:hover{
+    cursor:pointer;
+    background-color:rgba(230, 230, 230, 1);
+}
+
+.Select-menu-outer:hover{
+    cursor:pointer
+}
+
+.VirtualizedSelectFocusedOption {
+    background-color: rgba(230, 230, 230, 1);
+    color: black;
+  }
+
+  .spacer{
+    height: 10px;
+}
+
+.custom-tabs-container{
+    width: 100%;
+}  
+
+.custom-tabs{
+    border-width: 1px;
+    border-style: solid;
+    border-color:slategrey;
+    
+}
+
+.custom-tab{
+    border-width: 1px;
+    border-style: solid;
+    border-color: slategrey;
+    padding: 6px;
+    font-weight: bold;
+    box-sizing:border-box;
+
+}
+
+.custom-tab--selected {
+    color: white!important;
+    border-left: 1px solid slategrey!important;
+    border-right: 1px solid slategrey !important;
+    border-top: 1px solid slategrey !important;
+    border-bottom: 1px solid slategrey!important;
+    background-color: steelblue!important;
+}
+
+.cards{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    grid-gap: 50px;
+    align-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.card{
+    display: grid;
+    grid-template-columns: 66% 34%;
+    grid-template-rows: 1fr auto;
+    background-color:whitesmoke;
+    width: 100%;
+    border-right: 1px solid darkslategrey;
+    border-left: 1px solid darkslategrey;
+    border-top: 1px solid darkslategrey;
+    border-bottom: 1px solid darkslategrey;
+    padding-left: 5px;
+}
+
+.cardcap{
+    grid-column: 2;
+    grid-row: span 2;
+    background-color:slategrey;
+    width: 100%;
+    border-right: 1px solid darkslategrey;
+    border-left: 1px solid darkslategrey;
+    border-top: 1px solid darkslategrey;
+    border-bottom: 1px solid darkslategrey;
+}
+
+.cardtitle{
     font-family: 'Raleway';
-    color: coral;
-    font-size: 36px;
-    padding-left: 5px;
-    background-color: rgba(93,138,168, 0.3);
-}
-
-.c-profile {
-    padding-top: 30px;
-    line-height: 100px;
-    background-color: rgba(93,138,168, 0.3)
-}
-
-.c-profile .c-profile--title {
-    font-family: 'Raleway';
-    font-size: 20px;
+    color: black;
+    font-size: 48px;
     padding-left: 5px;
 }
 
-.dropdown {
-    height: 40px;
-    line-height: 40px;
-    padding-left: 5px;
-    background-color: rgba(93,138,168, 0.3);
-
-}
-
-.dropdown .dropdown--lister {
-    width: 50%
-}
-
-.regulardd {
-    width: 50%
+.cardlabel{
+    grid-row: 2;
+    color: black;
 }
 
 .app-footer {
     height: 25px;
     line-height: 25px;
+    border-width: 4px;
+    border-top: grey;
+    border-top-style:groove
 }
 
 .app-footer .app-footer--text {
     font-family: 'Raleway';
-    color: coral;
+    color: black;
     font-size: 14px;
     padding-left: 5px;
 }
+
+.tab1grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    align-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.tab1box{
+    grid-template-rows: 90% 10%;
+    flex-direction: column;
+    display: flex;
+    align-content: center;
+    text-align: left;
+    margin: 5px;
+    -webkit-column-break-inside: avoid;
+}
+
+.tabbbox{
+    grid-template-rows: 90% 10%;
+    flex-direction: column;
+    display: flex;
+    align-content: bottom!important;
+    text-align: left;
+    margin: 5px;
+    -webkit-column-break-inside: avoid;
+}
+
+.span2box{
+    grid-column: span 2;
+    grid-template-rows: 90% 10%;
+    align-items: center;
+    margin: 5px;
+    -webkit-column-break-inside: avoid;
+}
+
+.sourcelabel{
+    font-family: 'Raleway';
+    color: slategray;
+    font-size: 10px;
+    padding-left: 5px;
+    align-self:left!important;
+}
+
+.download{
+    background-color: white;
+    border: 2px solid darkslategrey;
+    border-radius: 4px;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+
+ .download:hover {
+     background-color: whitesmoke;
+ }
+
+ .download:active {
+    background-color: whitesmoke;
+    box-shadow: 0 1px #666;
+    transform: translateY(4px);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .body-break {
     height: 40px;
@@ -135,3 +333,9 @@ h1, h2, h3, h4, h5, h6 {
     grid-area: main;
     justify-content: center;
 }
+
+
+
+
+
+
