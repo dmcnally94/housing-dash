@@ -522,31 +522,99 @@ gap_data['ounits5080'] = gap_data[ounits5080].sum(axis=1)
 gap_data['ounits80100'] = gap_data[ounits80100].sum(axis=1)
 gap_data['ounits100up'] = gap_data[ounits100up].sum(axis=1)
 
+#Units Occupied By High Income Group
+
+#Identification
+test1 = datadic18c[datadic18c['Rent'] == 'less than or equal to RHUD30']
+test1 = test1[(test1['Household income'] == 'greater than 30% of HAMFI but less than or equal to 50% of HAMFI') | (test1['Household income'] == 'greater than 50% of HAMFI but less than or equal to 80% of HAMFI') | 
+              (test1['Household income'] == 'greater than 80% of HAMFI but less than or equal to 100% of HAMFI') | (test1['Household income'] == 'greater than 100% of HAMFI')]
+rless30hhabove = test1['Column Name'].tolist()
+
+test1 = datadic18c[datadic18c['Rent'] == 'greater than RHUD30 and less than or equal to RHUD50']
+test1 = test1[(test1['Household income'] == 'greater than 50% of HAMFI but less than or equal to 80% of HAMFI') | 
+              (test1['Household income'] == 'greater than 80% of HAMFI but less than or equal to 100% of HAMFI') | (test1['Household income'] == 'greater than 100% of HAMFI')]
+r3050hhabove = test1['Column Name'].tolist()
+
+test1 = datadic18c[datadic18c['Rent'] == 'greater than RHUD50 and less than or equal to RHUD80']
+test1 = test1[ (test1['Household income'] == 'greater than 80% of HAMFI but less than or equal to 100% of HAMFI') | (test1['Household income'] == 'greater than 100% of HAMFI')]
+r5080hhabove = test1['Column Name'].tolist()
+
+
+test1 = datadic18a[datadic18a['Home value'] == 'Value less than or equal to VHUD50']
+test1 = test1[(test1['Household income'] == 'greater than 50% of HAMFI but less than or equal to 80% of HAMFI') | 
+              (test1['Household income'] == 'greater than 80% of HAMFI but less than or equal to 100% of HAMFI') | (test1['Household income'] == 'greater than 100% of HAMFI')]
+hless50hhabove = test1['Column Name'].tolist()
+test1 = datadic18b[datadic18b['Home value'] == 'Value less than or equal to VHUD50']
+test1 = test1[(test1['Household income'] == 'greater than 50% of HAMFI but less than or equal to 80% of HAMFI') | 
+              (test1['Household income'] == 'greater than 80% of HAMFI but less than or equal to 100% of HAMFI') | (test1['Household income'] == 'greater than 100% of HAMFI')]
+hless50hhaboveb = test1['Column Name'].tolist()
+hless50hhabove.extend(hless50hhaboveb)
+
+test1 = datadic18a[datadic18a['Home value'] == 'Value greater than VHUD50 and less than or equal to VHUD80']
+test1 = test1[(test1['Household income'] == 'greater than 80% of HAMFI but less than or equal to 100% of HAMFI') | (test1['Household income'] == 'greater than 100% of HAMFI')]
+h5080hhabove = test1['Column Name'].tolist()
+test1 = datadic18b[datadic18b['Home value'] == 'Value greater than VHUD50 and less than or equal to VHUD80']
+test1 = test1[(test1['Household income'] == 'greater than 80% of HAMFI but less than or equal to 100% of HAMFI') | (test1['Household income'] == 'greater than 100% of HAMFI')]
+h5080hhaboveb = test1['Column Name'].tolist()
+h5080hhabove.extend(h5080hhaboveb)
+
+test1 = datadic18a[datadic18a['Home value'] == 'Value greater than VHUD80 and less than or equal to VHUD100']
+test1 = test1[test1['Household income'] == 'greater than 100% of HAMFI']
+h80100hhabove = test1['Column Name'].tolist()
+test1 = datadic18b[datadic18b['Home value'] == 'Value greater than VHUD80 and less than or equal to VHUD100']
+test1 = test1[test1['Household income'] == 'greater than 100% of HAMFI']
+h80100hhaboveb = test1['Column Name'].tolist()
+h80100hhabove.extend(h80100hhaboveb)
+
+gap_data['rless30hhabove'] = gap_data[rless30hhabove].sum(axis=1)
+gap_data['r3050hhabove'] = gap_data[r3050hhabove].sum(axis=1)
+gap_data['r5080hhabove'] = gap_data[r5080hhabove].sum(axis=1)
+
+
+gap_data['oless50hhabove'] = gap_data[hless50hhabove].sum(axis=1)
+gap_data['o5080hhabove'] = gap_data[h5080hhabove].sum(axis=1)
+gap_data['o80100hhabove'] = gap_data[h80100hhabove].sum(axis=1)
+
+
 #Clean Dataframe
 gap_data = gap_data[['geoid','name_x', 'st_x', 'cnty_x','rentersless30','renters3050','renters5080','renters80100','renters100up',
                    'ownersless30','owners3050','owners5080','owners80100','owners100up','runitsless30','runits3050','runits5080',
-                   'runits80up','ounitsless50','ounits5080','ounits80100','ounits100up']]
+                   'runits80up','ounitsless50','ounits5080','ounits80100','ounits100up', 'rless30hhabove', 'r3050hhabove', 'r5080hhabove',
+                    'oless50hhabove', 'o5080hhabove', 'o80100hhabove']]
 
 gapcolumns = ['GEO_ID','name','name_x','st', 'st_x','cnty_x','cnty','rentersless30','renters3050','renters5080','renters80100','renters100up',
                    'ownersless30','owners3050','owners5080','owners80100','owners100up','runitsless30','runits3050','runits5080',
-                   'runits80up','ounitsless50','ounits5080','ounits80100','ounits100up']
+                   'runits80up','ounitsless50','ounits5080','ounits80100','ounits100up', 'rless30hhabove', 'r3050hhabove', 'r5080hhabove',
+                    'oless50hhabove', 'o5080hhabove', 'o80100hhabove']
 
 gap_data.columns = gapcolumns
 
-gap_data = gap_data[['GEO_ID','rentersless30','renters3050','renters5080','renters80100','renters100up',
+gap_data = gap_data[['GEO_ID','name','rentersless30','renters3050','renters5080','renters80100','renters100up',
                    'ownersless30','owners3050','owners5080','owners80100','owners100up','runitsless30','runits3050','runits5080',
-                   'runits80up','ounitsless50','ounits5080','ounits80100','ounits100up']]
+                   'runits80up','ounitsless50','ounits5080','ounits80100','ounits100up', 'rless30hhabove', 'r3050hhabove', 'r5080hhabove',
+                    'oless50hhabove', 'o5080hhabove', 'o80100hhabove']]
 
 #Calculations
-gap_data['less30rentgap'] = gap_data['rentersless30']-gap_data['runitsless30']
-gap_data['3050rentgap'] = gap_data['renters3050']-gap_data['runits3050']
-gap_data['5080rentgap'] = gap_data['renters5080']-gap_data['runits5080']
-gap_data['80uprentgap'] = (gap_data['renters80100']+gap_data['renters100up'])-gap_data['runits80up']
+gap_data['grossless30rentgap'] = gap_data['runitsless30']-gap_data['rentersless30']
+gap_data['gross3050rentgap'] = gap_data['runits3050']-gap_data['renters3050']
+gap_data['gross5080rentgap'] = gap_data['runits5080']-gap_data['renters5080']
+gap_data['gross80uprentgap'] = gap_data['runits80up']-(gap_data['renters80100']+gap_data['renters100up'])
 
-gap_data['less50owngap'] = (gap_data['ownersless30']+gap_data['owners3050'])-gap_data['ounitsless50']
-gap_data['5080owngap'] = gap_data['owners5080']-gap_data['ounits5080']
-gap_data['80100owngap'] = gap_data['owners80100']-gap_data['ounits80100']
-gap_data['100upowngap'] = gap_data['owners100up']-gap_data['ounits100up']
+gap_data['grossless50owngap'] = gap_data['ounitsless50']-(gap_data['ownersless30']+gap_data['owners3050'])
+gap_data['gross5080owngap'] = gap_data['ounits5080']-gap_data['owners5080']
+gap_data['gross80100owngap'] = gap_data['ounits80100']-gap_data['owners80100']
+gap_data['gross100upowngap'] = gap_data['ounits100up']-gap_data['owners100up']
+
+
+gap_data['netless30rentgap'] = (gap_data['runitsless30']-gap_data['rless30hhabove'])-gap_data['rentersless30']
+gap_data['net3050rentgap'] = (gap_data['runits3050']-gap_data['r3050hhabove'])-gap_data['renters3050']
+gap_data['net5080rentgap'] = (gap_data['runits5080']-gap_data['r5080hhabove'])-gap_data['renters5080']
+gap_data['net80uprentgap'] = gap_data['gross80uprentgap']
+
+gap_data['netless50owngap'] = (gap_data['ounitsless50']-gap_data['oless50hhabove'])-(gap_data['ownersless30']+gap_data['owners3050'])
+gap_data['net5080owngap'] = (gap_data['ounits5080']-gap_data['o5080hhabove'])-gap_data['owners5080']
+gap_data['net80100owngap'] = (gap_data['ounits80100']-gap_data['o80100hhabove'])-gap_data['owners80100']
+gap_data['net100upowngap'] = gap_data['gross100upowngap']
 
 gap_data['GEO_ID'] = gap_data['GEO_ID'].apply(lambda x: x[:2] + '00' + x[2:])
 dash_data = dash_data.merge(gap_data,on='GEO_ID',how='left')

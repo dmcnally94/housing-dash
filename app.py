@@ -3,6 +3,7 @@ from pathlib import Path
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 import dash_table
 import pandas as pd
 import plotly.express as px
@@ -209,12 +210,28 @@ def render_content(tab):
                     className = 'span2box'),
                 html.Div(
                     children = [
+                    dbc.RadioItems(
+                        id='rentradio',
+                        options=[
+                            {'label': 'Gross Gap', 'value': 'grossgap'},
+                            {'label': 'Net Gap', 'value': 'netgap'},
+                        ],
+                        value='netgap',
+                        className = 'radios'), 
                     dcc.Graph(id = 'rent-gap'),
                     html.Div('HUD CHAS Dataset, {}'.format(chasyear),className='sourcelabel'),
                     ],
                     className = 'tab1box'),
                     html.Div(
                     children = [
+                    dbc.RadioItems(
+                        id='homeradio',
+                        options=[
+                            {'label': 'Gross Gap', 'value': 'grossgap'},
+                            {'label': 'Net Gap', 'value': 'netgap'},
+                        ],
+                        value='netgap',
+                        className = 'radios'),
                     dcc.Graph(id = 'home-gap'),
                     html.Div('HUD CHAS Dataset, {}'.format(chasyear),className='sourcelabel'),
                     ],
@@ -474,11 +491,16 @@ def update_hhinc(value):
 ##Rent Gap Graph
 @app.callback(
     dash.dependencies.Output('rent-gap', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_rentgap(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('rentradio', 'value')])
+def update_rentgap(value, radio):
     if "Puerto Rico" not in value:
         rentgap = data[data['NAME'] == value]
-        rentgap = rentgap[['less30rentgap','3050rentgap','5080rentgap','80uprentgap']]
+        if radio == 'grossgap':
+            rentgap = rentgap[['grossless30rentgap','gross3050rentgap','gross5080rentgap','gross80uprentgap']]
+        else:
+            rentgap = rentgap[['netless30rentgap','net3050rentgap','net5080rentgap','net80uprentgap']]
+        
         rentgap_col= ['Households Making Less than 30% AMI', 'Households Making Between 30% and 50% AMI', 
         'Households Making Between 50% and 80% AMI', 'Households Making More Than 80% AMI']
         rentgap.columns = rentgap_col
@@ -502,11 +524,17 @@ def update_rentgap(value):
 ##Home Gap Graph
 @app.callback(
     dash.dependencies.Output('home-gap', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_homegap(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('homeradio', 'value')])
+def update_homegap(value, radio):
     if "Puerto Rico" not in value:
         homegap = data[data['NAME'] == value]
-        homegap = homegap[['less50owngap','5080owngap','80100owngap','100upowngap']]
+        
+        if radio == 'grossgap':
+            homegap = homegap[['grossless50owngap','gross5080owngap','gross80100owngap','gross100upowngap']]
+        else:
+             homegap = homegap[['netless50owngap','net5080owngap','net80100owngap','net100upowngap']]
+
         homegap_col= ['Households Making Less than 50% AMI', 'Households Making Between 50% and 80% AMI', 
         'Households Making Between 80% and 100% AMI', 'Households Making More Than 100% AMI']
         homegap.columns = homegap_col
