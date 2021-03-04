@@ -4,6 +4,9 @@
 # C:\projects\housing-dash\housing-dash\datapull.py: 3
 dash == 1.18.1
 
+# C:\projects\housing-dash\housing-dash\app.py: 6
+dash_bootstrap_components == 0.11.3
+
 # C:\projects\housing-dash\housing-dash\app.py: 4
 # C:\projects\housing-dash\housing-dash\datapull.py: 4
 dash_core_components == 1.14.1
@@ -12,25 +15,25 @@ dash_core_components == 1.14.1
 # C:\projects\housing-dash\housing-dash\datapull.py: 5
 dash_html_components == 1.1.1
 
-# C:\projects\housing-dash\housing-dash\app.py: 6
+# C:\projects\housing-dash\housing-dash\app.py: 7
 # C:\projects\housing-dash\housing-dash\datapull.py: 6
 dash_table == 4.11.1
 
-# C:\projects\housing-dash\housing-dash\app.py: 15
+# C:\projects\housing-dash\housing-dash\app.py: 16
 future == 0.18.2
 
 # C:\projects\housing-dash\housing-dash\datapull.py: 14
 matplotlib == 3.3.4
 
-# C:\projects\housing-dash\housing-dash\app.py: 13
+# C:\projects\housing-dash\housing-dash\app.py: 14
 numpy == 1.19.4
 
-# C:\projects\housing-dash\housing-dash\app.py: 7
+# C:\projects\housing-dash\housing-dash\app.py: 8
 # C:\projects\housing-dash\housing-dash\data\update.py: 1
 # C:\projects\housing-dash\housing-dash\datapull.py: 7,15
 pandas == 1.2.0
 
-# C:\projects\housing-dash\housing-dash\app.py: 8,9,11,12
+# C:\projects\housing-dash\housing-dash\app.py: 9,10,12,13
 # C:\projects\housing-dash\housing-dash\datapull.py: 8,9,11
 plotly == 4.14.3
 

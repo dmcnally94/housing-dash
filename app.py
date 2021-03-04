@@ -505,7 +505,7 @@ def update_rentgap(value, radio):
         'Households Making Between 50% and 80% AMI', 'Households Making More Than 80% AMI']
         rentgap.columns = rentgap_col
         rentgap = rentgap.transpose()
-        rentgap.insert(0,'Household Income', rentgap_col, True) 
+        rentgap.insert(0,'Household Income', rentgap_col, True)
         rentgap.columns = ['Household Income', 'Unit Surplus/Deficit']
         yaxis = rentgap['Unit Surplus/Deficit'].tolist()
         rentgap['color'] = np.where(rentgap['Unit Surplus/Deficit']<0,'indianred', 'steelblue')
