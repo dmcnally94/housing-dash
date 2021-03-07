@@ -434,27 +434,22 @@ def update_unit_age(value):
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def update_hudunits(value):
     if "Puerto Rico" not in value:
-        h1 = hud1[hud1['location'] == value]
-        h2= h1[['program_label', 'number_reported']]
-        h2.columns = ['HUD Program', '# of Household Recipients']
-        h3 = h2[h2['# of Household Recipients'] > 0]
-        l1 = litc[litc['location'] == value]
-        l2 = l1[l1['li_units'].notnull()]
-        li_u = l2['li_units'].sum()
-        li_u = li_u.astype(int)
-        prog = h3['HUD Program'].tolist()
-        prog.append('LIHTC')
-        prognum = list(h3['# of Household Recipients'].values)
-        prognum.append(li_u)
-        progc = list(zip(prog,prognum))
-        pt = pd.DataFrame(progc, columns=['HUD Program', '# of Household Recipients'])
-        pt1 = pt[pt['# of Household Recipients'] > 0]
-        if int(len(pt1['# of Household Recipients'])) > 1:
-            pt1['# of Household Recipients'] = pt1.apply(lambda x: "{:,}".format(int(x['# of Household Recipients'])), axis=1)
-            fig4 =  ff.create_table(pt1)
-            return fig4
-        else:
-            return no_data_fig
+        h1 = data[data['NAME'] == value]
+
+        h2= h1[['Project Based Section 8', 'Housing Choice Vouchers', 'Public Housing', '202/PRAC', '811/PRAC', 'Mod Rehab',
+        'S236/BMIR', 'RentSup/RAP', 'LIHTC Units']]
+        h2.columns = ['Public Housing Units', 'Houcing Choice Voucher Recipients', 'Mod Rehab Units', 'Project Based Voucher Units', 'RenSup/RAP Units',
+           'S236/BMIR Units', '202/PRAC Units', '811/PRAC Units', 'LIHTC Units']
+        h2 = h2.transpose()
+        h2 = h2.reset_index()
+
+        h2.columns = ['HUD Assisted Units/Households ', '']
+        h2 = h2[h2[''] > 0]
+        h2[''] = h2[''].apply(lambda x: "{:,}".format(round(x)))
+        
+        fig4 =  ff.create_table(h2)
+        return fig4
+
 
     else:
         return no_data_fig
