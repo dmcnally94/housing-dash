@@ -10,6 +10,7 @@ from pathlib import Path
 savename = "dashdata.csv"
 base_path = Path(__file__).resolve().parent
 chas_path = base_path / "CHAS_data"
+chas_path = base_path / "CHAS_data"
 datadic = "/CHAS data dictionary 13-17.xlsx"
 save_path = 'C:/projects/housing-dash/data/'
 year = 2019
@@ -768,6 +769,52 @@ merge_variables.extend(femalepoplist)
 merge_variables.extend(racepoptotals)
 pop_variables = poptable[merge_variables]
 dash_data = dash_data.merge(pop_variables,on='GEO_ID',how='left')
+
+#Assisted Units
+lihtc = pd.read_csv(str(base_path / "LIHTCPUB.csv"),encoding='cp1252')
+hud = pd.read_excel(str(base_path / "assisted_units.xlsx"))
+
+hud['GEO_ID'] = '0500000US' + hud['code']
+programs = ['Project Based Section 8', 'Housing Choice Vouchers', 'Public Housing', '202/PRAC', '811/PRAC', 'Mod Rehab',
+      'S236/BMIR', 'RentSup/RAP']
+
+geoids = hud.GEO_ID.unique()
+xtest = pd.DataFrame(geoids, columns=['GEO_ID'])
+pnames = hud.program_label.unique()
+
+for i in pnames:
+    xtest[i]=hud.groupby('GEO_ID').apply(lambda x : x['number_reported'][x['program_label']==i].sum()).reset_index(level=0,drop=True)
+    xtest[i] = xtest[i].apply(lambda x: 0 if x<0 else x)
+    xtest = xtest.fillna(0)
+    xtest[i] = xtest[i].apply(lambda x: round(x))
+
+xtest = xtest[['GEO_ID','Project Based Section 8', 'Housing Choice Vouchers', 'Public Housing', '202/PRAC', '811/PRAC', 'Mod Rehab',
+      'S236/BMIR', 'RentSup/RAP']]
+
+dash_data = dash_data.merge(xtest, on='GEO_ID', how='left')
+
+lihtc['st'] = lihtc['st2010']
+lihtc['st'] = lihtc['st'].fillna(lihtc['st2000'])
+lihtc['st'] = lihtc['st'].fillna(lihtc['st1990'])
+lihtc = lihtc[lihtc['st'].notnull()]
+lihtc['st'] = lihtc['st'].apply(lambda x: round(x))
+lihtc['st_str'] = lihtc['st'].apply(lambda x: '0'+str(x) if len(str(x))<2 else str(x))
+
+lihtc['cnty'] = lihtc['cnty2010']
+lihtc['cnty'] = lihtc['cnty'].fillna(lihtc['cnty2000'])
+lihtc['cnty'] = lihtc['cnty'].fillna(lihtc['cnty1990'])
+lihtc = lihtc[lihtc['cnty'].notnull()]
+lihtc['cnty'] = lihtc['cnty'].apply(lambda x: round(x))
+lihtc['cnty_str'] = lihtc['cnty'].apply(lambda x: '00'+str(x) if len(str(x))<2 else ('0'+str(x) if len(str(x))<3 else str(x)))
+lihtc['code'] = lihtc['st_str']+lihtc['cnty_str']
+lihtc['GEO_ID'] = '0500000US' + lihtc['code']
+
+dash_data['LIHTC Units'] = dash_data['GEO_ID'].apply(lambda x: lihtc.query("GEO_ID == '" + x + "'")["li_units"].sum())
+dash_data['LIHTC Units'] = dash_data['LIHTC Units'].apply(lambda x: round(x))
+programs.append('LIHTC Units')
+
+dash_data['Assisted Units'] = dash_data[programs].sum(axis=1)
+
 
 dash_data.to_csv(str(base_path /"dashdata.csv"))
 
