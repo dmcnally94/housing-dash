@@ -28,7 +28,6 @@ chasyear = '2013-2017'
 # Base path to data files
 base_path = Path(__file__).resolve().parent / "data"
 census_path = base_path / "census_data"
-hud_path = base_path / "hud_prog_data"
 chas_path = base_path / "CHAS_data"
 pop_path =  base_path / "pop_proj" / "hist_d"
 asset_path = base_path / "assets"
@@ -36,10 +35,6 @@ asset_path = base_path / "assets"
 #Data
 data = pd.read_csv(str(base_path /"dashdata.csv"))
 csvdownload = pd.read_csv(str(base_path /"csvdownload.csv"))
-
-#HUD Program and LIHTC Data
-hud1 = pd.read_csv(str(hud_path / "hudunits.csv"))
-litc = pd.read_csv(str(hud_path / "lihtc.csv"))
 
 #Historical Pop Data
 hist = pd.read_csv(str(pop_path / "h_pop.csv"))
