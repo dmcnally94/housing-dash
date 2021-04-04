@@ -10,7 +10,6 @@ from pathlib import Path
 savename = "dashdata.csv"
 base_path = Path(__file__).resolve().parent
 chas_path = base_path / "CHAS_data"
-chas_path = base_path / "CHAS_data"
 datadic = "/CHAS data dictionary 13-17.xlsx"
 save_path = 'C:/projects/housing-dash/data/'
 year = 2019

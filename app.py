@@ -33,11 +33,14 @@ pop_path =  base_path / "pop_proj" / "hist_d"
 asset_path = base_path / "assets"
 
 #Data
-data = pd.read_csv(str(base_path /"dashdata.csv"))
-csvdownload = pd.read_csv(str(base_path /"csvdownload.csv"))
+countydata = pd.read_csv(str(base_path /"dashdata.csv"))
+countycsvdownload = pd.read_csv(str(base_path /"csvdownload.csv"))
+placedata = pd.read_csv(str(base_path /"pdashdata.csv"))
+placecsvdownload = pd.read_csv(str(base_path /"pcsvdownload.csv"))
 
 #Historical Pop Data
-hist = pd.read_csv(str(pop_path / "h_pop.csv"))
+countyhist = pd.read_csv(str(pop_path / "h_pop.csv"))
+placehist = pd.read_csv(str(pop_path / "place_hpop.csv"))
 
 #Option Lists
 monthly_options = ['Household Income', 'Monthly Rent', 'Monthly Homeowner Costs (Mortgage)', 'Monthly Homeowner Costs (No Mortgage)']
@@ -90,11 +93,18 @@ app.layout = html.Div([
             ]),
             html.Div(className='hbox item3',
                 children = [
+                    dbc.RadioItems(
+                        id='georadio',
+                        options=[
+                            {'label': 'Counties', 'value': 'counties'},
+                            {'label': 'Cities/Towns', 'value': 'citytown'},
+                        ],
+                        value='counties',
+                        className = 'radios'),
                     html.Div(dcc.Dropdown(
                         id='demo-dropdown',
-                        options=[{"label":c, "value":c} for c in sorted(data['NAME'])],
-                        placeholder = "Select a County...",
-                        value='Contra Costa County, California',),
+                        placeholder = "Select a Location...",
+                        ),
                         className = 'dropdown--lister'),
             ]),
     ]),
@@ -289,6 +299,27 @@ def render_content(tab):
 
 ##County Proflie Name Control
 @app.callback(
+    dash.dependencies.Output('demo-dropdown', 'options'),
+    [dash.dependencies.Input('georadio', 'value')])
+def countyn_update(gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+    return [{"label":c, "value":c} for c in sorted(data['NAME'])]
+
+
+@app.callback(
+    dash.dependencies.Output('demo-dropdown', 'value'),
+    [dash.dependencies.Input('georadio', 'value')])
+def countyn_update(gvalue):
+    if gvalue == 'counties':
+        return 'Contra Costa County, California'
+    else:
+        return 'Oakland city, California'
+
+@app.callback(
     dash.dependencies.Output('county-name', 'children'),
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def countyn_update(value):
@@ -297,8 +328,14 @@ def countyn_update(value):
 ##Top Cards
 @app.callback(
     dash.dependencies.Output('totalpopulation', 'children'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def countyn_update(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def countyn_update(value,gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
     units = data[data['NAME'] == value]
     units = units[['Total Population']]
     value = units['Total Population'].iloc[0]
@@ -307,8 +344,14 @@ def countyn_update(value):
 
 @app.callback(
     dash.dependencies.Output('totalhouseholds', 'children'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def countyn_update(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def countyn_update(value, gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
     units = data[data['NAME'] == value]
     units = units[['Total Households']]
     value = units['Total Households'].iloc[0]
@@ -317,8 +360,14 @@ def countyn_update(value):
 
 @app.callback(
     dash.dependencies.Output('totalhousing', 'children'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def countyn_update(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def countyn_update(value, gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
     units = data[data['NAME'] == value]
     units = units[['Total Housing Units']]
     value = units['Total Housing Units'].iloc[0]
@@ -327,8 +376,15 @@ def countyn_update(value):
 
 @app.callback(
     dash.dependencies.Output('download-link', 'href'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_download_link(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_download_link(value,gvalue):
+    if gvalue == 'counties':
+        csvdownload = countycsvdownload
+    else:
+        csvdownload = placecsvdownload
+
+    
     dff = csvdownload[['Variable', value]]
     csv_string = dff.to_csv(index=False, encoding='utf-8')
     csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote_plus(csv_string)
@@ -340,8 +396,15 @@ def update_download_link(value):
 ###Units and Vacancies Table
 @app.callback(
     dash.dependencies.Output('units-vacancy', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_units_vacancy(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_units_vacancy(value,gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     units = data[data['NAME'] == value]
     units = units[['Vacant Housing Units', 'Homeowner Vacancy Rate', 'Rental Vacancy Rate', 'Homeownership Rate', 
     'Rental Rate']]
@@ -364,8 +427,15 @@ def update_units_vacancy(value):
 ###Unit Type Graph
 @app.callback(
     dash.dependencies.Output('units-type', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_units_type(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_units_type(value,gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     unit_type = data[data['NAME'] == value]
     unit_type = unit_type[['Single Family, Detached', 'Single Family, Attached', 'Duplex Units', 'Triplex or Fourplex','Low Rise Multifamily (5-9 units)',
     'Medium Rise Multifamily (10-19 units)', 'Large Multifamily (20+ units)','Mobile Home','Other (Boat, RV, van, etc.)']]
@@ -385,8 +455,15 @@ def update_units_type(value):
 ###Num of Bedrooms Graph
 @app.callback(
     dash.dependencies.Output('bed-t', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_beds(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_beds(value,gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     bed = data[data['NAME'] == value]
     bed = bed[['Studio Units', '1 Bedroom Units', '2 Bedroom Units', '3 Bedroom Units','4 Bedroom Units','5+ Bedroom Units']]
     bed = bed.transpose()
@@ -403,8 +480,15 @@ def update_beds(value):
 ###Age of Units Graph
 @app.callback(
     dash.dependencies.Output('unit-age', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_unit_age(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_unit_age(value,gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     unitage = data[data['NAME'] == value]
     unitage = unitage[['Units Built 1939 or Earlier','Units Built Between 1940 and 1949','Units Built Between 1950 and 1959',
     'Units Built Between 1960 and 1969','Units Built Between 1970 and 1979','Units Built Between 1980 and 1989','Units Built Between 1990 and 1999',
@@ -426,8 +510,15 @@ def update_unit_age(value):
 ###Assisted Households Table
 @app.callback(
     dash.dependencies.Output('hud-units', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_hudunits(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_hudunits(value,gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     if "Puerto Rico" not in value:
         h1 = data[data['NAME'] == value]
 
@@ -454,8 +545,15 @@ def update_hudunits(value):
 ##Income and Costs Table
 @app.callback(
     dash.dependencies.Output('hh-inc', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_hhinc(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_hhinc(value,gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     incomeandmediancosts = data[data['NAME'] == value]
     incomeandmediancosts = incomeandmediancosts[['Median Household Income', 'Median Home Value', 'Median Gross Rent', 
     'Median Monthly Owner Costs (Mortgage)','Median Monthly Owner Costs (No Mortgage)']]
@@ -482,8 +580,15 @@ def update_hhinc(value):
 @app.callback(
     dash.dependencies.Output('rent-gap', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
-    dash.dependencies.Input('rentradio', 'value')])
-def update_rentgap(value, radio):
+    dash.dependencies.Input('rentradio', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_rentgap(value, radio,gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     if "Puerto Rico" not in value:
         rentgap = data[data['NAME'] == value]
         if radio == 'grossgap':
@@ -515,8 +620,15 @@ def update_rentgap(value, radio):
 @app.callback(
     dash.dependencies.Output('home-gap', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
-    dash.dependencies.Input('homeradio', 'value')])
-def update_homegap(value, radio):
+    dash.dependencies.Input('homeradio', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_homegap(value, radio,gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     if "Puerto Rico" not in value:
         homegap = data[data['NAME'] == value]
         
@@ -547,8 +659,15 @@ def update_homegap(value, radio):
 @app.callback(
     dash.dependencies.Output('m-dist', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
-    dash.dependencies.Input('mdropdown', 'value')])
-def updatehcosts(value,tablechoice):
+    dash.dependencies.Input('mdropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def updatehcosts(value,tablechoice,gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     worksheet= data[data['NAME'] == value]
 
     if tablechoice == 'Household Income':
@@ -590,8 +709,15 @@ def updatehcosts(value,tablechoice):
 ##Household Assistance Table
 @app.callback(
     dash.dependencies.Output('hh-assist', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_hhassist(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_hhassist(value, gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     ###Pull Data
     assistance= data[data['NAME'] == value]
     assistance = assistance[['% of Households on Social Security','% of Households Receiving Retirement Income',
@@ -618,16 +744,26 @@ def update_hhassist(value):
 ##Historical Population Trend
 @app.callback(
     dash.dependencies.Output('hist', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_hist(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_hist(value, gvalue):
+    if gvalue == 'counties':
+        hist = countyhist
+        data = countydata
+        yrs = ['1950', '1960', '1970', '1980', '1990', '2000', '2010', '2015']
+    else:
+        hist = placehist
+        data = placedata
+        yrs = ['2000', '2010', '2015']
+
+
     if "Puerto Rico" not in value:
         ###Pull and Collate Data
-        hist1 = hist[hist['map'] == value]
+        hist1 = hist[hist['NAME'] == value]
         current = data[data['NAME'] == value]
         current = current[['Total Population']]
         currentpop = current['Total Population'].iloc[0]
         hist1['current'] = currentpop
-        yrs = ['1950', '1960', '1970', '1980', '1990', '2000', '2010', '2015']
         yrs.append(str(year))
         hist2 = hist1.transpose()
         hist2 = hist2.iloc[3:]
@@ -648,8 +784,15 @@ def update_hist(value):
 ##Household Size
 @app.callback(
     dash.dependencies.Output('hhsize', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_hhsize(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_hhsize(value,gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     ###Pull and Collate Data
     hhs = data[data['NAME'] == value]
     hhs = hhs[['1 Person Households', '2 Person Households', '3 Person Households', '4+ Person Households']]
@@ -669,8 +812,15 @@ def update_hhsize(value):
 ##Population by Age
 @app.callback(
     dash.dependencies.Output('age-g', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_ages(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_ages(value, gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     ###Pull and Collate Data
     popage = data[data['NAME'] == value]
 
@@ -733,8 +883,15 @@ def update_ages(value):
 ##Population by Race
 @app.callback(
     dash.dependencies.Output('race-g', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_race(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value'),])
+def update_race(value, gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     ###Pull and Collate Data
     race = data[data['NAME'] == value]
     race = race[['White', 'Black', 'Latinx', 'Native American/Alaskan Native', 'Asian', 'Hawaiian/Pacific Islander', 'Other Race',
@@ -757,8 +914,15 @@ def update_race(value):
 ##Population by Sex
 @app.callback(
     dash.dependencies.Output('sex-g', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_sex(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_sex(value, gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     ###Pull and Collate Data
     sex = data[data['NAME'] == value]
     sex = sex[['Male Population', 'Female Population']]
@@ -776,8 +940,15 @@ def update_sex(value):
 ##Special Populations Table
 @app.callback(
     dash.dependencies.Output('spec-g', 'figure'),
-    [dash.dependencies.Input('demo-dropdown', 'value')])
-def update_special(value):
+    [dash.dependencies.Input('demo-dropdown', 'value'),
+    dash.dependencies.Input('georadio', 'value')])
+def update_special(value, gvalue):
+    if gvalue == 'counties':
+        data = countydata
+    else:
+        data = placedata
+
+
     ###Pull and Collate Data
     special = data[data['NAME'] == value]
     special = special[['% of Single Parent Househods','% of Inidividuals with a Disability','% of Inidividuals 65 or Older with a Disability',
