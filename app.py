@@ -968,5 +968,7 @@ def update_special(value, gvalue):
     fig12 = ff.create_table(special)
     return fig12
 
+
+
 if __name__ == '__main__':
     app.run_server(debug=True)
