@@ -36,7 +36,6 @@ asset_path = base_path / "assets"
 countydata = pd.read_csv(str(base_path /"dashdata.csv"))
 countycsvdownload = pd.read_csv(str(base_path /"csvdownload.csv"))
 placedata = pd.read_csv(str(base_path /"pdashdata.csv"))
-placecsvdownload = pd.read_csv(str(base_path /"pcsvdownload.csv"))
 
 #Historical Pop Data
 countyhist = pd.read_csv(str(pop_path / "h_pop.csv"))
@@ -381,14 +380,33 @@ def countyn_update(value, gvalue):
 def update_download_link(value,gvalue):
     if gvalue == 'counties':
         csvdownload = countycsvdownload
+        dff = csvdownload[['Variable', value]]
+        csv_string = dff.to_csv(index=False, encoding='utf-8')
+        csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote_plus(csv_string)
+        return csv_string
     else:
-        csvdownload = placecsvdownload
+        data = placedata
+        data = data[data['NAME']==value]
+        data = data.transpose()
+        data = data.reset_index()
+        pos = [0]
+        data.drop(data.index[pos], inplace=True)
 
+        new_header = data.iloc[1] 
+        data.drop(data.index[1], inplace=True)
+        data.columns = new_header 
+
+        cols = list(data.columns)
+        cols = cols[1:]
+        cols.insert(0, 'Variable')
+        data.columns = cols
+        data = data.apply(pd.to_numeric,errors = 'ignore')
+        csvdownload = data
     
-    dff = csvdownload[['Variable', value]]
-    csv_string = dff.to_csv(index=False, encoding='utf-8')
-    csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote_plus(csv_string)
-    return csv_string
+        dff = csvdownload
+        csv_string = dff.to_csv(index=False, encoding='utf-8')
+        csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote_plus(csv_string)
+        return csv_string
 
 
 ##TAB1 CALLBACKS
