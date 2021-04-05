@@ -80,8 +80,7 @@ app.layout = html.Div([
             children = [
                 html.Div(className='hbox item1',
                 children = [
-                    html.Div('Housing Profile Dashboard', className="apptitle"),
-                    html.Div(className='titleunderline')
+                    html.Img(src='https://www.devinmcnally.com/wp-content/uploads/2021/04/dashboard-icon-768x206.png'),
             ]),
             html.Div(className='hbox item2',
                 children = [
