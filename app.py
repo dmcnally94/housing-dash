@@ -4,7 +4,6 @@ import dash
 from dash import dcc
 from dash import html
 import dash_bootstrap_components as dbc
-from dash import dash_table
 import pandas as pd
 import plotly.express as px
 import plotly.figure_factory as ff
@@ -13,11 +12,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import urllib
-from future.standard_library import install_aliases
-install_aliases()
-from urllib.parse import urlparse, urlencode
-from urllib.request import urlopen, Request
-from urllib.error import HTTPError
+
 
 #Set Currency Locale and latest year
 locale.setlocale( locale.LC_ALL, '' )
