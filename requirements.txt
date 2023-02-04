@@ -28,7 +28,7 @@ pandas == 1.2.0
 
 # C:\projects\housing-dash\housing-dash\app.py: 9,10,12,13
 # C:\projects\housing-dash\housing-dash\datapull.py: 8,9,11
-plotly == 4.14.3
+plotly == 5.13.0
 
 # C:\projects\housing-dash\housing-dash\data\update.py: 5
 # C:\projects\housing-dash\housing-dash\datapull.py: 13
