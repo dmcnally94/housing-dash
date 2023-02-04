@@ -2,22 +2,9 @@
 
 # C:\projects\housing-dash\housing-dash\app.py: 3
 # C:\projects\housing-dash\housing-dash\datapull.py: 3
-dash == 1.18.1
+dash == 2.8.1
 
-# C:\projects\housing-dash\housing-dash\app.py: 6
-dash_bootstrap_components == 0.11.3
-
-# C:\projects\housing-dash\housing-dash\app.py: 4
-# C:\projects\housing-dash\housing-dash\datapull.py: 4
-dash_core_components == 1.14.1
-
-# C:\projects\housing-dash\housing-dash\app.py: 5
-# C:\projects\housing-dash\housing-dash\datapull.py: 5
-dash_html_components == 1.1.1
-
-# C:\projects\housing-dash\housing-dash\app.py: 7
-# C:\projects\housing-dash\housing-dash\datapull.py: 6
-dash_table == 4.11.1
+flask == 2.2.2
 
 # C:\projects\housing-dash\housing-dash\app.py: 16
 future == 0.18.2
