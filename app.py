@@ -3,7 +3,7 @@ from pathlib import Path
 import dash
 from dash import dcc
 from dash import html
-from dash import dbc
+import dash_bootstrap_components as dbc
 from dash import dash_table
 import pandas as pd
 import plotly.express as px
