@@ -16,7 +16,7 @@ future == 0.18.2
 matplotlib == 3.3.4
 
 # C:\projects\housing-dash\housing-dash\app.py: 14
-numpy == 1.25.0
+numpy == 1.24.1
 
 # C:\projects\housing-dash\housing-dash\app.py: 8
 # C:\projects\housing-dash\housing-dash\data\update.py: 1
