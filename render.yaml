@@ -4,5 +4,4 @@ services:
     name: housing-dash
     env: python
     plan: free 
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --chdir src app:server
+    startCommand: "gunicorn app:application"
