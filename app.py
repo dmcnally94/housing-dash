@@ -70,7 +70,7 @@ no_data_fig = {
 }
 
 #App Layout
-app.layout = html.Div([
+my_app.layout = html.Div([
     html.Div(className = 'headgridcontainer',
             children = [
                 html.Div(className='hbox item1',
@@ -147,7 +147,7 @@ app.layout = html.Div([
 ])
 
 ##Tab Control    
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('tabs-example-content', 'children'),
     [dash.dependencies.Input('tabs-example', 'value')])
 def render_content(tab):
@@ -291,7 +291,7 @@ def render_content(tab):
 
 
 ##County Proflie Name Control
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('demo-dropdown', 'options'),
     [dash.dependencies.Input('georadio', 'value')])
 def countyn_update(gvalue):
@@ -303,7 +303,7 @@ def countyn_update(gvalue):
     return [{"label":c, "value":c} for c in sorted(data['NAME'])]
 
 
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('demo-dropdown', 'value'),
     [dash.dependencies.Input('georadio', 'value')])
 def countyn_update(gvalue):
@@ -312,14 +312,14 @@ def countyn_update(gvalue):
     else:
         return 'Oakland city, California'
 
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('county-name', 'children'),
     [dash.dependencies.Input('demo-dropdown', 'value')])
 def countyn_update(value):
     return '{}'.format(value)
 
 ##Top Cards
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('totalpopulation', 'children'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -335,7 +335,7 @@ def countyn_update(value,gvalue):
     return '{:,}'.format(round(value))
 
 
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('totalhouseholds', 'children'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -351,7 +351,7 @@ def countyn_update(value, gvalue):
     return '{:,}'.format(round(value))
 
 
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('totalhousing', 'children'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -367,7 +367,7 @@ def countyn_update(value, gvalue):
     return '{:,}'.format(round(value))
 
 
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('download-link', 'href'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -406,7 +406,7 @@ def update_download_link(value,gvalue):
 ##TAB1 CALLBACKS
 
 ###Units and Vacancies Table
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('units-vacancy', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -437,7 +437,7 @@ def update_units_vacancy(value,gvalue):
 
 
 ###Unit Type Graph
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('units-type', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -465,7 +465,7 @@ def update_units_type(value,gvalue):
 
 
 ###Num of Bedrooms Graph
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('bed-t', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -490,7 +490,7 @@ def update_beds(value,gvalue):
     return fig13
 
 ###Age of Units Graph
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('unit-age', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -520,7 +520,7 @@ def update_unit_age(value,gvalue):
     return fig100
 
 ###Assisted Households Table
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('hud-units', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -555,7 +555,7 @@ def update_hudunits(value,gvalue):
 #TAB 2 CALLBACKS
 
 ##Income and Costs Table
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('hh-inc', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -589,7 +589,7 @@ def update_hhinc(value,gvalue):
 
 
 ##Rent Gap Graph
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('rent-gap', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('rentradio', 'value'),
@@ -629,7 +629,7 @@ def update_rentgap(value, radio,gvalue):
 
 
 ##Home Gap Graph
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('home-gap', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('homeradio', 'value'),
@@ -668,7 +668,7 @@ def update_homegap(value, radio,gvalue):
         return no_data_fig
 
 ###Income & Costs Graph
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('m-dist', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('mdropdown', 'value'),
@@ -719,7 +719,7 @@ def updatehcosts(value,tablechoice,gvalue):
     return fig15
 
 ##Household Assistance Table
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('hh-assist', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -754,7 +754,7 @@ def update_hhassist(value, gvalue):
 #TAB 3 CALLBACKS
 
 ##Historical Population Trend
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('hist', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -794,7 +794,7 @@ def update_hist(value, gvalue):
         return no_data_fig
 
 ##Household Size
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('hhsize', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -822,7 +822,7 @@ def update_hhsize(value,gvalue):
     return fig14
 
 ##Population by Age
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('age-g', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -893,7 +893,7 @@ def update_ages(value, gvalue):
 
 
 ##Population by Race
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('race-g', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value'),])
@@ -924,7 +924,7 @@ def update_race(value, gvalue):
 
 
 ##Population by Sex
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('sex-g', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
@@ -950,7 +950,7 @@ def update_sex(value, gvalue):
     return fig12
 
 ##Special Populations Table
-@app.callback(
+@my_app.callback(
     dash.dependencies.Output('spec-g', 'figure'),
     [dash.dependencies.Input('demo-dropdown', 'value'),
     dash.dependencies.Input('georadio', 'value')])
