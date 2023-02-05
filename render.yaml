@@ -1,7 +1,0 @@
-services:
-  # A Docker web service
-  - type: web
-    name: housing-dash
-    env: python
-    plan: free 
-    startCommand: "gunicorn app:server"
