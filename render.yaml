@@ -4,4 +4,4 @@ services:
     name: Housing-Profile-Dashboard
     env: python
     plan: free 
-    startCommand: "gunicorn my_app:server"
+    startCommand: "gunicorn --chdir my_app:server"
