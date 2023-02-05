@@ -15,9 +15,6 @@ future == 0.18.3
 # C:\projects\housing-dash\housing-dash\datapull.py: 14
 matplotlib == 3.3.4
 
-# C:\projects\housing-dash\housing-dash\app.py: 14
-numpy == 1.24.2
-
 # C:\projects\housing-dash\housing-dash\app.py: 8
 # C:\projects\housing-dash\housing-dash\data\update.py: 1
 # C:\projects\housing-dash\housing-dash\datapull.py: 7,15
