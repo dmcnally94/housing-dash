@@ -45,11 +45,11 @@ external_stylesheets = [
     "https://fonts.googleapis.com/css2?family=Raleway&family=Roboto&display=swap",
     "https://use.fontawesome.com/releases/v5.8.1/css/all.css"
 ]
-app = dash.Dash(__name__,
+my_app = dash.Dash(__name__,
                 external_stylesheets=external_stylesheets)
-app.config['suppress_callback_exceptions'] = True
-server = app.server
-app.title = 'Housing Profile Dashboard'
+my_app.config['suppress_callback_exceptions'] = True
+server = my_app.server
+my_app.title = 'Housing Profile Dashboard'
 
 # No data layout
 no_data_fig = { 
@@ -946,7 +946,7 @@ def update_sex(value, gvalue):
     ###Create Graph
     fig12 = px.bar(sex, x='Population by Sex', y='Population Count')
     fig12.update_layout({'plot_bgcolor': 'rgba(0, 0, 0, 0)','paper_bgcolor': 'rgba(0, 0, 0, 0)',})
-    fi12.update_traces(marker_color='steelblue')
+    fig12.update_traces(marker_color='steelblue')
     return fig12
 
 ##Special Populations Table
@@ -983,4 +983,4 @@ def update_special(value, gvalue):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    my_app.run_server(debug=True)
