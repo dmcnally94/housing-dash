@@ -4,4 +4,4 @@ services:
     name: housing-dash
     env: python
     plan: free 
-    startCommand: "gunicorn app:application"
+    startCommand: "gunicorn app:server"
