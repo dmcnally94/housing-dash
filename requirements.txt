@@ -37,4 +37,3 @@ statsmodels == 0.12.2
 wheel == 0.38.4
 
 gunicorn
-flask_app == 1.0.1

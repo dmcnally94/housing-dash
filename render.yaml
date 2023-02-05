@@ -1,7 +1,8 @@
 services:
   # A Docker web service
   - type: web
-    name: Housing-Profile-Dashboard
+    name: housing-dash
     env: python
     plan: free 
-    startCommand: "web: gunicorn my_app:app"
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --chdir src app:server

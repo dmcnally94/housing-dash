@@ -1,5 +1,4 @@
 #Packages
-from flask_app import app
 from pathlib import Path
 import dash
 from dash import dcc
