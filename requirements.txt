@@ -36,4 +36,4 @@ statsmodels == 0.12.2
 
 wheel == 0.38.4
 
-gunicorn == 19.5.0
+gunicorn
