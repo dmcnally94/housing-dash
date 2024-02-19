@@ -5,18 +5,61 @@ import json
 import requests
 import csv
 from pathlib import Path
+import datetime
+import zipfile
+import io
+import numpy as np
+import geopandas as gpd
+import esridumpgdf
+from esridumpgdf import Layer
+from dotenv import load_dotenv
+
+
+#ESRI AGOL Script to import Data
+def esri_import(x):
+    layer = Layer(x).to_gdf()
+    return layer
 
 #Presets (Check to Update)
+current_year = datetime.date.today().year
+year_minus1 = current_year-1
+year_minus2 = year_minus1-1
+year_minus3 = year_minus2-1
+year_minus4 = year_minus3-1
+load_dotenv()
+CENSUS_KEY = os.getenv('CENSUS_KEY')
+
+#ACS Year Test
+if requests.get("https://api.census.gov/data/{}/acs/{}?get=NAME,B01001_001E&for={}:{}&key={}".format(year_minus1, 'acs5','state','*',CENSUS_KEY)).status_code == 200:
+    year = year_minus1
+elif requests.get("https://api.census.gov/data/{}/acs/{}?get=NAME,B01001_001E&for={}:{}&key={}".format(year_minus2, 'acs5','state','*',CENSUS_KEY)).status_code == 200:
+    year = year_minus2
+elif requests.get("https://api.census.gov/data/{}/acs/{}?get=NAME,B01001_001E&for={}:{}&key={}".format(year_minus3, 'acs5','state','*',CENSUS_KEY)).status_code == 200:
+    year = year_minus3
+else:
+    print('ACS ERROR: NO SUITABLE YEAR')
+
+#CHAS Year Test
+if requests.get('https://www.huduser.gov/portal/datasets/cp/'+str(year_minus1-4)+'thru'+str(year_minus1)+'-050-csv.zip').status_code == 200:
+    chas_year = year_minus1
+elif requests.get('https://www.huduser.gov/portal/datasets/cp/'+str(year_minus2-4)+'thru'+str(year_minus2)+'-050-csv.zip').status_code == 200:
+    chas_year = year_minus2
+elif requests.get('https://www.huduser.gov/portal/datasets/cp/'+str(year_minus3-4)+'thru'+str(year_minus3)+'-050-csv.zip').status_code == 200:
+    chas_year = year_minus3
+elif requests.get('https://www.huduser.gov/portal/datasets/cp/'+str(year_minus4-4)+'thru'+str(year_minus4)+'-050-csv.zip').status_code == 200:
+    chas_year = year_minus4
+else:
+    print('CHAS ERROR: NO SUITABLE YEAR')
+
 savename = "dashdata.csv"
 base_path = Path(__file__).resolve().parent
 chas_path = base_path / "CHAS_data"
 datadic = "/CHAS data dictionary 13-17.xlsx"
 save_path = 'C:/projects/housing-dash/data/'
-year = 2019
 profiles = ['DP03', 'DP04', 'DP05']
 geography = 'county'
 geotype = '*'
-censuskey = '54690f8093283c11c9612c58bc15b56ba3a26373'
+censuskey = CENSUS_KEY
 
 
 #Variables (Check Periodically)
@@ -296,7 +339,7 @@ for i in variables:
     acs_variable_list.extend(i)
 
 #ACS 5-Year Data Profiles
-initialurl = "https://api.census.gov/data/{}/acs/{}/profile?get=NAME,group({})&for={}:{}&key={}".format(str(year), 'acs5', 'DP02', 'county','*','54690f8093283c11c9612c58bc15b56ba3a26373')
+initialurl = "https://api.census.gov/data/{}/acs/{}/profile?get=NAME,group({})&for={}:{}&key={}".format(str(year), 'acs5', 'DP02', 'county','*',CENSUS_KEY)
 acs_initial = requests.get(initialurl)
 acs5_1 = json.loads(acs_initial.text)
 acs5_data = pd.DataFrame(acs5_1[1:],columns=acs5_1[0])
@@ -355,17 +398,33 @@ dash_data['% of Non-Fluent English Speakers'] = dash_data['Population 5 years an
 
 #CHAS DATA Pull (NEED TO PUT CHAS DATA IN CHAS PATH)
 #Pull in Files
-datadic17a = pd.read_excel(str(chas_path) + datadic, sheet_name = 'Table 17A')
-datadic17b = pd.read_excel(str(chas_path) + datadic, sheet_name = 'Table 17B')
-datadic18a = pd.read_excel(str(chas_path) + datadic, sheet_name = 'Table 18A')
-datadic18b = pd.read_excel(str(chas_path) + datadic, sheet_name = 'Table 18B')
-datadic18c = pd.read_excel(str(chas_path) + datadic, sheet_name = 'Table 18C')
+chas_url = 'https://www.huduser.gov/portal/datasets/cp/'+str(chas_year-4)+'thru'+str(chas_year)+'-050-csv.zip'
+r = requests.get(chas_url)
+buf1 = io.BytesIO(r.content)
 
-seventeena = pd.read_csv(str(chas_path) + "/Table17A.csv", encoding='cp1252')
-seventeenb = pd.read_csv(str(chas_path) + "/Table17B.csv", encoding='cp1252')
-eighteena = pd.read_csv(str(chas_path) + "/Table18A.csv", encoding='cp1252')
-eighteenb = pd.read_csv(str(chas_path) + "/Table18B.csv", encoding='cp1252')
-eighteenc = pd.read_csv(str(chas_path) + "/Table18C.csv", encoding='cp1252')
+with zipfile.ZipFile(buf1, "r") as f:
+    with f.open('2016thru2020-050-csv/Table17A.csv') as zd:
+        seventeena = pd.read_csv(zd, encoding='latin-1')
+    with f.open('2016thru2020-050-csv/Table17B.csv') as zd:
+        seventeenb = pd.read_csv(zd, encoding='latin-1')
+    with f.open('2016thru2020-050-csv/Table18A.csv') as zd:
+        eighteena = pd.read_csv(zd, encoding='latin-1')
+    with f.open('2016thru2020-050-csv/Table18B.csv') as zd:
+        eighteenb = pd.read_csv(zd, encoding='latin-1')
+    with f.open('2016thru2020-050-csv/Table18C.csv') as zd:
+        eighteenc = pd.read_csv(zd, encoding='latin-1')
+
+with zipfile.ZipFile(buf1, "r") as f:
+    with f.open('CHAS-data-dictionary-16-20.xlsx') as zd:
+        datadic17a = pd.read_excel(zd, sheet_name = 'Table 17A')
+    with f.open('CHAS-data-dictionary-16-20.xlsx') as zd:
+        datadic17b = pd.read_excel(zd, sheet_name = 'Table 17B')
+    with f.open('CHAS-data-dictionary-16-20.xlsx') as zd:
+        datadic18a = pd.read_excel(zd, sheet_name = 'Table 18A')
+    with f.open('CHAS-data-dictionary-16-20.xlsx') as zd:
+        datadic18b = pd.read_excel(zd, sheet_name = 'Table 18B')
+    with f.open('CHAS-data-dictionary-16-20.xlsx') as zd:
+        datadic18c = pd.read_excel(zd, sheet_name = 'Table 18C')
 
 #Renter/Owner Compilation
 
@@ -617,10 +676,12 @@ gap_data['net80100owngap'] = (gap_data['ounits80100']-gap_data['o80100hhabove'])
 gap_data['net100upowngap'] = gap_data['gross100upowngap']
 
 gap_data['GEO_ID'] = gap_data['GEO_ID'].apply(lambda x: x[:2] + '00' + x[2:])
+gap_data['testid'] = gap_data.GEO_ID.str.split("US").str.get(-1)
+gap_data['GEO_ID'] = '0500000US' + gap_data['testid']
 dash_data = dash_data.merge(gap_data,on='GEO_ID',how='left')
 
 #Household Size Data Pull
-s2501url = "https://api.census.gov/data/{}/acs/{}/subject?get=NAME,group({})&for={}:{}&key={}".format(str(year), 'acs5', 'S2501', 'county','*','54690f8093283c11c9612c58bc15b56ba3a26373')
+s2501url = "https://api.census.gov/data/{}/acs/{}/subject?get=NAME,group({})&for={}:{}&key={}".format(str(year), 'acs5', 'S2501', 'county','*',CENSUS_KEY)
 s2501_i = requests.get(s2501url)
 s2501_txt = json.loads(s2501_i.text)
 s2501 = pd.DataFrame(s2501_txt[1:],columns=s2501_txt[0])
@@ -770,50 +831,102 @@ pop_variables = poptable[merge_variables]
 dash_data = dash_data.merge(pop_variables,on='GEO_ID',how='left')
 
 #Assisted Units
-lihtc = pd.read_csv(str(base_path / "LIHTCPUB.csv"),encoding='cp1252')
-hud = pd.read_excel(str(base_path / "assisted_units.xlsx"))
+#Data Sources
+multifamily_assisted = esri_import('https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/MULTIFAMILY_PROPERTIES_ASSISTED/FeatureServer/13')
+public_housing = esri_import('https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Public_Housing_Buildings/FeatureServer/10')
+lihtc_housing = esri_import('https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/LIHTC/FeatureServer/11')
+try:
+    initial_url = 'https://www.huduser.gov/portal/datasets/pictures/files/COUNTY_{}.xlsx'.format(year_minus1)
+    county_HUD_picture = pd.read_excel(initial_url)
+except:
+    next_url = 'https://www.huduser.gov/portal/datasets/pictures/files/COUNTY_{}.xlsx'.format(year_minus2)
+    county_HUD_picture = pd.read_excel(next_url)
 
-hud['GEO_ID'] = '0500000US' + hud['code']
-programs = ['Project Based Section 8', 'Housing Choice Vouchers', 'Public Housing', '202/PRAC', '811/PRAC', 'Mod Rehab',
-      'S236/BMIR', 'RentSup/RAP']
 
-geoids = hud.GEO_ID.unique()
-xtest = pd.DataFrame(geoids, columns=['GEO_ID'])
-pnames = hud.program_label.unique()
+#Wrangling
+mf_assisted = multifamily_assisted[['PROPERTY_ID', 'UGLG_KEY','PROPERTY_NAME_TEXT','TOTAL_ASSISTED_UNIT_COUNT', 'TOTAL_UNIT_COUNT', 
+                                    'PROPERTY_CATEGORY_NAME', 'CLIENT_GROUP_CODE', 'CLIENT_GROUP_NAME', 'CLIENT_GROUP_TYPE', 'HAS_ACTIVE_FINANCING_IND', 'PRIMARY_FINANCING_TYPE', 
+                                    'HAS_SERVICE_AGREEMENT_IND', 'HAS_USE_RESTRICTION_IND', 'HAS_ACTIVE_IRP_IND', 'TROUBLED_CODE', 'OPIIS_RISK_CATEGORY', 'IS_INSURED_IND', 'WAS_EVER_INSURED_IND', 
+                                    'IS_202_811_IND', 'WAS_EVER_202_811_IND', 'IS_HUD_HELD_IND', 'IS_HUD_OWNED_IND', 'IS_FLEXIBLE_SUBSIDY_IND', 'IS_HOSPITAL_IND', 'IS_NURSING_HOME_IND', 
+                                    'IS_BOARD_AND_CARE_IND', 'IS_ASSISTED_LIVING_IND', 'IS_REFINANCED_IND', 'IS_221D3_IND', 'IS_221D4_IND', 'IS_236_IND', 'IS_IN_DEFAULT_DELINQUENT_IND', 
+                                    'IS_NON_INSURED_IND', 'IS_BMIR_IND', 'IS_RISK_SHARING_IND', 'IS_MIP_IND', 'IS_CO_INSURED_IND', 'IS_SUBSIDIZED_IND', 'IS_SEC8_IND', 'IS_PAC_IND', 'IS_PRAC_IND', 
+                                    'IS_RENT_SUPPLEMENT_IND', 'IS_SECTION_236_RAP_IND', 'IS_SEC8_202_IND', 'IS_SEC8_FMHA_515_IND', 'IS_SEC8_LMSA_IND', 'IS_SEC8_PRPRTY_DISPOSITION_IND', 
+                                    'IS_SEC8_PRESERVATION_IND', 'IS_SEC8_OTHR_NW_CNSTRCTION_IND', 'IS_SEC8_OTHER_SUB_REHAB_IND', 'IS_PENSION_FUND_IND', 'IS_PRAC_811_IND', 'IS_GREEN_RETROFIT_IND', 
+                                    'IS_202_DIRECT_LOAN_IND', 'IS_202_CAPITAL_ADVANCE_IND', 'IS_811_CAPITAL_ADVANCE_IND', 'ENERGY_PERFORMANCE_CONTRCT_IND', 'IS_SEC8_RAD_DEMO_CONV_IND', 
+                                    'UNITS1', 'UNITS2', 'MAXIMUM_CONTRACT_UNIT_COUNT', 'PROGRAM_TYPE1', 'PROGRAM_TYPE2', 'EXPIRATION_DATE1', 'EXPIRATION_DATE2', 'RENT_TO_FMR_RATIO1', 'RENT_TO_FMR_RATIO2', 
+                                    'BD0_CNT1', 'BD0_CNT2', 'BD1_CNT1', 'BD1_CNT2', 'BD2_CNT1', 'BD2_CNT2', 'BD3_CNT1', 'BD3_CNT2', 'BD4_CNT1', 'BD4_CNT2', 'BD5_CNT1', 'BD5_CNT2', 'TAXCREDIT1', 'TAXCREDIT2',
+                                    'STATE2KX', 'CNTY_NM2KX', 'CNTY2KX', 'TRACT2KX', 'CURCNTY_NM', 'CURCNTY', 'CURCOSUB', 'CURCOSUB_NM', 'PLACE2KX', 'PLACE_NM2KX', 'PLACE_CC2KX', 'PLACE_INC2KX', 
+                                    'MSA', 'MSA_NM', 'CBSA', 'CBSA_NM', 'STD_ST', 'STD_ZIP5', 'STD_ZIP9', 'ZIP_CLASS', 'COUNTY_LEVEL', 'PLACE_LEVEL', 'TRACT_LEVEL', 'BLKGRP_LEVEL',
+                                    'FASS_LAST_REPORTING_END_DT', 'FULL_DEBT_RESTRUCTURE_DATE', 'LAST_CRITICAL_DATE', 'NGHBRHD_NTWRK_EST_DATE', 'ORIGINAL_LOAN_AMOUNT', 'UNIT_MRKT_RENT_CNT',
+                                    'TOTAL_AVBL_UNITS', 'PCT_OCCUPIED', 'NUMBER_REPORTED', 'PEOPLE_PER_UNIT', 'PEOPLE_TOTAL', 'RENT_PER_MONTH', 'SPENDING_PER_MONTH', 'HH_INCOME', 'OCCUPANCY_DATE',
+                                    'geometry']]
+mf_assisted = mf_assisted.drop_duplicates(subset = ['PROPERTY_ID'])
+mf_assisted_units = mf_assisted[['PROPERTY_ID', 'PROPERTY_NAME_TEXT','TOTAL_ASSISTED_UNIT_COUNT', 'TOTAL_UNIT_COUNT','HAS_ACTIVE_FINANCING_IND', 'PRIMARY_FINANCING_TYPE', 'PROGRAM_TYPE1', 'PROGRAM_TYPE2', 
+                                 'EXPIRATION_DATE1', 'EXPIRATION_DATE2', 'BD0_CNT1', 'BD0_CNT2', 'BD1_CNT1', 'BD1_CNT2', 'BD2_CNT1', 'BD2_CNT2', 'BD3_CNT1', 'BD3_CNT2', 'BD4_CNT1', 'BD4_CNT2', 
+                                 'MAXIMUM_CONTRACT_UNIT_COUNT', 'BD5_CNT1', 'BD5_CNT2','OCCUPANCY_DATE', 'COUNTY_LEVEL', 'PLACE_LEVEL']]
+
+ifA = [mf_assisted_units['PROGRAM_TYPE1'].str.contains('202', na=False),
+       mf_assisted_units['PROGRAM_TYPE1'].str.contains('811', na=False),
+       mf_assisted_units['PROGRAM_TYPE1'].str.contains('542', na=False),
+       mf_assisted_units['PROGRAM_TYPE1'].str.contains('MR', na=False),
+        mf_assisted_units['PROGRAM_TYPE1'].str.contains('Mod Rehab', na=False),
+        mf_assisted_units['PROGRAM_TYPE1'].str.contains('BMIR', na=False),
+       mf_assisted_units['PROGRAM_TYPE1'].str.contains('SR', na=False),
+       mf_assisted_units['PROGRAM_TYPE1'].str.contains('236', na=False),
+       mf_assisted_units['PROGRAM_TYPE1'].str.contains('221', na=False),
+       mf_assisted_units['PROGRAM_TYPE1'].str.contains('223', na=False),
+       mf_assisted_units['PROGRAM_TYPE1'].str.contains('RAD', na=False),
+       mf_assisted_units['PROGRAM_TYPE1'].str.contains('8', na=False),
+      mf_assisted_units['PROGRAM_TYPE1'].str.contains('PRAC', na=False)]
+thenA = ['202 - Elderly', '811 - Disabled', 'HUD Insured', 'Moderate Rehab', 'Moderate Rehab', 'Substantial Rehab', 'Substantial Rehab', '236/BMIR', 'Mortgage/Loans', 'Mortgage/Loans', 'RAD', 'Section 8', 'Section 8']
+
+mf_assisted_units['Type'] =  np.select(ifA, thenA, default='Other Assisted')
+
+pnames = list(mf_assisted_units.Type.unique())
+
+#Calculations
+cnty_assisted_units = mf_assisted_units[['MAXIMUM_CONTRACT_UNIT_COUNT', 'Type', 'COUNTY_LEVEL']]
+cnty_assisted_units = cnty_assisted_units.groupby(['COUNTY_LEVEL', 'Type']).sum()
+cnty_assisted_units = cnty_assisted_units.reset_index()
+
 
 for i in pnames:
-    xtest[i]=hud.groupby('GEO_ID').apply(lambda x : x['number_reported'][x['program_label']==i].sum()).reset_index(level=0,drop=True)
-    xtest[i] = xtest[i].apply(lambda x: 0 if x<0 else x)
-    xtest = xtest.fillna(0)
-    xtest[i] = xtest[i].apply(lambda x: round(x))
+    temp_df = cnty_assisted_units[cnty_assisted_units['Type'] == i]
+    temp_df = temp_df[['COUNTY_LEVEL', 'MAXIMUM_CONTRACT_UNIT_COUNT']]
+    temp_df.columns = ['COUNTY_LEVEL', i]
+    cnty_assisted_units = cnty_assisted_units.merge(temp_df, on='COUNTY_LEVEL', how='left')
+    cnty_assisted_units[i] = cnty_assisted_units[i].fillna(0)
 
-xtest = xtest[['GEO_ID','Project Based Section 8', 'Housing Choice Vouchers', 'Public Housing', '202/PRAC', '811/PRAC', 'Mod Rehab',
-      'S236/BMIR', 'RentSup/RAP']]
+cnty_assisted_units = cnty_assisted_units.drop(columns=['Type','MAXIMUM_CONTRACT_UNIT_COUNT'])
+cnty_assisted_units = cnty_assisted_units.drop_duplicates(subset = 'COUNTY_LEVEL')
 
-dash_data = dash_data.merge(xtest, on='GEO_ID', how='left')
+cnty_publichousing = public_housing[['COUNTY_LEVEL', 'TOTAL_UNITS']]
+cnty_publichousing = cnty_publichousing.groupby('COUNTY_LEVEL').sum().reset_index()
+cnty_publichousing.columns = ['COUNTY_LEVEL', 'Public Housing']
+cnty_assisted_units = cnty_assisted_units.merge(cnty_publichousing, on='COUNTY_LEVEL', how='left')
 
-lihtc['st'] = lihtc['st2010']
-lihtc['st'] = lihtc['st'].fillna(lihtc['st2000'])
-lihtc['st'] = lihtc['st'].fillna(lihtc['st1990'])
-lihtc = lihtc[lihtc['st'].notnull()]
-lihtc['st'] = lihtc['st'].apply(lambda x: round(x))
-lihtc['st_str'] = lihtc['st'].apply(lambda x: '0'+str(x) if len(str(x))<2 else str(x))
+cnty_lihtc = lihtc_housing[['COUNTY_LEVEL', 'LI_UNITS']]
+cnty_lihtc = cnty_lihtc.groupby('COUNTY_LEVEL').sum().reset_index()
+cnty_lihtc['COUNTY_LEVEL'] =  cnty_lihtc['COUNTY_LEVEL'].apply(lambda x: '0' + x if len(x)<5 else x)
+cnty_lihtc.columns = ['COUNTY_LEVEL', 'LIHTC']
+cnty_assisted_units = cnty_assisted_units.merge(cnty_lihtc, on='COUNTY_LEVEL', how='left')
 
-lihtc['cnty'] = lihtc['cnty2010']
-lihtc['cnty'] = lihtc['cnty'].fillna(lihtc['cnty2000'])
-lihtc['cnty'] = lihtc['cnty'].fillna(lihtc['cnty1990'])
-lihtc = lihtc[lihtc['cnty'].notnull()]
-lihtc['cnty'] = lihtc['cnty'].apply(lambda x: round(x))
-lihtc['cnty_str'] = lihtc['cnty'].apply(lambda x: '00'+str(x) if len(str(x))<2 else ('0'+str(x) if len(str(x))<3 else str(x)))
-lihtc['code'] = lihtc['st_str']+lihtc['cnty_str']
-lihtc['GEO_ID'] = '0500000US' + lihtc['code']
+county_HUD_picture = county_HUD_picture[['program', 'code', 'total_units']]
+county_HUD_picture = county_HUD_picture[county_HUD_picture['program']==3]
+county_HUD_picture = county_HUD_picture[['code', 'total_units']]
+county_HUD_picture.columns = ['COUNTY_LEVEL', 'HCV Units']
+cnty_assisted_units = cnty_assisted_units.merge(county_HUD_picture, on='COUNTY_LEVEL', how='left')
 
-dash_data['LIHTC Units'] = dash_data['GEO_ID'].apply(lambda x: lihtc.query("GEO_ID == '" + x + "'")["li_units"].sum())
-dash_data['LIHTC Units'] = dash_data['LIHTC Units'].apply(lambda x: round(x))
-programs.append('LIHTC Units')
+cnty_assisted_units = cnty_assisted_units.fillna(0)
+cnty_assisted_units['Assisted Units'] = cnty_assisted_units[['811 - Disabled', 'Other Assisted', '202 - Elderly', 'Section 8', 'Substantial Rehab', '236/BMIR', 
+                                                             'RAD', 'Moderate Rehab', 'Mortgage/Loans', 'HUD Insured', 'Public Housing', 'LIHTC', 'HCV Units']].sum(axis=1)
 
-dash_data['Assisted Units'] = dash_data[programs].sum(axis=1)
+#Combining And Saving
+cnty_assisted_units['GEO_ID'] = cnty_assisted_units['COUNTY_LEVEL'].apply(lambda x: '0500000US'+str(x))
+cnty_assisted_units = cnty_assisted_units[['GEO_ID', '811 - Disabled', 'Other Assisted', '202 - Elderly', 'Section 8', 'Substantial Rehab', '236/BMIR', 
+                                                             'RAD', 'Moderate Rehab', 'Mortgage/Loans', 'HUD Insured', 'Public Housing', 'LIHTC', 'HCV Units', 'Assisted Units']]
 
+dash_data = dash_data.merge(cnty_assisted_units, on='GEO_ID', how='left')
 
 dash_data.to_csv(str(base_path /"dashdata.csv"))
 

@@ -12,18 +12,49 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import urllib
-
+import requests
+import datetime
 
 #Set Currency Locale and latest year
 locale.setlocale( locale.LC_ALL, '' )
-year = 2019
-hudpictureyear = 2020
-chasyear = '2013-2017'
+
+current_year = datetime.date.today().year
+year_minus1 = current_year-1
+year_minus2 = year_minus1-1
+year_minus3 = year_minus2-1
+year_minus4 = year_minus3-1
+
+#ACS Year Test
+if requests.get("https://api.census.gov/data/{}/acs/{}?get=NAME,B01001_001E&for={}:{}&key={}".format(year_minus1, 'acs5','state','*','54690f8093283c11c9612c58bc15b56ba3a26373')).status_code == 200:
+    year = year_minus1
+elif requests.get("https://api.census.gov/data/{}/acs/{}?get=NAME,B01001_001E&for={}:{}&key={}".format(year_minus2, 'acs5','state','*','54690f8093283c11c9612c58bc15b56ba3a26373')).status_code == 200:
+    year = year_minus2
+elif requests.get("https://api.census.gov/data/{}/acs/{}?get=NAME,B01001_001E&for={}:{}&key={}".format(year_minus3, 'acs5','state','*','54690f8093283c11c9612c58bc15b56ba3a26373')).status_code == 200:
+    year = year_minus3
+elif requests.get("https://api.census.gov/data/{}/acs/{}?get=NAME,B01001_001E&for={}:{}&key={}".format(year_minus4, 'acs5','state','*','54690f8093283c11c9612c58bc15b56ba3a26373')).status_code == 200:
+    year = year_minus4
+else:
+    print('ACS ERROR: NO SUITABLE YEAR')
+
+#CHAS Year Test
+if requests.get('https://www.huduser.gov/portal/datasets/cp/'+str(year_minus1-4)+'thru'+str(year_minus1)+'-160-csv.zip').status_code == 200:
+    chas_year = year_minus1
+elif requests.get('https://www.huduser.gov/portal/datasets/cp/'+str(year_minus2-4)+'thru'+str(year_minus2)+'-160-csv.zip').status_code == 200:
+    chas_year = year_minus2
+elif requests.get('https://www.huduser.gov/portal/datasets/cp/'+str(year_minus3-4)+'thru'+str(year_minus3)+'-160-csv.zip').status_code == 200:
+    chas_year = year_minus3
+elif requests.get('https://www.huduser.gov/portal/datasets/cp/'+str(year_minus4-4)+'thru'+str(year_minus4)+'-050-csv.zip').status_code == 200:
+    chas_year = year_minus4
+else:
+    print('CHAS ERROR: NO SUITABLE YEAR')
+
+
+hudpictureyear = datetime.date.today().year
+chasyear = str(chas_year-4)+'-'+str(chas_year)
 
 # Base path to data files
 base_path = Path(__file__).resolve().parent / "data"
 census_path = base_path / "census_data"
-chas_path = base_path / "CHAS_data"
 pop_path =  base_path / "pop_proj" / "hist_d"
 asset_path = base_path / "assets"
 
@@ -177,7 +208,7 @@ def render_content(tab):
                 html.Div(
                     children = [
                     dcc.Graph(id = 'hud-units'),
-                    html.Div('HUD Picture of Subsidized Households & Low-Income Housing Tax Credit Data Dataset, {}'.format(str(hudpictureyear)),className='sourcelabel'),
+                    html.Div('Collation of Datasets from HUD Geospatial Data Storefront (https://hudgis-hud.opendata.arcgis.com/), {}'.format(str(hudpictureyear)),className='sourcelabel'),
                     ],
                     className = 'tab1box'),
                 html.Div(
@@ -534,10 +565,14 @@ def update_hudunits(value,gvalue):
     if "Puerto Rico" not in value:
         h1 = data[data['NAME'] == value]
 
-        h2= h1[['Project Based Section 8', 'Housing Choice Vouchers', 'Public Housing', '202/PRAC', '811/PRAC', 'Mod Rehab',
-        'S236/BMIR', 'RentSup/RAP', 'LIHTC Units']]
-        h2.columns = ['Public Housing Units', 'Houcing Choice Voucher Recipients', 'Mod Rehab Units', 'Project Based Voucher Units', 'RenSup/RAP Units',
-           'S236/BMIR Units', '202/PRAC Units', '811/PRAC Units', 'LIHTC Units']
+
+        h2= h1[['Section 8','HCV Units', 'Public Housing', '202 - Elderly', '811 - Disabled', '236/BMIR',
+        'RAD', 'LIHTC', 'Moderate Rehab', 'Substantial Rehab', 'Mortgage/Loans', 'HUD Insured',
+        'Other Assisted']]
+        h2.columns = ['Project Based Voucher Units','Housing Choice Vouchers', 'Public Housing Units', 'Sec 202 Senior Affordable Units',
+                      'Sec 811 Disabled Affordable Units', 'Sec 236 Perserved Units', 'RAD Units',
+                      'Low Income Housing Tax Credit Units', 'Moderate Rehab Affordable Units', 
+                      'Substantial Rehab Affordable Units', 'HUD Financed Units', 'HUD Insured Units','Other Affordable Units']
         h2 = h2.transpose()
         h2 = h2.reset_index()
 
