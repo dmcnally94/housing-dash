@@ -54,8 +54,6 @@ else:
 savename = "dashdata.csv"
 base_path = Path(__file__).resolve().parent
 chas_path = base_path / "CHAS_data"
-datadic = "/CHAS data dictionary 13-17.xlsx"
-save_path = 'C:/projects/housing-dash/data/'
 profiles = ['DP03', 'DP04', 'DP05']
 geography = 'county'
 geotype = '*'
@@ -949,7 +947,7 @@ data.columns = cols
 
 data.to_csv(str(base_path /"csvdownload.csv"))
 
-print('UPDATE COMPLETE! SAVED TO '+str(save_path))
+print('UPDATE COMPLETE! SAVED TO '+str(base_path))
 
 
 
