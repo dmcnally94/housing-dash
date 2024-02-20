@@ -171,7 +171,7 @@ app.layout = html.Div([
     children=[
         html.Div('Housing Profile Dashboard v2.2: Produced By Devin McNally and Ryan McNally', className="app-footer--text"),
         html.Div('All data is collected and presented at no cost. If you use this, please attribute this project!', className="app-footer--text"),
-        html.Div('Last Updated: February 19, 2021', className="app-footer--text")
+        html.Div('Last Updated: February 19, 2024', className="app-footer--text")
         ]
     ),
 
@@ -268,7 +268,7 @@ def render_content(tab):
                 html.Div(
                     children = [
                     dcc.Graph(id = 'hh-inc'),
-                    html.Div('HUD CHAS Dataset, {}'.format(chasyear),className='sourcelabel'),
+                    html.Div('U.S. Census Bureau, American Community Survey Table: DP04, {} 5-Year Estimates'.format(str(year)),className='sourcelabel'),
                     ],
                     className = 'tab1box'),
                 html.Div(
