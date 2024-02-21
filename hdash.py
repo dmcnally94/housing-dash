@@ -21,8 +21,8 @@ from dotenv import load_dotenv
 import os
 from io import BytesIO, StringIO
 
-#Set Currency Locale and latest year (Speci)
-locale.setlocale( locale.LC_ALL, 'en_US.UTF-8')
+#Set Currency Locale and latest year
+locale.setlocale( locale.LC_ALL, '' )
 
 load_dotenv()
 CENSUS_KEY = os.getenv('CENSUS_KEY')
