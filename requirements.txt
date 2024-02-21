@@ -19,7 +19,7 @@ pandas == 1.2.0
 plotly == 4.14.3
 
 # C:\projects\housing-dash\housing-dash-2\hdash.py: 20
-python_dotenv == 1.0.1
+python_dotenv == 0.21.1
 # C:\projects\housing-dash\housing-dash-2\hdash.py: 15
 requests == 2.25.1
 
