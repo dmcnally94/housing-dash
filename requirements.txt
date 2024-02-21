@@ -16,7 +16,7 @@ numpy == 1.21.6
 pandas == 1.2.0
 
 # C:\projects\housing-dash\housing-dash-2\hdash.py: 8,9,11,12
-plotly == 5.19.0
+plotly == 5.18.0
 
 # C:\projects\housing-dash\housing-dash-2\hdash.py: 20
 python_dotenv == 0.21.1
