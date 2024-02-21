@@ -40,3 +40,5 @@ numpy == 1.20.0
 google-cloud-storage == 2.14.0
 
 google_resumable_media == 2.7.0
+
+python_dotenv == 1.0.1
