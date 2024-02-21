@@ -14,9 +14,27 @@ import numpy as np
 import urllib
 import requests
 import datetime
+from google.cloud import storage
+import google.auth
+from google.oauth2 import service_account
+from dotenv import load_dotenv
+import os
+from io import BytesIO, StringIO
 
 #Set Currency Locale and latest year
 locale.setlocale( locale.LC_ALL, '' )
+
+load_dotenv()
+CENSUS_KEY = os.getenv('CENSUS_KEY')
+censuskey = CENSUS_KEY
+google_project = os.getenv('GOOGLE_PROJECT')
+google_bucket = os.getenv('GOOGLE_BUCKET')
+base_path = Path(__file__).resolve().parent
+
+#GoogleCloud API Login
+credentials = service_account.Credentials.from_service_account_file(str(base_path /"testpython-386022-c517dfe29af3.json"))
+client = storage.Client(credentials=credentials, project=google_project)
+bucket = client.get_bucket(google_bucket)
 
 current_year = datetime.date.today().year
 year_minus1 = current_year-1
@@ -58,10 +76,19 @@ census_path = base_path / "census_data"
 pop_path =  base_path / "pop_proj" / "hist_d"
 asset_path = base_path / "assets"
 
-#Data
-countydata = pd.read_csv(str(base_path /"dashdata.csv"))
-countycsvdownload = pd.read_csv(str(base_path /"csvdownload.csv"))
-placedata = pd.read_csv(str(base_path /"pdashdata.csv"))
+#County Data
+cnty_blob = bucket.blob('dashdata')
+binary_stream_cnty = cnty_blob.download_as_string()
+countydata = pd.read_csv(BytesIO(binary_stream_cnty))
+
+cnty_csv_blob = bucket.blob('csvdownload')
+binary_stream_cntycsv = cnty_csv_blob.download_as_string()
+countycsvdownload = pd.read_csv(BytesIO(binary_stream_cntycsv))
+
+#Place Data
+place_csv_blob = bucket.blob('pdashdata')
+binary_stream_place = place_csv_blob.download_as_string()
+placedata = pd.read_csv(BytesIO(binary_stream_place))
 
 #Historical Pop Data
 countyhist = pd.read_csv(str(pop_path / "h_pop.csv"))

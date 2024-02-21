@@ -141,3 +141,5 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+testpython-386022-c517dfe29af3.json
