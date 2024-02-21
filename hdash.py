@@ -20,6 +20,8 @@ from google.oauth2 import service_account
 from dotenv import load_dotenv
 import os
 from io import BytesIO, StringIO
+import babel.numbers
+import decimal 
 
 #Set Currency Locale and latest year
 locale.setlocale( locale.LC_ALL, '' )
@@ -640,7 +642,7 @@ def update_hhinc(value,gvalue):
     incomeandmediancosts .insert(0,'Median Monthly Household Income', iccol, True)  
     incomeandmediancosts .columns = ['Income and Housing Costs', '']
     m1 = list(incomeandmediancosts [''])
-    m1 = [locale.currency(x, grouping=True ) for x in m1]
+    m1 = [babel.numbers.format_currency(decimal.Decimal(x),"USD") for x in m1]
     incomeandmediancosts .insert(1,'m1', m1, True) 
     incomeandmediancosts  = incomeandmediancosts .drop('', axis=1)
     incomeandmediancosts .columns = ['Income and Housing Costs', '']

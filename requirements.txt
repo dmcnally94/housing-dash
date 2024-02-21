@@ -30,3 +30,5 @@ xlrd == 2.0.1
 openpyxl == 3.1.2
 
 gunicorn == 21.2.0
+
+babel == 2.14.0
