@@ -970,8 +970,8 @@ def update_race(value, gvalue):
 
     ###Pull and Collate Data
     race = data[data['NAME'] == value]
-    race = race[['White', 'Black', 'Latinx', 'Native American/Alaskan Native', 'Asian', 'Hawaiian/Pacific Islander', 'Other Race',
-    'Two or More Races']]
+    race = race[['White Population', 'Black Population', 'Latinx Population', 'Native American Population', 'Asian Population', 'Hawaiian or Pacific Islander Population', 
+                 'Other Race Population', 'Multiracial Population']]
     racelist = ['White', 'Black', 'Latinx', 'Native American/Alaskan Native', 'Asian', 'Hawaiian/Pacific Islander', 'Other Race',
     'Two or More Races']
     race = race.transpose()
