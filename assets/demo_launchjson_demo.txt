@@ -1,0 +1,51 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Script",
+            "type": "python",
+            "request": "launch",
+            "program": "app.py",
+            "console": "integratedTerminal",
+            "envFile": "${workspaceFolder}/.env",
+            "args": [],
+            "justMyCode": true
+        },
+        {
+            "name": "API",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "envFile": "${workspaceFolder}/.env",
+            "args": [
+                "run",
+                "--no-debugger"
+            ],
+            "jinja": true
+        },
+        {
+            "command": "npm start",
+            "name": "NPM",
+            "cwd": "${workspaceRoot}/web/",
+            "env": {
+                "BROWSER": "none",
+                "REACT_APP_SERVER": "http://localhost:5000"
+            },
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Client",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/web/",
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Run Server/Client",
+            "configurations": ["NPM", "API", "Client"]
+        }
+    ]
+}
