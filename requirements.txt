@@ -7,7 +7,7 @@ dash == 4.4.1
 dash_bootstrap_components == 2.0.4
 
 # C:\projects\housing-dash\housing-dash-2\hdash.py: 17,18,19
-google_resumable_media == 2.7.0
+google_resumable_media == 2.7.2
 
 # C:\projects\housing-dash\housing-dash-2\hdash.py: 13
 numpy == 2.4.2
