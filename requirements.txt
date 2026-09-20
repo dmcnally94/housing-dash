@@ -25,6 +25,7 @@ requests == 2.34.2
 
 google-cloud-storage == 3.14.1
 
+pillow == 12.3.0
 
 gunicorn == 21.2.0
 

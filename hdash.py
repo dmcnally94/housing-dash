@@ -21,7 +21,9 @@ from dotenv import load_dotenv
 import os
 from io import BytesIO, StringIO
 import babel.numbers
-import decimal 
+import decimal
+from PIL import Image
+import io 
 
 #Set Currency Locale and latest year
 locale.setlocale( locale.LC_ALL, '' )
@@ -87,6 +89,10 @@ placedata = pd.read_csv(BytesIO(binary_stream_place))
 countyhist = pd.read_csv(str(pop_path / "h_pop.csv"))
 placehist = pd.read_csv(str(pop_path / "place_hpop.csv"))
 
+#Icon download
+image_blob = bucket.blob('dashboard_icon.png')
+image_bytes = image_blob.download_as_bytes()
+
 #Option Lists
 monthly_options = ['Household Income', 'Monthly Rent', 'Monthly Homeowner Costs (Mortgage)', 'Monthly Homeowner Costs (No Mortgage)']
 
@@ -126,7 +132,7 @@ app.layout = html.Div([
             children = [
                 html.Div(className='hbox item1',
                 children = [
-                    html.Img(src='https://www.devinmcnally.com/wp-content/uploads/2021/04/dashboard-icon-768x206.png'),
+                    html.Img(src=Image.open(io.BytesIO(image_bytes))),
             ]),
             html.Div(className='hbox item2',
                 children = [
@@ -192,7 +198,7 @@ app.layout = html.Div([
     children=[
         html.Div('Housing Profile Dashboard v2.2: Produced By Devin McNally and Ryan McNally', className="app-footer--text"),
         html.Div('All data is collected and presented at no cost. If you use this, please attribute this project!', className="app-footer--text"),
-        html.Div('Last Updated: February 19, 2024', className="app-footer--text")
+        html.Div('Last Updated: September 20, 2026', className="app-footer--text")
         ]
     ),
 
@@ -360,7 +366,7 @@ def countyn_update(gvalue):
     [dash.dependencies.Input('georadio', 'value')])
 def countyn_update(gvalue):
     if gvalue == 'counties':
-        return 'Contra Costa County, California'
+        return 'Abbeville County, South Carolina'
     else:
         return 'Oakland city, California'
 
