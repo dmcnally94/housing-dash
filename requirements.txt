@@ -13,22 +13,19 @@ google_resumable_media == 2.7.0
 numpy == 2.4.2
 
 # C:\projects\housing-dash\housing-dash-2\hdash.py: 7
-pandas == 1.2.0
+pandas == 3.0.0
 
 # C:\projects\housing-dash\housing-dash-2\hdash.py: 8,9,11,12
-plotly == 5.18.0
+plotly == 7.1.0
 
 # C:\projects\housing-dash\housing-dash-2\hdash.py: 20
-python_dotenv == 0.21.1
+python_dotenv == 1.2.3
 # C:\projects\housing-dash\housing-dash-2\hdash.py: 15
-requests == 2.25.1
+requests == 2.3.2
 
-google-cloud-storage == 2.14.0
+google-cloud-storage == 3.14.1
 
-xlrd == 2.0.1
-
-openpyxl == 3.1.2
 
 gunicorn == 21.2.0
 
-babel == 2.14.0
+babel == 2.18.0
