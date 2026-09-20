@@ -31,6 +31,7 @@ CENSUS_KEY = os.getenv('CENSUS_KEY')
 censuskey = CENSUS_KEY
 google_project = os.getenv('GOOGLE_PROJECT')
 google_bucket = os.getenv('GOOGLE_BUCKET')
+hud_token = os.getenv('HUD_TOKEN')
 base_path = Path(__file__).resolve().parent
 
 #GoogleCloud API Login
@@ -57,20 +58,10 @@ else:
     print('ACS ERROR: NO SUITABLE YEAR')
 
 #CHAS Year Test
-if requests.get('https://www.huduser.gov/portal/datasets/cp/'+str(year_minus1-4)+'thru'+str(year_minus1)+'-160-csv.zip').status_code == 200:
-    chas_year = year_minus1
-elif requests.get('https://www.huduser.gov/portal/datasets/cp/'+str(year_minus2-4)+'thru'+str(year_minus2)+'-160-csv.zip').status_code == 200:
-    chas_year = year_minus2
-elif requests.get('https://www.huduser.gov/portal/datasets/cp/'+str(year_minus3-4)+'thru'+str(year_minus3)+'-160-csv.zip').status_code == 200:
-    chas_year = year_minus3
-elif requests.get('https://www.huduser.gov/portal/datasets/cp/'+str(year_minus4-4)+'thru'+str(year_minus4)+'-050-csv.zip').status_code == 200:
-    chas_year = year_minus4
-else:
-    print('CHAS ERROR: NO SUITABLE YEAR')
-
+#Depreciated: Need to update to use HUD API for CHAS data
 
 hudpictureyear = datetime.date.today().year
-chasyear = str(chas_year-4)+'-'+str(chas_year)
+
 
 # Base path to data files
 base_path = Path(__file__).resolve().parent / "data"
@@ -157,6 +148,7 @@ app.layout = html.Div([
                     html.Div(dcc.Dropdown(
                         id='demo-dropdown',
                         placeholder = "Select a Location...",
+                        value = 'Contra Costa County, California',
                         ),
                         className = 'dropdown--lister'),
             ]),
@@ -277,7 +269,7 @@ def render_content(tab):
                         value='netgap',
                         className = 'radios'), 
                     dcc.Graph(id = 'rent-gap'),
-                    html.Div('HUD CHAS Dataset, {}'.format(chasyear),className='sourcelabel'),
+                    html.Div('HUD CHAS Dataset, 2018-2022',className='sourcelabel')
                     ],
                     className = 'tab1box'),
                     html.Div(
@@ -291,7 +283,7 @@ def render_content(tab):
                         value='netgap',
                         className = 'radios'),
                     dcc.Graph(id = 'home-gap'),
-                    html.Div('HUD CHAS Dataset, {}'.format(chasyear),className='sourcelabel'),
+                    html.Div('HUD CHAS Dataset, 2018-2022',className='sourcelabel'),
                     ],
                     className = 'tab1box'),
                 html.Div(
@@ -454,7 +446,7 @@ def update_download_link(value,gvalue):
         cols = cols[1:]
         cols.insert(0, 'Variable')
         data.columns = cols
-        data = data.apply(pd.to_numeric,errors = 'ignore')
+        data = data.apply(pd.to_numeric,errors = 'coerce')
         csvdownload = data
     
         dff = csvdownload
@@ -633,7 +625,7 @@ def update_hhinc(value,gvalue):
     incomeandmediancosts = data[data['NAME'] == value]
     incomeandmediancosts = incomeandmediancosts[['Median Household Income', 'Median Home Value', 'Median Gross Rent', 
     'Median Monthly Owner Costs (Mortgage)','Median Monthly Owner Costs (No Mortgage)']]
-    incomeandmediancosts['Median Monthly Household Income'] = float(incomeandmediancosts['Median Household Income']/12)
+    incomeandmediancosts['Median Monthly Household Income'] = incomeandmediancosts['Median Household Income'].astype(float)/12
     incomeandmediancosts = incomeandmediancosts[['Median Household Income','Median Monthly Household Income','Median Home Value', 
     'Median Gross Rent', 'Median Monthly Owner Costs (Mortgage)','Median Monthly Owner Costs (No Mortgage)']]
     incomeandmediancosts = incomeandmediancosts.transpose()
@@ -772,13 +764,9 @@ def updatehcosts(value,tablechoice,gvalue):
         y_axis = list(worksheet.iloc[0])
     
     fig15 = go.Figure(data=[go.Bar(x=x_axis, y=y_axis)])
-    fig15.update_layout(
-        yaxis=dict(
-        title='Count of Households',
-        titlefont_size=16,),
-    )
+
     fig15.update_traces(texttemplate=y_axis, textposition='outside', cliponaxis = False)
-    fig15.update_layout({'plot_bgcolor': 'rgba(0, 0, 0, 0)','paper_bgcolor': 'rgba(0, 0, 0, 0)',})
+    fig15.update_layout({'plot_bgcolor': 'rgba(0, 0, 0, 0)','paper_bgcolor': 'rgba(0, 0, 0, 0)'},title={'text': '{} in {}'.format(tablechoice, value), 'font': {'size': 16}})
     fig15.update_traces(marker_color='steelblue')
     return fig15
 
@@ -1047,4 +1035,4 @@ def update_special(value, gvalue):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)
