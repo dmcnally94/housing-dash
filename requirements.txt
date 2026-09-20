@@ -18,10 +18,10 @@ pandas == 3.0.0
 # C:\projects\housing-dash\housing-dash-2\hdash.py: 8,9,11,12
 plotly == 7.1.0
 
-# C:\projects\housing-dash\housing-dash-2\hdash.py: 20
+# C:\projects\housing-daash\housing-dash-2\hdash.py: 20
 python_dotenv == 1.2.3
 # C:\projects\housing-dash\housing-dash-2\hdash.py: 15
-requests == 2.3.2
+requests == 2.34.2
 
 google-cloud-storage == 3.14.1
 
